@@ -16,14 +16,14 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pik',
+      title: 'Pickr',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Pik'),
+          title: const Text('Pickr'),
         ),
         body: Column(
           children: [
