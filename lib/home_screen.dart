@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'advertisement2.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,10 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  static const _adIndex = 7;
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildList(BuildContext context) {
-    return ListView(
-      children: [
+    List<Widget> listItems = [
         _tile(
           'Mixed Bag',
           const ImageIcon(AssetImage('assets/images/mixed.png'), size: 50, color: Colors.blue),
@@ -161,11 +160,23 @@ class HomeScreenState extends State<HomeScreen> {
           context,
         ),
         const Divider(),
-      ],
+      ];
+    return ListView.builder(
+      itemCount: listItems.length + listItems.length ~/ _adIndex,
+      itemBuilder: (context, index) {
+        print('index = ${index}');
+        final adIndex = index ~/ (_adIndex + 1);
+        if (index != 0 && index % (_adIndex + 1) == 0) {
+          print('inside');
+          return const BannerAdClass();
+        }
+        print(index - adIndex);
+        return listItems[index - adIndex];
+      }
     );
   }
   
-  ListTile _tile(title, icon, context) {
+    ListTile _tile(title, icon, context) {
     return ListTile(
       title: Text(title,
           style: const TextStyle(
