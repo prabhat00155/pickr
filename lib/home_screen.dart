@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'advertisement2.dart';
+import 'advertisement.dart';
+import 'quiz.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +24,7 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Pickr'),
         ),
         body: Column(
@@ -66,6 +68,7 @@ class HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context) {
           return Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               title: const Text('Feedback'),
             ),
             //body: const FeedbackForm(),
@@ -82,6 +85,7 @@ class HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context) {
           return Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               title: const Text('Info'),
             ),
             //body: const Info(),
@@ -164,19 +168,16 @@ class HomeScreenState extends State<HomeScreen> {
     return ListView.builder(
       itemCount: listItems.length + listItems.length ~/ _adIndex,
       itemBuilder: (context, index) {
-        print('index = ${index}');
         final adIndex = index ~/ (_adIndex + 1);
         if (index != 0 && index % (_adIndex + 1) == 0) {
-          print('inside');
           return const BannerAdClass();
         }
-        print(index - adIndex);
         return listItems[index - adIndex];
       }
     );
   }
   
-    ListTile _tile(title, icon, context) {
+  ListTile _tile(title, icon, context) {
     return ListTile(
       title: Text(title,
           style: const TextStyle(
@@ -186,13 +187,13 @@ class HomeScreenState extends State<HomeScreen> {
       leading: icon,
       onTap: () {
         //logger('click', {'title': title, 'method': '_tile', 'file': 'home_screen'});
-        /*Navigator.push(
+        Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TrendingResults(title: title),
+            builder: (context) => QuizScreen(title: title),
             settings: RouteSettings(name: title),
           ),
-        );*/
+        );
       },
     );
   }

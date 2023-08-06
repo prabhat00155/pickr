@@ -8,7 +8,7 @@ void main() {
   MobileAds.instance.initialize();
 
   runApp(const MaterialApp(
-    title: 'Pik',
+    title: 'Pickr',
     home: HomeScreen(),
   ));
 }
