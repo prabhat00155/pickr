@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'advertisement.dart';
+
 class QuizQuestion {
   String imageLink;
   List<String> options;
@@ -173,6 +175,7 @@ class QuizScreenState extends State<QuizScreen> {
                 ),
               ],
             ),
+            const BannerAdClass(),
           ],
         ),
       ),
