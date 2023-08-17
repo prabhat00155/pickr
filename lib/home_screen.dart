@@ -152,6 +152,12 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         const Divider(),
         _tile(
+          'Monuments',
+          const ImageIcon(AssetImage('assets/images/monument.png'), size: 50, color: Colors.blue),
+          context,
+        ),
+        const Divider(),
+        _tile(
           'Sports',
           const ImageIcon(AssetImage('assets/images/sport.png'), size: 50, color: Colors.blue),
           context
@@ -167,8 +173,8 @@ class HomeScreenState extends State<HomeScreen> {
     return ListView.builder(
       itemCount: listItems.length + listItems.length ~/ _adIndex,
       itemBuilder: (context, index) {
-        final adIndex = index ~/ (_adIndex + 1);
-        if (index != 0 && index % (_adIndex + 1) == 0) {
+        final adIndex = index ~/ _adIndex;
+        if (index != 0 && index % _adIndex == 0) {
           return const BannerAdClass();
         }
         return listItems[index - adIndex];
