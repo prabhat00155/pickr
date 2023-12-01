@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'account.dart';
 import 'advertisement.dart';
 import 'quiz.dart';
 
@@ -41,6 +42,10 @@ class HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.info_outline),
               label: 'Info',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_sharp),
+              label: 'Account',
+            ),
           ],
           currentIndex: 0,
           onTap: (int index) {
@@ -54,10 +59,31 @@ class HomeScreenState extends State<HomeScreen> {
                 showInfo(context);
               }
               break;
+              case 2: {
+                showAccount(context);
+              }
+              break;
             }
           },
         ),
       ), 
+    );
+  }
+
+  void showAccount(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Account'),
+            ),
+            body: const Account(),
+          );
+        },
+        settings: const RouteSettings(name: 'Account'),
+      ),
     );
   }
 
@@ -134,12 +160,6 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         const Divider(),
         _tile(
-          'Flowers',
-          const ImageIcon(AssetImage('assets/images/flower.png'), size: 50, color: Colors.blue),
-          context,
-        ),
-        const Divider(),
-        _tile(
           'Fruits',
           const ImageIcon(AssetImage('assets/images/fruit.png'), size: 50, color: Colors.blue),
           context,
@@ -158,15 +178,15 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         const Divider(),
         _tile(
-          'Sports',
-          const ImageIcon(AssetImage('assets/images/sport.png'), size: 50, color: Colors.blue),
-          context
+          'People',
+          const ImageIcon(AssetImage('assets/images/people.png'), size: 50, color: Colors.blue),
+          context,
         ),
         const Divider(),
         _tile(
-          'Vegetables',
-          const ImageIcon(AssetImage('assets/images/vegetable.png'), size: 50, color: Colors.blue),
-          context,
+          'Sports',
+          const ImageIcon(AssetImage('assets/images/sport.png'), size: 50, color: Colors.blue),
+          context
         ),
         const Divider(),
       ];
