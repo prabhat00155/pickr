@@ -1,14 +1,26 @@
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'advertisement.dart';
+import 'load_json.dart';
+part 'quiz.g.dart'; // Generated code file
 
+const String defaultUrl = 'https://picsum.photos/200';
+
+@JsonSerializable()
 class QuizQuestion {
-  String imageLink;
+  final int level;
+  final String name;
   List<String> options;
-  int correctAnswerIndex;
+  List<String> urls;
+  int correctAnswerIndex = 0;
 
-  QuizQuestion({required this.imageLink, required this.options, required this.correctAnswerIndex});
+  QuizQuestion({required this.level, required this.name, required this.options, required this.urls});
+
+  factory QuizQuestion.fromJson(Map<String, dynamic> json) => _$QuizQuestionFromJson(json);
+  Map<String, dynamic> toJson() => _$QuizQuestionToJson(this);
 }
 
 class QuizScreen extends StatefulWidget {
@@ -24,40 +36,14 @@ class QuizScreen extends StatefulWidget {
 }
 
 class QuizScreenState extends State<QuizScreen> {
-  List<QuizQuestion> quizQuestions = [
-    QuizQuestion(
-      imageLink: 'https://cdn.pixabay.com/photo/2013/10/15/09/12/flower-195893_150.jpg',
-      options: ['Berlin', 'London', 'Paris', 'Flower'],
-      correctAnswerIndex: 2,
-    ),
-    QuizQuestion(
-      imageLink: 'https://cdn.pixabay.com/user/2013/11/05/02-10-23-764_250x250.jpg',
-      options: ['Berlin', 'London', 'Paris', 'Flower'],
-      correctAnswerIndex: 3,
-    ),
-    QuizQuestion(
-      imageLink: 'https://pixabay.com/photos/big-ben-bridge-city-sunrise-river-2393098/',
-      options: ['Berlin', 'London', 'Paris', 'Rome'],
-      correctAnswerIndex: 1,
-    ),
-    QuizQuestion(
-      imageLink: 'https://pixabay.com/photos/brand-front-of-the-brandenburg-gate-5117579/',
-      options: ['Berlin', 'London', 'Paris', 'Rome'],
-      correctAnswerIndex: 0,
-    ),
-    QuizQuestion(
-      imageLink: 'https://pixabay.com/photos/rome-architecture-sunlight-building-4989538/',
-      options: ['Berlin', 'London', 'Paris', 'Rome'],
-      correctAnswerIndex: 3,
-    ),
-    // Add more quiz questions here...
-  ];
-
+  List<QuizQuestion> quizQuestions = [];
   int currentQuestionIndex = 0;
   int maxAnsweredIndex = -1;
   int correctAnswers = 0;
+  int noOfQuestions = 0;
+  int currentLevel = 1;
   bool isOptionSelected = false;
-  List<int?> userSelectedAnswers = List.filled(5, null);
+  List<int?> userSelectedAnswers = List.filled(100, null);
 
   void goToPreviousQuestion() {
     setState(() {
@@ -65,6 +51,28 @@ class QuizScreenState extends State<QuizScreen> {
         currentQuestionIndex--;
       }
     });
+  }
+
+  String fetchImageLink(QuizQuestion question) {
+    try {
+      List<String> images = question.urls;
+      int randIndex = Random().nextInt(images.length);
+      return images[randIndex];
+    } catch (e) {
+      return defaultUrl;
+    }
+  }
+
+  (List<String>, int) fetchOptions(QuizQuestion question) {
+    List<String> shuffledOptions = [];
+    List<String> options = question.options;
+    final random = Random();
+    final shuffledList = List.from(options)..shuffle(random);
+    shuffledOptions = shuffledList.sublist(0, 3).cast<String>();
+    String correctAnswer = question.name;
+    int correctAnswerIndex = Random().nextInt(4);
+    shuffledOptions.insert(correctAnswerIndex, correctAnswer);
+    return (shuffledOptions, correctAnswerIndex);
   }
 
   void goToNextQuestion() {
@@ -87,10 +95,90 @@ class QuizScreenState extends State<QuizScreen> {
     return (currentQuestionIndex + 1) / quizQuestions.length;
   }
 
+  void fetchQuestions(String category) async {
+    List<QuizQuestion> allQuestions = await loadJsonData(category);
+    allQuestions.shuffle();
+
+    Map<int, List<QuizQuestion>> questionsByLevel = {};
+
+    // Group questions by level
+    allQuestions.forEach((question) {
+        if (!questionsByLevel.containsKey(question.level)) {
+            questionsByLevel[question.level] = [];
+        }
+        var (x, y) = fetchOptions(question);
+        question.options = x;
+        question.correctAnswerIndex = y;
+        question.urls = [fetchImageLink(question)];
+        questionsByLevel[question.level]!.add(question);
+    });
+
+    List<QuizQuestion> selectedQuestions = [];
+
+    // Select and sort questions by level
+    List<int> sortedLevels = questionsByLevel.keys.toList()..sort();
+    sortedLevels.forEach((level) {
+        if (questionsByLevel[level]!.length >= 10) {
+            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, 10));
+        } else {
+            selectedQuestions.addAll(questionsByLevel[level]!);
+        }
+    });
+
+    setState(() {
+      quizQuestions = selectedQuestions;
+    });
+  }
+
+  void mixQuestions(List<String> categories, int questionsPerCategory, [int levels = 10]) async {
+    List<QuizQuestion> mixedQuestions = [];
+
+    for (int level = 1; level <= levels; level++) {
+      for (String category in categories) {
+        List<QuizQuestion> categoryQuestions = await loadJsonData(category);
+
+        // Shuffle the questions to mix them randomly
+        categoryQuestions.shuffle();
+
+        // Select questions for the current level
+        List<QuizQuestion> levelQuestions = categoryQuestions
+            .where((question) => question.level == level)
+            .take(questionsPerCategory)
+            .toList();
+
+        mixedQuestions.addAll(levelQuestions);
+      }
+    }
+
+    setState(() {
+      quizQuestions = mixedQuestions;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.title == 'All Categories')
+      mixQuestions(['Animals'], 5);
+    else
+      fetchQuestions(widget.title);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (quizQuestions.length == 0) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(widget.title),
+          ),
+          body: CircularProgressIndicator(),
+        );
+    }
+
     QuizQuestion currentQuestion = quizQuestions[currentQuestionIndex];
     List<String> options = currentQuestion.options;
+    String imageLink = currentQuestion.urls[0];
 
     return Scaffold(
       appBar: AppBar(
@@ -105,10 +193,27 @@ class QuizScreenState extends State<QuizScreen> {
             LinearProgressIndicator(
               value: calculateProgress(),
             ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              color: Colors.blue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Level: ${currentQuestion.level}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    'Score: $correctAnswers/$noOfQuestions',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 20),
             CachedNetworkImage(
-              imageUrl: currentQuestion.imageLink,
-              fit: BoxFit.cover,
+              imageUrl: imageLink,
+              fit: BoxFit.contain,
               width: 200,
               height: 200,
               errorWidget: (context, url, error) {
@@ -127,6 +232,7 @@ class QuizScreenState extends State<QuizScreen> {
                       setState(() {
                         isOptionSelected = true;
                         userSelectedAnswers[currentQuestionIndex] = index;
+                        noOfQuestions++;
                       });
                       if(index == currentQuestion.correctAnswerIndex) {
                         setState(() {
