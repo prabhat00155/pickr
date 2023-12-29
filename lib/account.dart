@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import 'constants.dart';
+import 'user.dart';
 
 class Account extends StatefulWidget {
-  const Account({super.key});
+  final User user;
+  const Account({super.key, required this.user});
 
   @override
   AccountState createState() => AccountState();
 }
 
 class AccountState extends State<Account> {
-  String userId = '';
-  String defaultAvatar = '100';
-  String defaultCountryCode = 'in';
+  User get user => widget.user;
 
   Future<void> _changeAvatar() async {
     showDialog(
@@ -27,15 +27,14 @@ class AccountState extends State<Account> {
           title: const Text('Change Avatar'),
           content: SingleChildScrollView(
             child: Wrap(
-              spacing: 8.0, // gap between adjacent chips
-              runSpacing: 4.0, // gap between lines
+              spacing: 8.0,
+              runSpacing: 4.0,
               children: List.generate(
                 60,
                 (index) => GestureDetector(
                   onTap: () {
-                    // Update the defaultAvatar to the selected avatar ID
                     setState(() {
-                      defaultAvatar = '$index';
+                      user.avatar = '$index';
                     });
                     Navigator.of(context).pop();
                   },
@@ -70,15 +69,14 @@ class AccountState extends State<Account> {
           title: const Text('Change Flag'),
           content: SingleChildScrollView(
             child: Wrap(
-              spacing: 8.0, // gap between adjacent chips
-              runSpacing: 4.0, // gap between lines
+              spacing: 8.0,
+              runSpacing: 4.0,
               children: List.generate(
                 countryCodes.length,
                 (index) => GestureDetector(
                   onTap: () {
-                    // Update the defaultCountryCode to the selected country code
                     setState(() {
-                      defaultCountryCode = countryCodes[index];
+                      user.countryCode = countryCodes[index];
                     });
                     Navigator.of(context).pop();
                   },
@@ -116,44 +114,37 @@ class AccountState extends State<Account> {
           GestureDetector(
             onTap: () => _changeAvatar(),
             child: RandomAvatar(
-              defaultAvatar,
+              user.avatar,
               height: 80,
               width: 80,
               trBackground: false,
             ),
           ),
-          Text(userId),
+          Text(user.userId),
           GestureDetector(
             onTap: () => _changeFlag(),
             child: CountryFlag.fromCountryCode(
-              defaultCountryCode,
+              user.countryCode,
               height: 36,
               width: 50,
               borderRadius: 8,
             ),
           ),
           const Text('Badges'),
-          const Wrap(
-            spacing: 8.0, // gap between adjacent chips
-            runSpacing: 4.0, // gap between lines
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage('assets/images/badges/initiate.png'),
+                backgroundImage: AssetImage(levelToImage[user.level]!),
                 radius: 50,
               ),
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/badges/master.png'),
-                radius: 50,
-              ),
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/badges/first.png'),
-                radius: 50,
-                backgroundColor: Colors.white,
-              ),
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/badges/inspiration.png'),
-                radius: 50,
-              ),
+              ...(user.badges.map((badge) =>
+                CircleAvatar(
+                  backgroundImage: AssetImage(badgeToImage[badge]!),
+                  radius: 50,
+                ),
+              )),
             ],
           ),
         ],
@@ -164,7 +155,7 @@ class AccountState extends State<Account> {
   void signInAnon() async {
     String uniqueId = await getDeviceUniqueId();
     setState(() {
-      userId = uniqueId;
+      user.userId = uniqueId;
     });
   }
 

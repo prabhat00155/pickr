@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'account.dart';
 import 'advertisement.dart';
 import 'quiz.dart';
+import 'user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   static const _adIndex = 7;
+  User currentUser = User('foo', 'bar');
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,7 @@ class HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               title: const Text('Account'),
             ),
-            body: const Account(),
+            body: Account(user: currentUser),
           );
         },
         settings: const RouteSettings(name: 'Account'),

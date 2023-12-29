@@ -69,6 +69,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/text/animals.json
+    - assets/images/pickr_logo.png
     - assets/images/categories/animal.png
     - assets/images/categories/bird.png
     - assets/images/categories/city.png
@@ -80,12 +82,33 @@ flutter:
     - assets/images/categories/monument.png
     - assets/images/categories/people.png
     - assets/images/categories/sport.png
-    - assets/images/pickr_logo.png
-    - assets/images/badges/first.png
-    - assets/images/badges/initiate.png
-    - assets/images/badges/inspiration.png
-    - assets/images/badges/master.png
-    - assets/text/animals.json
+    - assets/images/badges/beginner.JPG
+    - assets/images/badges/novice.png
+    - assets/images/badges/apprentice.png
+    - assets/images/badges/intermediate.JPG
+    - assets/images/badges/experienced.JPG
+    - assets/images/badges/legend.JPG
+    - assets/images/badges/wizard.png
+    - assets/images/badges/allrounder.JPG
+    - assets/images/badges/zoologist.JPG
+    - assets/images/badges/ornithologist.png
+    - assets/images/badges/traveller.JPG
+    - assets/images/badges/gourmet.JPG
+    - assets/images/badges/vexillologist.JPG
+    - assets/images/badges/pomologist.JPG
+    - assets/images/badges/logo.JPG
+    - assets/images/badges/archaeologist.JPG
+    - assets/images/badges/people.JPG
+    - assets/images/badges/sports.JPG
+    - assets/images/badges/ten_in_a_row.JPG
+    - assets/images/badges/twenty_in_a_row.JPG
+    - assets/images/badges/twentyfive_in_a_row.JPG
+    - assets/images/badges/fifty_in_a_row.JPG
+    - assets/images/badges/fifty_correct_answers.JPG
+    - assets/images/badges/hundred_correct_answers.JPG
+    - assets/images/badges/fivehundred_correct_answers.JPG
+    - assets/images/badges/thousand_correct_answers.JPG
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
