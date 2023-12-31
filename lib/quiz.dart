@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-// import 'advertisement.dart';
+import 'advertisement.dart';
 import 'load_json.dart';
 import 'user.dart';
 part 'quiz.g.dart'; // Generated code file
