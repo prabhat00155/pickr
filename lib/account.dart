@@ -106,6 +106,8 @@ class AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     signInAnon();
+    int score = user.getScore('Animals');
+    int attempts = user.getAttempts('Animals');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -121,6 +123,8 @@ class AccountState extends State<Account> {
             ),
           ),
           Text(user.userId),
+          Text('$score'),
+          Text('$attempts'),
           GestureDetector(
             onTap: () => _changeFlag(),
             child: CountryFlag.fromCountryCode(

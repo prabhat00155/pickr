@@ -217,7 +217,7 @@ class HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => QuizScreen(title: title),
+            builder: (context) => QuizScreen(title: title, user: currentUser),
             settings: RouteSettings(name: title),
           ),
         );

@@ -3,8 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'advertisement.dart';
+// import 'advertisement.dart';
 import 'load_json.dart';
+import 'user.dart';
 part 'quiz.g.dart'; // Generated code file
 
 const String defaultUrl = 'https://picsum.photos/200';
@@ -25,10 +26,12 @@ class QuizQuestion {
 
 class QuizScreen extends StatefulWidget {
   final String title;
+  final User user;
 
   const QuizScreen({
     Key? key,
     required this.title,
+    required this.user,
   }): super(key: key);
 
   @override
@@ -44,6 +47,7 @@ class QuizScreenState extends State<QuizScreen> {
   int currentLevel = 1;
   bool isOptionSelected = false;
   List<int?> userSelectedAnswers = List.filled(100, null);
+  User get user => widget.user;
 
   void goToPreviousQuestion() {
     setState(() {
@@ -88,6 +92,14 @@ class QuizScreenState extends State<QuizScreen> {
       setState(() {
         currentQuestionIndex++;
       });
+    }
+    if (currentLevel < quizQuestions[currentQuestionIndex].level) {
+      setState(() {
+        currentLevel++;
+      });
+      // displayLevelUp();
+      print('Level up');
+      // InterstitialAdClass();
     }
   }
 
@@ -180,7 +192,12 @@ class QuizScreenState extends State<QuizScreen> {
     List<String> options = currentQuestion.options;
     String imageLink = currentQuestion.urls[0];
 
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        user.updateScore(widget.title, correctAnswers, noOfQuestions);
+        return true;
+      },
+      child: Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
@@ -284,6 +301,7 @@ class QuizScreenState extends State<QuizScreen> {
             const BannerAdClass(),
           ],
         ),
+      ),
       ),
     );
   }
