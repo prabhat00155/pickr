@@ -106,7 +106,9 @@ class AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     signInAnon();
-    int score = user.getScore('Animals');
+    int score = user.getScore();
+    int categoryScores = user.getCategoryScores('Animals');
+    int categoryTotalCorrect = user.getCategoryTotalCorrect('Animals');
     int attempts = user.getAttempts('Animals');
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -124,6 +126,8 @@ class AccountState extends State<Account> {
           ),
           Text(user.userId),
           Text('$score'),
+          Text('$categoryScores'),
+          Text('$categoryTotalCorrect'),
           Text('$attempts'),
           GestureDetector(
             onTap: () => _changeFlag(),

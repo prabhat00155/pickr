@@ -45,6 +45,8 @@ class QuizScreenState extends State<QuizScreen> {
   int correctAnswers = 0;
   int noOfQuestions = 0;
   int currentLevel = 1;
+  int correctLevelAnswers = 0;
+  int score = 0;
   bool isOptionSelected = false;
   List<int?> userSelectedAnswers = List.filled(100, null);
   User get user => widget.user;
@@ -95,6 +97,8 @@ class QuizScreenState extends State<QuizScreen> {
     }
     if (currentLevel < quizQuestions[currentQuestionIndex].level) {
       setState(() {
+        score += currentLevel * correctLevelAnswers;
+        correctLevelAnswers = 0;
         currentLevel++;
       });
       // displayLevelUp();
@@ -194,7 +198,8 @@ class QuizScreenState extends State<QuizScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        user.updateScore(widget.title, correctAnswers, noOfQuestions);
+        score += currentLevel * correctLevelAnswers;
+        user.updateScore(widget.title, correctAnswers, noOfQuestions, score);
         return true;
       },
       child: Scaffold(
@@ -254,6 +259,7 @@ class QuizScreenState extends State<QuizScreen> {
                       if(index == currentQuestion.correctAnswerIndex) {
                         setState(() {
                           correctAnswers++;
+                          correctLevelAnswers++;
                         });
                       }
                     }

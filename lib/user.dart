@@ -9,18 +9,25 @@ class User {
   List<Badges> _badges = [];
   int _xpScore = 0;
   int _score = 0;
+  Map<String, int> _perCategoryTotalCorrect = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> _perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
 
   User(this.name, this.userId);
 
-  int getScore(String category) => _perCategoryScores[category]!;
+  int getScore() => _score;
+
+  int getCategoryTotalCorrect(String category) => _perCategoryTotalCorrect[category]!;
+
+  int getCategoryScores(String category) => _perCategoryScores[category]!;
 
   int getAttempts(String category) => _perCategoryAttempts[category]!;
 
-  void updateScore(String category, int score, int attempts) {
+  void updateScore(String category, int correctAnswers, int attempts, int score) {
+    _perCategoryTotalCorrect[category] = _perCategoryTotalCorrect[category]! + correctAnswers;
     _perCategoryScores[category] = _perCategoryScores[category]! + score;
     _perCategoryAttempts[category] = _perCategoryAttempts[category]! + attempts;
+    _score += score;
   }
 
   List<Badges> get badges => _badges;
