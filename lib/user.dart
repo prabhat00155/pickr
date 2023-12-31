@@ -9,7 +9,7 @@ class User {
   List<Badges> _badges = [];
   int _xpScore = 0;
   int _score = 0;
-  Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(),  value: (_) => 0);
+  Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> _perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
 
   User(this.name, this.userId);
