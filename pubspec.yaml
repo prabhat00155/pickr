@@ -72,6 +72,7 @@ flutter:
     - assets/text/animals.json
     - assets/text/birds.json
     - assets/text/cities.json
+    - assets/text/flags.json
     - assets/images/pickr_logo.png
     - assets/images/categories/animal.png
     - assets/images/categories/bird.png
