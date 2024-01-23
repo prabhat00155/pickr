@@ -3,4 +3,5 @@ const Map<String, String> mapCategoryToAsset = {
   'Birds': 'assets/text/birds.json',
   'Cities': 'assets/text/cities.json',
   'Flags': 'assets/text/flags.json',
+  'Fruits': 'assets/text/fruits.json',
 };
