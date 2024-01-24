@@ -72,6 +72,7 @@ flutter:
     - assets/text/animals.json
     - assets/text/birds.json
     - assets/text/cities.json
+    - assets/text/dishes.json
     - assets/text/flags.json
     - assets/text/fruits.json
     - assets/text/sports.json
