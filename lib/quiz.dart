@@ -9,6 +9,8 @@ import 'user.dart';
 part 'quiz.g.dart'; // Generated code file
 
 const String defaultUrl = 'https://picsum.photos/200';
+const int questionsPerLevel = 10;
+const int maxQuestions = 100;
 
 @JsonSerializable()
 class QuizQuestion {
@@ -48,7 +50,7 @@ class QuizScreenState extends State<QuizScreen> {
   int correctLevelAnswers = 0;
   int score = 0;
   bool isOptionSelected = false;
-  List<int?> userSelectedAnswers = List.filled(100, null);
+  List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   User get user => widget.user;
 
   void goToPreviousQuestion() {
@@ -83,12 +85,15 @@ class QuizScreenState extends State<QuizScreen> {
 
   void goToNextQuestion() {
     if (isOptionSelected) {
-      setState(() {
-        if (currentQuestionIndex < quizQuestions.length - 1) {
+      if (currentQuestionIndex < quizQuestions.length - 1) {
+        setState(() {
           maxAnsweredIndex++;
           isOptionSelected = false;
-        }
-      });
+        });
+      } else {
+        print('Complete!');
+        // displayCompletion();
+      }
     }
     if (currentQuestionIndex <= maxAnsweredIndex && currentQuestionIndex < quizQuestions.length - 1) {
       setState(() {
@@ -134,8 +139,8 @@ class QuizScreenState extends State<QuizScreen> {
     // Select and sort questions by level
     List<int> sortedLevels = questionsByLevel.keys.toList()..sort();
     sortedLevels.forEach((level) {
-        if (questionsByLevel[level]!.length >= 10) {
-            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, 10));
+        if (questionsByLevel[level]!.length >= questionsPerLevel) {
+            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
         } else {
             selectedQuestions.addAll(questionsByLevel[level]!);
         }
