@@ -50,6 +50,7 @@ class QuizScreenState extends State<QuizScreen> {
   int correctLevelAnswers = 0;
   int score = 0;
   bool isOptionSelected = false;
+  bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   User get user => widget.user;
 
@@ -83,6 +84,56 @@ class QuizScreenState extends State<QuizScreen> {
     return (shuffledOptions, correctAnswerIndex);
   }
 
+  void displayLevelUp() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Level Up!'),
+          content: Column(
+            children: [
+              Text('Level up...'),
+              // Add other completion details as needed
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void displayCompletion() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Quiz Completed!'),
+          content: Column(
+            children: [
+              Text('Your Score: $score'),
+              // Add other completion details as needed
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void goToNextQuestion() {
     if (isOptionSelected) {
       if (currentQuestionIndex < quizQuestions.length - 1) {
@@ -91,8 +142,13 @@ class QuizScreenState extends State<QuizScreen> {
           isOptionSelected = false;
         });
       } else {
+        setState(() {
+          score += currentLevel * correctLevelAnswers;
+          isOptionSelected = false;
+          quizCompleted = true;
+        });
         print('Complete!');
-        // displayCompletion();
+        displayCompletion();
       }
     }
     if (currentQuestionIndex <= maxAnsweredIndex && currentQuestionIndex < quizQuestions.length - 1) {
@@ -106,7 +162,7 @@ class QuizScreenState extends State<QuizScreen> {
         correctLevelAnswers = 0;
         currentLevel++;
       });
-      // displayLevelUp();
+      displayLevelUp();
       print('Level up');
       // InterstitialAdClass();
     }
@@ -203,7 +259,10 @@ class QuizScreenState extends State<QuizScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        score += currentLevel * correctLevelAnswers;
+        if (!quizCompleted) {
+          score += currentLevel * correctLevelAnswers;
+          print('score updated');
+        }
         user.updateScore(widget.title, correctAnswers, noOfQuestions, score);
         return true;
       },
