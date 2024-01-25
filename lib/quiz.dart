@@ -1,6 +1,9 @@
 import 'dart:math';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'advertisement.dart';
@@ -11,6 +14,7 @@ part 'quiz.g.dart'; // Generated code file
 const String defaultUrl = 'https://picsum.photos/200';
 const int questionsPerLevel = 10;
 const int maxQuestions = 100;
+
 
 @JsonSerializable()
 class QuizQuestion {
@@ -53,6 +57,7 @@ class QuizScreenState extends State<QuizScreen> {
   bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   User get user => widget.user;
+  InterstitialAd? _interstitialAd;
 
   void goToPreviousQuestion() {
     setState(() {
@@ -164,8 +169,15 @@ class QuizScreenState extends State<QuizScreen> {
       });
       displayLevelUp();
       print('Level up');
-      // InterstitialAdClass();
+      if (currentLevel % 5 == 0)
+        showInterstitialAd();
     }
+  }
+
+  void showInterstitialAd() {
+      _interstitialAd?.show();
+      _interstitialAd = null;
+      loadAd();
   }
 
   double calculateProgress() {
@@ -235,10 +247,60 @@ class QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
+    loadAd();
     if (widget.title == 'All Categories')
       mixQuestions(['Animals'], 5);
     else
       fetchQuestions(widget.title);
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    print('loaded');
+    // TODO: replace this test ad unit with your own ad unit.
+    final adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/1033173712'
+      : 'ca-app-pub-3940256099942544/4411468910';
+
+    InterstitialAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+             ad.fullScreenContentCallback = FullScreenContentCallback(
+                // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            print('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+          },
+        ));
   }
 
   @override
