@@ -169,13 +169,14 @@ class QuizScreenState extends State<QuizScreen> {
       });
       displayLevelUp();
       print('Level up');
-      if (currentLevel % 5 == 0)
+      if (currentLevel % 3 == 0)
         showInterstitialAd();
     }
   }
 
   void showInterstitialAd() {
       _interstitialAd?.show();
+      _interstitialAd?.dispose();
       _interstitialAd = null;
       loadAd();
   }
