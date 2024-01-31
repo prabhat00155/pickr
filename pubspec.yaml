@@ -45,6 +45,9 @@ dependencies:
   device_info: ^2.0.3
   random_avatar: ^0.0.8
   country_flags: ^2.2.0
+  firebase_auth: ^4.17.0
+  google_sign_in: ^6.2.1
+  firebase_core: ^2.25.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +83,7 @@ flutter:
     - assets/text/monuments.json
     - assets/text/sports.json
     - assets/images/pickr_logo.png
+    - assets/images/login/google.png
     - assets/images/categories/animal.png
     - assets/images/categories/bird.png
     - assets/images/categories/city.png
