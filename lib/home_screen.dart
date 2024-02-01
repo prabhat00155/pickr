@@ -28,7 +28,7 @@ class HomeScreenState extends State<HomeScreen> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        drawer: myDrawer,
+        drawer: MyDrawer(),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Pickr'),
