@@ -7,8 +7,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'advertisement.dart';
+import 'constants.dart';
 import 'load_json.dart';
-import 'user.dart';
+import 'player.dart';
 part 'quiz.g.dart'; // Generated code file
 
 const String defaultUrl = 'https://picsum.photos/200';
@@ -32,12 +33,12 @@ class QuizQuestion {
 
 class QuizScreen extends StatefulWidget {
   final String title;
-  final User user;
+  final Player player;
 
   const QuizScreen({
     Key? key,
     required this.title,
-    required this.user,
+    required this.player,
   }): super(key: key);
 
   @override
@@ -56,7 +57,7 @@ class QuizScreenState extends State<QuizScreen> {
   bool isOptionSelected = false;
   bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
-  User get user => widget.user;
+  Player get player => widget.player;
   InterstitialAd? _interstitialAd;
 
   void goToPreviousQuestion() {
@@ -311,6 +312,7 @@ class QuizScreenState extends State<QuizScreen> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(widget.title),
+            backgroundColor: appBarColour,
           ),
           body: CircularProgressIndicator(),
         );
@@ -326,13 +328,14 @@ class QuizScreenState extends State<QuizScreen> {
           score += currentLevel * correctLevelAnswers;
           print('score updated');
         }
-        user.updateScore(widget.title, correctAnswers, noOfQuestions, score);
+        player.updateScore(widget.title, correctAnswers, noOfQuestions, score);
         return true;
       },
       child: Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
+        backgroundColor: appBarColour,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

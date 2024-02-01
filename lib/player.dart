@@ -1,8 +1,10 @@
 import 'constants.dart';
 
-class User {
-  String name;
-  String userId;
+class Player {
+  String? name;
+  String playerId;
+  String? email;
+  String? photoUrl;
   String avatar = '100';
   String countryCode = 'in';
   PlayerLevels level = PlayerLevels.beginner;
@@ -13,7 +15,7 @@ class User {
   Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> _perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
 
-  User(this.name, this.userId);
+  Player(this.playerId, [this.name, this.email, this.photoUrl]);
 
   int getScore() => _score;
 

@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import 'constants.dart';
-import 'user.dart';
+import 'player.dart';
 
 class Account extends StatefulWidget {
-  final User user;
-  const Account({super.key, required this.user});
+  final Player player;
+  const Account({super.key, required this.player});
 
   @override
   AccountState createState() => AccountState();
 }
 
 class AccountState extends State<Account> {
-  User get user => widget.user;
+  Player get player => widget.player;
 
   Future<void> _changeAvatar() async {
     showDialog(
@@ -34,7 +34,7 @@ class AccountState extends State<Account> {
                 (index) => GestureDetector(
                   onTap: () {
                     setState(() {
-                      user.avatar = '$index';
+                      player.avatar = '$index';
                     });
                     Navigator.of(context).pop();
                   },
@@ -76,7 +76,7 @@ class AccountState extends State<Account> {
                 (index) => GestureDetector(
                   onTap: () {
                     setState(() {
-                      user.countryCode = countryCodes[index];
+                      player.countryCode = countryCodes[index];
                     });
                     Navigator.of(context).pop();
                   },
@@ -106,10 +106,10 @@ class AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     signInAnon();
-    int score = user.getScore();
-    int categoryScores = user.getCategoryScores('Animals');
-    int categoryTotalCorrect = user.getCategoryTotalCorrect('Animals');
-    int attempts = user.getAttempts('Animals');
+    int score = player.getScore();
+    int categoryScores = player.getCategoryScores('Animals');
+    int categoryTotalCorrect = player.getCategoryTotalCorrect('Animals');
+    int attempts = player.getAttempts('Animals');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -118,13 +118,13 @@ class AccountState extends State<Account> {
           GestureDetector(
             onTap: () => _changeAvatar(),
             child: RandomAvatar(
-              user.avatar,
+              player.avatar,
               height: 80,
               width: 80,
               trBackground: false,
             ),
           ),
-          Text(user.userId),
+          Text(player.playerId),
           Text('$score'),
           Text('$categoryScores'),
           Text('$categoryTotalCorrect'),
@@ -132,7 +132,7 @@ class AccountState extends State<Account> {
           GestureDetector(
             onTap: () => _changeFlag(),
             child: CountryFlag.fromCountryCode(
-              user.countryCode,
+              player.countryCode,
               height: 36,
               width: 50,
               borderRadius: 8,
@@ -144,10 +144,10 @@ class AccountState extends State<Account> {
             runSpacing: 4.0,
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(levelToImage[user.level]!),
+                backgroundImage: AssetImage(levelToImage[player.level]!),
                 radius: 50,
               ),
-              ...(user.badges.map((badge) =>
+              ...(player.badges.map((badge) =>
                 CircleAvatar(
                   backgroundImage: AssetImage(badgeToImage[badge]!),
                   radius: 50,
@@ -163,7 +163,7 @@ class AccountState extends State<Account> {
   void signInAnon() async {
     String uniqueId = await getDeviceUniqueId();
     setState(() {
-      user.userId = uniqueId;
+      player.playerId = uniqueId;
     });
   }
 

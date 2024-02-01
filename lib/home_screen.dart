@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'account.dart';
 import 'advertisement.dart';
+import 'constants.dart';
 import 'quiz.dart';
-import 'user.dart';
+import 'player.dart';
+import 'drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   static const _adIndex = 7;
-  User currentUser = User('foo', 'bar');
+  Player currentPlayer = Player('foo', 'bar');
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,11 @@ class HomeScreenState extends State<HomeScreen> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        drawer: myDrawer,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Pickr'),
+          backgroundColor: appBarColour,
         ),
         body: Column(
           children: [
@@ -81,7 +86,7 @@ class HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               title: const Text('Account'),
             ),
-            body: Account(user: currentUser),
+            body: Account(player: currentPlayer),
           );
         },
         settings: const RouteSettings(name: 'Account'),
@@ -217,7 +222,7 @@ class HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => QuizScreen(title: title, user: currentUser),
+            builder: (context) => QuizScreen(title: title, player: currentPlayer),
             settings: RouteSettings(name: title),
           ),
         );

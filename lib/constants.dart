@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum PlayerLevels {
   beginner,
   novice,
@@ -331,3 +333,5 @@ const List<String> countryCodes = [
   'zw',
   'ax',
 ];
+
+var appBarColour = Colors.green;
