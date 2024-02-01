@@ -125,6 +125,7 @@ class AccountState extends State<Account> {
             ),
           ),
           Text(player.playerId),
+          Text(player.name ?? ''),
           Text('$score'),
           Text('$categoryScores'),
           Text('$categoryTotalCorrect'),

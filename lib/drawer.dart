@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'account.dart';
 import 'auth_screen.dart';
+import 'player.dart';
 
 var drawerTextColor = TextStyle(
   color: Colors.grey[600],
@@ -9,7 +11,10 @@ var drawerTextColor = TextStyle(
 var tilePadding = const EdgeInsets.only(left: 8.0, right: 8, top: 8);
 
 class MyDrawer extends StatelessWidget {
-//var myDrawer = Drawer(
+  final Player player;
+
+  const MyDrawer({required this.player});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,6 +36,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for Dashboard
                 print('Dashboard tapped');
+                showAccount(context);
               },
             ),
           ),
@@ -94,5 +100,22 @@ class MyDrawer extends StatelessWidget {
       print('Error signing out: $e');
     }
   }
-}
 
+  void showAccount(context) {
+    Navigator.pop(context);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Account'),
+            ),
+            body: Account(player: player),
+          );
+        },
+        settings: const RouteSettings(name: 'Account'),
+      ),
+    );
+  }
+}

@@ -17,7 +17,16 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   static const _adIndex = 7;
-  Player currentPlayer = Player('foo', 'bar');
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  late Player currentPlayer;
+  HomeScreenState() {
+    currentPlayer = Player(
+      currentUser.uid,
+      currentUser.displayName,
+      currentUser.email,
+      currentUser.photoURL,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +37,7 @@ class HomeScreenState extends State<HomeScreen> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        drawer: MyDrawer(),
+        drawer: MyDrawer(player: currentPlayer),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Pickr'),
