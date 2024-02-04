@@ -43,7 +43,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Player player = snapshot.data![index];
-                  return _buildTile(player, index+1);
+                  return _buildTile(context, player, index+1);
                 },
               );
             }
@@ -53,7 +53,7 @@ class _LeaderboardState extends State<Leaderboard> {
     );
   }
 
-  Padding _buildTile(player, rank) {
+  Padding _buildTile(context, player, rank) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
@@ -79,7 +79,7 @@ class _LeaderboardState extends State<Leaderboard> {
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: () => playerInfo(),
+        onTap: () => playerInfo(context, player),
         trailing: Text(
           'Rank: $rank',
           style: const TextStyle(
@@ -92,7 +92,32 @@ class _LeaderboardState extends State<Leaderboard> {
     );
   }
 
-  void playerInfo() {
-    print('player info');
+  void playerInfo(BuildContext context, Player player) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(player.name ?? 'Unknown'),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Score: ${player.score}'),
+                // Add more player details as needed
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
