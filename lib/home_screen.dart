@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'account.dart';
 import 'advertisement.dart';
@@ -7,6 +8,7 @@ import 'constants.dart';
 import 'quiz.dart';
 import 'player.dart';
 import 'drawer.dart';
+import 'leaderboard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,17 +17,48 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const _adIndex = 7;
   final currentUser = FirebaseAuth.instance.currentUser!;
   late Player currentPlayer;
   HomeScreenState() {
     currentPlayer = Player(
       currentUser.uid,
-      currentUser.displayName,
-      currentUser.email,
-      currentUser.photoURL,
+      name: currentUser.displayName,
+      email: currentUser.email,
+      photoUrl: currentUser.photoURL,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // The app is going to the background. Call your function here.
+      updateScore();
+    }
+  }
+
+  Future<void> updateScore() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference userRef = firestore.collection('users').doc(currentPlayer.playerId);
+      await userRef.set({'name': currentPlayer.name, 'score': currentPlayer.getScore()}, SetOptions(merge: true));
+      print('score updated');
+    } catch (e) {
+      print('Error updating score: $e');
+    }
   }
 
   @override
@@ -55,8 +88,8 @@ class HomeScreenState extends State<HomeScreen> {
               label: 'Feedback',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.info_outline),
-              label: 'Info',
+              icon: Icon(Icons.leaderboard),
+              label: 'Leaderboard',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_sharp),
@@ -72,7 +105,7 @@ class HomeScreenState extends State<HomeScreen> {
               }
               break;
               case 1: {
-                showInfo(context);
+                showLeaderboard(context);
               }
               break;
               case 2: {
@@ -120,16 +153,16 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void showInfo(context) {
+  void showLeaderboard(context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: const Text('Info'),
+              title: const Text('Leaderboard'),
             ),
-            //body: const Info(),
+            body: const Leaderboard(),
           );
         },
         settings: const RouteSettings(name: 'Info'),
