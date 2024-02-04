@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildtile('Sign in with Google', 'assets/images/login/google.png', 'Google', context),
+            _buildTile('Sign in with Google', 'assets/images/login/google.png', 'Google', context),
             const SizedBox(height: 20),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -59,14 +59,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             const SizedBox(height: 20),
-            _buildtile('Continue as Guest', const Icon(Icons.people), 'Guest', context),
+            _buildTile('Continue as Guest', const Icon(Icons.people), 'Guest', context),
           ],
         ),
       ),
     );
   }
 
-  Padding _buildtile(title, imagePath, key, context) {
+  Padding _buildTile(title, imagePath, key, context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
