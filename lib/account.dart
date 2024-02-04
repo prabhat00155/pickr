@@ -105,7 +105,6 @@ class AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
-    signInAnon();
     int score = player.getScore();
     int categoryScores = player.getCategoryScores('Animals');
     int categoryTotalCorrect = player.getCategoryTotalCorrect('Animals');
@@ -159,13 +158,6 @@ class AccountState extends State<Account> {
         ],
       ),
     );
-  }
-
-  void signInAnon() async {
-    String uniqueId = await getDeviceUniqueId();
-    setState(() {
-      player.playerId = uniqueId;
-    });
   }
 
   Future<String> getDeviceUniqueId() async {
