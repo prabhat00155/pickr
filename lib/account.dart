@@ -159,17 +159,4 @@ class AccountState extends State<Account> {
       ),
     );
   }
-
-  Future<String> getDeviceUniqueId() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.androidId;
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.identifierForVendor;
-    }
-    return 'Unknown'; // For other platforms or errors
-  }
-
 }
