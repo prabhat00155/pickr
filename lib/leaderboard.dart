@@ -58,7 +58,7 @@ class _LeaderboardState extends State<Leaderboard> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
         title: Text(
-          player.name ?? 'Unknown',
+          player.name ?? player.playerId,
           style: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 15,
@@ -97,7 +97,7 @@ class _LeaderboardState extends State<Leaderboard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(player.name ?? 'Unknown'),
+          title: Text(player.name ?? player.playerId),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class _LeaderboardState extends State<Leaderboard> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );

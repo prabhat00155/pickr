@@ -22,7 +22,7 @@ class Player {
   factory Player.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Player(
-      data['playerId'] ?? '',
+      doc.id,
       name: data['name'],
       score: data['score'],
     );
