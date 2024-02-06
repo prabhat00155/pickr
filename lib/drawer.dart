@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'account.dart';
 import 'auth_screen.dart';
 import 'player.dart';
+import 'settings.dart';
 
 var drawerTextColor = TextStyle(
   color: Colors.grey[600],
@@ -51,6 +52,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for Settings
                 print('Settings tapped');
+                showSettings(context);
               },
             ),
           ),
@@ -77,7 +79,6 @@ class MyDrawer extends StatelessWidget {
                 style: drawerTextColor,
               ),
               onTap: () {
-                print('sign out');
                 signUserOut(context);
               },
             ),
@@ -112,6 +113,24 @@ class MyDrawer extends StatelessWidget {
               title: const Text('Account'),
             ),
             body: Account(player: player),
+          );
+        },
+        settings: const RouteSettings(name: 'Account'),
+      ),
+    );
+  }
+
+  void showSettings(context) {
+    Navigator.pop(context);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Settings'),
+            ),
+            body: Settings(player: player),
           );
         },
         settings: const RouteSettings(name: 'Account'),
