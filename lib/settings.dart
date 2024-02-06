@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'player.dart';
 
 class Settings extends StatefulWidget {
@@ -11,6 +12,7 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
+  String dropdownValue = languages.first;
   Player get player => widget.player;
 
   @override
@@ -20,8 +22,8 @@ class SettingsState extends State<Settings> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          buildOption(context, 'Language'),
-          const SizedBox(height: 20),
+          buildLanguage(context, 'Language'),
+          const SizedBox(height: 30),
           buildOption(context, 'Privacy and Security'),
         ],
       ),
@@ -54,22 +56,53 @@ class SettingsState extends State<Settings> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Column(
-            children: [
-              Text('English'),
-              Text('Hindi'),
-            ],
+          content: SingleChildScrollView(
+            child: const Text(
+              'Privacy and Security!',
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget buildLanguage(BuildContext context, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey[600],
+          ),
+        ),
+        buildDropdown(context),
+      ],
+    );
+  }
+
+  Widget buildDropdown(BuildContext context) {
+    return DropdownMenu<String>(
+      initialSelection: languages.first,
+      onSelected: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      dropdownMenuEntries: languages.map<DropdownMenuEntry<String>>((String value) {
+        return DropdownMenuEntry<String>(value: value, label: value);
+      }).toList(),
     );
   }
 }
