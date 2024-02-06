@@ -127,6 +127,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Account'),
+              backgroundColor: appBarColour,
             ),
             body: Account(player: currentPlayer),
           );
@@ -144,6 +145,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Feedback'),
+              backgroundColor: appBarColour,
             ),
             //body: const FeedbackForm(),
           );
@@ -161,6 +163,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Leaderboard'),
+              backgroundColor: appBarColour,
             ),
             body: const Leaderboard(),
           );

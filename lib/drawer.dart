@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'account.dart';
 import 'auth_screen.dart';
+import 'constants.dart';
 import 'player.dart';
 import 'settings.dart';
 
@@ -111,6 +112,7 @@ class MyDrawer extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Account'),
+              backgroundColor: appBarColour,
             ),
             body: Account(player: player),
           );
@@ -129,6 +131,7 @@ class MyDrawer extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Settings'),
+              backgroundColor: appBarColour,
             ),
             body: Settings(player: player),
           );
