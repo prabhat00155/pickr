@@ -56,8 +56,8 @@ class SettingsState extends State<Settings> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: SingleChildScrollView(
-            child: const Text(
+          content: const SingleChildScrollView(
+            child: Text(
               'Privacy and Security!',
             ),
           ),
