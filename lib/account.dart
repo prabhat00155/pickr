@@ -106,6 +106,7 @@ class AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     int score = player.getScore();
+    int highestScore = player.getHighestScore();
     int categoryScores = player.getCategoryScores('Animals');
     int categoryTotalCorrect = player.getCategoryTotalCorrect('Animals');
     int attempts = player.getAttempts('Animals');
@@ -126,6 +127,7 @@ class AccountState extends State<Account> {
           Text(player.playerId),
           Text(player.name ?? ''),
           Text('$score'),
+          Text('$highestScore'),
           Text('$categoryScores'),
           Text('$categoryTotalCorrect'),
           Text('$attempts'),

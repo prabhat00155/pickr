@@ -93,6 +93,8 @@ class _LeaderboardState extends State<Leaderboard> {
   }
 
   void playerInfo(BuildContext context, Player player) {
+    int score = player.getScore();
+    int highestScore = player.getHighestScore();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -103,7 +105,8 @@ class _LeaderboardState extends State<Leaderboard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Score: ${player.score}'),
+                Text('Score: $score'),
+                Text('Highest Score: $highestScore'),
                 // Add more player details as needed
               ],
             ),

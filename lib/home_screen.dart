@@ -54,7 +54,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       DocumentReference userRef = firestore.collection('users').doc(currentPlayer.playerId);
-      await userRef.set({'name': currentPlayer.name, 'score': currentPlayer.getScore()}, SetOptions(merge: true));
+      await userRef.set(
+        {
+          'name': currentPlayer.name,
+          'score': currentPlayer.getScore(),
+          'highestScore': currentPlayer.getHighestScore(),
+        },
+        SetOptions(merge: true),
+      );
       print('score updated');
     } catch (e) {
       print('Error updating score: $e');
