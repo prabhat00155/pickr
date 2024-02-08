@@ -21,13 +21,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const _adIndex = 7;
   final currentUser = FirebaseAuth.instance.currentUser!;
   late Player currentPlayer;
+
   HomeScreenState() {
-    currentPlayer = Player(
-      currentUser.uid,
-      name: currentUser.displayName,
-      email: currentUser.email,
-      photoUrl: currentUser.photoURL,
-    );
+    getPlayerData(currentUser.uid).then((player) {
+      if (player != null) {
+        setState(() {
+          currentPlayer = player;
+        });
+      } else {
+        currentPlayer = Player(
+          currentUser.uid,
+          name: currentUser.displayName,
+          email: currentUser.email,
+          photoUrl: currentUser.photoURL,
+        );
+      }
+    });
   }
 
   @override
@@ -47,6 +56,20 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.paused) {
       // The app is going to the background. Call your function here.
       updateScore();
+    }
+  }
+
+  Future<Player?> getPlayerData(playerId) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot snapshot = await firestore
+      .collection(documentName)
+      .doc(playerId)
+      .get();
+
+    if (snapshot.exists) {
+      return Player.fromFirestore(snapshot);
+    } else {
+      return null;
     }
   }
 

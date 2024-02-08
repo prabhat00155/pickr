@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_avatar/random_avatar.dart';
+
+import 'constants.dart';
 import 'player.dart';
 
 Future<List<Player>> getLeaderboard() async {
@@ -8,7 +10,7 @@ Future<List<Player>> getLeaderboard() async {
 
   // Query the top users
   QuerySnapshot result = await firestore
-      .collection('users')
+      .collection(documentName)
       .orderBy('score', descending: true)
       .limit(10) // Adjust as needed
       .get();
