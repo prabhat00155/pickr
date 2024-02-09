@@ -314,7 +314,7 @@ class QuizScreenState extends State<QuizScreen> {
             title: Text(widget.title),
             backgroundColor: appBarColour,
           ),
-          body: CircularProgressIndicator(),
+          body: const Center(child: CircularProgressIndicator()),
         );
     }
 
