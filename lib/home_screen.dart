@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const _adIndex = 7;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  late Player currentPlayer;
+  Player? currentPlayer;
 
   HomeScreenState() {
     getPlayerData(currentUser.uid).then((player) {
@@ -29,12 +29,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           currentPlayer = player;
         });
       } else {
-        currentPlayer = Player(
-          currentUser.uid,
-          name: currentUser.displayName,
-          email: currentUser.email,
-          photoUrl: currentUser.photoURL,
-        );
+        setState(() {
+          currentPlayer = Player(
+            currentUser.uid,
+            name: currentUser.displayName,
+            email: currentUser.email,
+            photoUrl: currentUser.photoURL,
+          );
+        });
       }
     });
   }
@@ -74,14 +76,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> updateScore() async {
+    if (currentPlayer == null) {
+      print('currentPlayer is null.');
+      return;
+    }
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-      DocumentReference userRef = firestore.collection('users').doc(currentPlayer.playerId);
+      DocumentReference userRef = firestore.collection('users').doc(currentPlayer!.playerId);
       await userRef.set(
         {
-          'name': currentPlayer.name,
-          'score': currentPlayer.getScore(),
-          'highestScore': currentPlayer.getHighestScore(),
+          'name': currentPlayer!.name,
+          'score': currentPlayer!.getScore(),
+          'highestScore': currentPlayer!.getHighestScore(),
         },
         SetOptions(merge: true),
       );
@@ -93,6 +99,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    if (currentPlayer == null) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Pickr'),
+          backgroundColor: appBarColour,
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return MaterialApp(
       title: 'Pickr',
       debugShowCheckedModeBanner: false,
@@ -100,7 +116,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        drawer: MyDrawer(player: currentPlayer),
+        drawer: MyDrawer(player: currentPlayer!),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Pickr'),
@@ -153,13 +169,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
+          if (currentPlayer == null) {
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: const Text('Account'),
+                backgroundColor: appBarColour,
+              ),
+              body: const Center(child: CircularProgressIndicator()),
+            );
+          }
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
               title: const Text('Account'),
               backgroundColor: appBarColour,
             ),
-            body: Account(player: currentPlayer),
+            body: Account(player: currentPlayer!),
           );
         },
         settings: const RouteSettings(name: 'Account'),
@@ -297,7 +323,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => QuizScreen(title: title, player: currentPlayer),
+            builder: (context) => QuizScreen(title: title, player: currentPlayer!),
             settings: RouteSettings(name: title),
           ),
         );
