@@ -334,6 +334,6 @@ const List<String> countryCodes = [
   'ax',
 ];
 
-var appBarColour = Colors.green;
+const Color appBarColour = Colors.green;
 const List<String> languages = <String>['English', 'Hindi'];
 const String documentName = 'users';
