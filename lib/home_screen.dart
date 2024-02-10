@@ -37,6 +37,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             email: currentUser.email,
             photoUrl: currentUser.photoURL,
             countryCode: country,
+            perCategoryHighestScore: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
+            perCategoryTotalCorrect: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
+            perCategoryScores: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
+            perCategoryAttempts: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
           );
         });
       }
@@ -99,6 +103,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           'avatar': currentPlayer!.avatar,
           'level': currentPlayer!.level.toString(),
           'countryCode': currentPlayer!.countryCode,
+          'perCategoryHighestScore': currentPlayer!.perCategoryHighestScore,
+          'perCategoryTotalCorrect': currentPlayer!.perCategoryTotalCorrect,
+          'perCategoryScores': currentPlayer!.perCategoryScores,
+          'perCategoryAttempts': currentPlayer!.perCategoryAttempts,
         },
         SetOptions(merge: true),
       );

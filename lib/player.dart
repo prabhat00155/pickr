@@ -14,10 +14,10 @@ class Player {
   int _xpScore = 0;
   int score = 0;
   int highestScore = 0;
-  Map<String, int> _perCategoryHighestScore = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
-  Map<String, int> _perCategoryTotalCorrect = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
-  Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
-  Map<String, int> _perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
+  Map<String, int> perCategoryHighestScore = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
+  Map<String, int> perCategoryTotalCorrect = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
+  Map<String, int> perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
+  Map<String, int> perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
 
   Player(
     this.playerId, {
@@ -29,10 +29,19 @@ class Player {
     this.avatar = '100',
     this.level = PlayerLevels.beginner,
     this.countryCode = 'in',
+    required this.perCategoryHighestScore,
+    required this.perCategoryTotalCorrect,
+    required this.perCategoryScores,
+    required this.perCategoryAttempts,
   });
 
   factory Player.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    Map<String, int> perCategoryHighestScore = Map<String, int>.from(data['perCategoryHighestScore'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
+    Map<String, int> perCategoryTotalCorrect = Map<String, int>.from(data['perCategoryTotalCorrect'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
+    Map<String, int> perCategoryScores = Map<String, int>.from(data['perCategoryScores'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
+    Map<String, int> perCategoryAttempts = Map<String, int>.from(data['perCategoryAttempts'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
+
     return Player(
       doc.id,
       name: data['name'],
@@ -42,6 +51,10 @@ class Player {
       avatar: data['avatar'],
       level: PlayerLevels.values.firstWhere((e) => e.toString() == data['level']),
       countryCode: data['countryCode'],
+      perCategoryHighestScore: perCategoryHighestScore,
+      perCategoryTotalCorrect: perCategoryTotalCorrect,
+      perCategoryScores: perCategoryScores,
+      perCategoryAttempts: perCategoryAttempts,
     );
   }
 
@@ -49,22 +62,22 @@ class Player {
 
   int getHighestScore() => highestScore;
 
-  int getCategoryTotalCorrect(String category) => _perCategoryTotalCorrect[category]!;
+  int getCategoryTotalCorrect(String category) => perCategoryTotalCorrect[category]!;
 
-  int getCategoryScores(String category) => _perCategoryScores[category]!;
+  int getCategoryScores(String category) => perCategoryScores[category]!;
 
-  int getAttempts(String category) => _perCategoryAttempts[category]!;
+  int getAttempts(String category) => perCategoryAttempts[category]!;
 
   void updateScore(String category, int correctAnswers, int attempts, int newScore) {
-    _perCategoryTotalCorrect[category] = _perCategoryTotalCorrect[category]! + correctAnswers;
-    _perCategoryScores[category] = _perCategoryScores[category]! + score;
-    _perCategoryAttempts[category] = _perCategoryAttempts[category]! + attempts;
+    perCategoryTotalCorrect[category] = perCategoryTotalCorrect[category]! + correctAnswers;
+    perCategoryScores[category] = perCategoryScores[category]! + newScore;
+    perCategoryAttempts[category] = perCategoryAttempts[category]! + attempts;
     score += newScore;
     if (newScore >= highestScore) {
       highestScore = newScore;
     }
-    if (newScore >= _perCategoryHighestScore[category]!) {
-      _perCategoryHighestScore[category] = newScore;
+    if (newScore >= perCategoryHighestScore[category]!) {
+      perCategoryHighestScore[category] = newScore;
     }
   }
 
