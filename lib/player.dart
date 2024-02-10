@@ -19,7 +19,16 @@ class Player {
   Map<String, int> _perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> _perCategoryAttempts = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
 
-  Player(this.playerId, {this.name, this.email, this.photoUrl, this.score = 0, this.highestScore = 0});
+  Player(
+    this.playerId, {
+    this.name,
+    this.email,
+    this.photoUrl,
+    this.score = 0,
+    this.highestScore = 0,
+    this.avatar = '100',
+    this.level = PlayerLevels.beginner,
+  });
 
   factory Player.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -28,6 +37,9 @@ class Player {
       name: data['name'],
       score: data['score'],
       highestScore: data['highestScore'],
+      photoUrl: data['photoUrl'],
+      avatar: data['avatar'],
+      level: PlayerLevels.values.firstWhere((e) => e.toString() == data['level']),
     );
   }
 
@@ -46,10 +58,12 @@ class Player {
     _perCategoryScores[category] = _perCategoryScores[category]! + score;
     _perCategoryAttempts[category] = _perCategoryAttempts[category]! + attempts;
     score += newScore;
-    if (newScore >= highestScore)
+    if (newScore >= highestScore) {
       highestScore = newScore;
-    if (newScore >= _perCategoryHighestScore[category]!)
+    }
+    if (newScore >= _perCategoryHighestScore[category]!) {
       _perCategoryHighestScore[category] = newScore;
+    }
   }
 
   List<Badges> get badges => _badges;
