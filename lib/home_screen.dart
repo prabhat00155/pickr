@@ -29,16 +29,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           currentPlayer = player;
         });
       } else {
+        String country = getCountry();
         setState(() {
           currentPlayer = Player(
             currentUser.uid,
             name: currentUser.displayName,
             email: currentUser.email,
             photoUrl: currentUser.photoURL,
+            countryCode: country,
           );
         });
       }
     });
+  }
+
+  String getCountry() {
+    String timeZone = DateTime.now().timeZoneName.toLowerCase();
+    return timeZoneToCountryCode[timeZone] ?? 'in';
   }
 
   @override
