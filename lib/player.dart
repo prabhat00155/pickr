@@ -28,6 +28,7 @@ class Player {
     this.highestScore = 0,
     this.avatar = '100',
     this.level = PlayerLevels.beginner,
+    this.countryCode = 'in',
   });
 
   factory Player.fromFirestore(DocumentSnapshot doc) {
@@ -40,6 +41,7 @@ class Player {
       photoUrl: data['photoUrl'],
       avatar: data['avatar'],
       level: PlayerLevels.values.firstWhere((e) => e.toString() == data['level']),
+      countryCode: data['countryCode'],
     );
   }
 

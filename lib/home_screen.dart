@@ -91,6 +91,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           'photoUrl': currentPlayer!.photoUrl,
           'avatar': currentPlayer!.avatar,
           'level': currentPlayer!.level.toString(),
+          'countryCode': currentPlayer!.countryCode,
         },
         SetOptions(merge: true),
       );
