@@ -86,4 +86,11 @@ class Player {
   void addBadge(Badges badge) {
     _badges.add(badge);
   }
+
+  double getAccuracy(String category) {
+    if (perCategoryAttempts[category] == 0) {
+      return 0;
+    }
+    return 100.0 * perCategoryTotalCorrect[category]! / perCategoryAttempts[category]!;
+  }
 }

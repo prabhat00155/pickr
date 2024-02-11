@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import 'constants.dart';
@@ -100,44 +101,124 @@ class AccountState extends State<Account> {
     );
   }
 
+  Widget pieChart() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(categories.length, (index) {
+          String categoryName = categories[index].name;
+          double accuracy = player.getAccuracy(categoryName);
+
+          // Calculate red and green parts of the pie chart
+          double greenPercentage = accuracy;
+          double redPercentage = 100 - greenPercentage;
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                // Display the pie chart with green and red sections
+                PieChart(
+                  dataMap: {
+                    'Green': greenPercentage,
+                    'Red': redPercentage,
+                  },
+                  colorList: const [
+                    Colors.green,
+                    Colors.red,
+                  ],
+                  chartType: ChartType.ring,
+                  chartRadius: MediaQuery.of(context).size.width / 7,
+                  centerText: "${accuracy.toStringAsFixed(0)}%",
+                  legendOptions: const LegendOptions(
+                    showLegends: false,
+                  ),
+                  chartValuesOptions: const ChartValuesOptions(
+                    showChartValueBackground: false,
+                    showChartValues: false,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(categoryName),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     int score = player.getScore();
     int highestScore = player.getHighestScore();
-    int categoryScores = player.getCategoryScores('Animals');
-    int categoryTotalCorrect = player.getCategoryTotalCorrect('Animals');
-    int attempts = player.getAttempts('Animals');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          GestureDetector(
-            onTap: () => _changeAvatar(),
-            child: RandomAvatar(
-              player.avatar,
-              height: 80,
-              width: 80,
-              trBackground: false,
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => _changeAvatar(),
+                child: RandomAvatar(
+                  player.avatar,
+                  height: 80,
+                  width: 80,
+                  trBackground: false,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Flexible(
+                flex: 1,
+                child: Text(
+                  player.name ?? player.playerId,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () => _changeFlag(),
+                child: CountryFlag.fromCountryCode(
+                  player.countryCode,
+                  height: 36,
+                  width: 50,
+                  borderRadius: 8,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Total Score: $score',
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black,
             ),
           ),
-          Text(player.playerId),
-          Text(player.name ?? ''),
-          Text('$score'),
-          Text('$highestScore'),
-          Text('$categoryScores'),
-          Text('$categoryTotalCorrect'),
-          Text('$attempts'),
-          GestureDetector(
-            onTap: () => _changeFlag(),
-            child: CountryFlag.fromCountryCode(
-              player.countryCode,
-              height: 36,
-              width: 50,
-              borderRadius: 8,
+          const SizedBox(height: 5),
+          Text(
+            'Highest Score: $highestScore',
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black,
             ),
           ),
-          const Text('Badges'),
+          const SizedBox(height: 5),
+          const Divider(),
+          const Center(
+            child: Text(
+              'Badges',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            )
+          ),
+          const Divider(),
           Wrap(
             spacing: 8.0,
             runSpacing: 4.0,
@@ -154,6 +235,19 @@ class AccountState extends State<Account> {
               )),
             ],
           ),
+          const Divider(),
+          const Center(
+            child: Text(
+              'Accuracy',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            )
+          ),
+          const Divider(),
+          pieChart(),
+          const Divider(),
         ],
       ),
     );
