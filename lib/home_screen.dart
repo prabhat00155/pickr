@@ -19,16 +19,21 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const _adIndex = 7;
-  final currentUser = FirebaseAuth.instance.currentUser!;
   Player? currentPlayer;
+  bool _isLoading = true;
 
-  HomeScreenState() {
-    getPlayerData(currentUser.uid).then((player) {
-      if (player != null) {
+  Future<void> initialisePlayerData() async {
+    final currentUser = FirebaseAuth.instance.currentUser!;
+    final playerId = currentUser.uid;
+
+    try {
+      final player = await getPlayerData(playerId);
+      if (player != null && mounted) {
         setState(() {
           currentPlayer = player;
+          _isLoading = false;
         });
-      } else {
+      } else if (mounted) {
         String country = getCountry();
         setState(() {
           currentPlayer = Player(
@@ -42,9 +47,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             perCategoryScores: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
             perCategoryAttempts: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
           );
+          _isLoading = false;
         });
       }
-    });
+     } catch (e) {
+      // Handle error fetching player data
+      print('Error initializing player data: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   String getCountry() {
@@ -56,6 +70,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
+    initialisePlayerData();
   }
 
   @override
