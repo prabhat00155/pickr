@@ -17,7 +17,7 @@ var tilePadding = const EdgeInsets.only(left: 8.0, right: 8, top: 8);
 class MyDrawer extends StatelessWidget {
   final Player player;
 
-  const MyDrawer({required this.player});
+  const MyDrawer({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              leading: Icon(Icons.home),
+              leading: const Icon(Icons.home),
               title: Text(
                 'D A S H B O A R D',
                 style: drawerTextColor,
@@ -74,7 +74,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              leading: Icon(Icons.settings),
+              leading: const Icon(Icons.settings),
               title: Text(
                 'S E T T I N G S',
                 style: drawerTextColor,
@@ -89,7 +89,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              leading: Icon(Icons.info),
+              leading: const Icon(Icons.info),
               title: Text(
                 'A B O U T',
                 style: drawerTextColor,
@@ -103,7 +103,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              leading: Icon(Icons.logout),
+              leading: const Icon(Icons.logout),
               title: Text(
                 'L O G O U T',
                 style: drawerTextColor,
@@ -125,7 +125,7 @@ class MyDrawer extends StatelessWidget {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AuthScreen()),
+        MaterialPageRoute(builder: (context) => const AuthScreen()),
       );
     } catch (e) {
       print('Error signing out: $e');
