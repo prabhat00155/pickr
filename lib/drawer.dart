@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 import 'account.dart';
 import 'auth_screen.dart';
@@ -25,7 +27,34 @@ class MyDrawer extends StatelessWidget {
       child: Column(
         children: [
           DrawerHeader(
-            child: Image.asset('assets/images/pickr_logo.png', width: 100, height: 100),
+            child: Row(
+              children: [
+                player.photoUrl != null
+                  ? CircleAvatar(
+                    radius: 40,
+                    backgroundImage: CachedNetworkImageProvider(
+                      player.photoUrl!,
+                    ),
+                  )
+                  : RandomAvatar(
+                    player.avatar,
+                    height: 80,
+                    width: 80,
+                    trBackground: false,
+                  ),
+                const SizedBox(width: 10),
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    player.name ?? player.playerId,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: tilePadding,

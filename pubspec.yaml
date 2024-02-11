@@ -40,7 +40,7 @@ dependencies:
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1
   build_runner: ^2.4.6
-  cached_network_image: ^3.3.0
+  cached_network_image: ^3.3.1
   flutter_lints: ^3.0.1
   random_avatar: ^0.0.8
   country_flags: ^2.2.0
