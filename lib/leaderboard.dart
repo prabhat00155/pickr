@@ -68,15 +68,13 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
         ),
         subtitle: Text(
-          'Score: ${player.score}',
+          'Score: ${player.score}     Highest Score: ${player.highestScore}',
           style: const TextStyle(
             fontSize: 12,
             color: Colors.grey,
           ),
         ),
-        leading: player.photoUrl == null ?
-          RandomAvatar(player.avatar, height: 20, width: 20, trBackground: false) :
-          Image.asset(player.photoUrl, width: 20, height: 20),
+        leading: RandomAvatar(player.avatar, height: 20, width: 20, trBackground: false),
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
