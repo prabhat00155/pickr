@@ -107,17 +107,27 @@ class AccountState extends State<Account> {
       child: Row(
         children: List.generate(categories.length, (index) {
           String categoryName = categories[index].name;
-          double accuracy = player.getAccuracy(categoryName);
+          String accuracyText;
+          int correct = player.perCategoryTotalCorrect[categoryName] ?? 0;
+          int attempts = player.perCategoryAttempts[categoryName] ?? 0;
+          double greenPercentage;
+          double redPercentage;
 
-          // Calculate red and green parts of the pie chart
-          double greenPercentage = accuracy;
-          double redPercentage = 100 - greenPercentage;
+          if (attempts == 0) {
+            accuracyText = 'N/A';
+            greenPercentage = 0;
+            redPercentage = 0;
+          } else {
+            double accuracy = 100.0 * correct / attempts;
+            greenPercentage = accuracy;
+            redPercentage = 100 - greenPercentage;
+            accuracyText = '${accuracy.toStringAsFixed(0)}%';
+          }
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                // Display the pie chart with green and red sections
                 PieChart(
                   dataMap: {
                     'Green': greenPercentage,
@@ -129,7 +139,7 @@ class AccountState extends State<Account> {
                   ],
                   chartType: ChartType.ring,
                   chartRadius: MediaQuery.of(context).size.width / 7,
-                  centerText: "${accuracy.toStringAsFixed(0)}%",
+                  centerText: accuracyText,
                   legendOptions: const LegendOptions(
                     showLegends: false,
                   ),
