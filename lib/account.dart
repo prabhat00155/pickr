@@ -101,7 +101,7 @@ class AccountState extends State<Account> {
     );
   }
 
-  Widget pieChart() {
+  Widget accuracyPieChart() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -148,107 +148,173 @@ class AccountState extends State<Account> {
     );
   }
 
+  Widget displayScores(scores) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(categories.length, (index) {
+          String categoryName = categories[index].name;
+          int score = scores[categoryName];
+          Color colour = score >= 50 ? Colors.green : Colors.red;
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: colour,
+                  ),
+                  child: Center(
+                    child: Text(
+                      score.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(categoryName),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     int score = player.getScore();
     int highestScore = player.getHighestScore();
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => _changeAvatar(),
-                child: RandomAvatar(
-                  player.avatar,
-                  height: 80,
-                  width: 80,
-                  trBackground: false,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Flexible(
-                flex: 1,
-                child: Text(
-                  player.name ?? player.playerId,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () => _changeAvatar(),
+                  child: RandomAvatar(
+                    player.avatar,
+                    height: 80,
+                    width: 80,
+                    trBackground: false,
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () => _changeFlag(),
-                child: CountryFlag.fromCountryCode(
-                  player.countryCode,
-                  height: 36,
-                  width: 50,
-                  borderRadius: 8,
+                const SizedBox(width: 10),
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    player.name ?? player.playerId,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Total Score: $score',
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black,
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () => _changeFlag(),
+                  child: CountryFlag.fromCountryCode(
+                    player.countryCode,
+                    height: 36,
+                    width: 50,
+                    borderRadius: 8,
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'Highest Score: $highestScore',
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 5),
-          const Divider(),
-          const Center(
-            child: Text(
-              'Badges',
-              style: TextStyle(
+            const SizedBox(height: 10),
+            Text(
+              'Total Score: $score',
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.black,
               ),
-            )
-          ),
-          const Divider(),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(levelToImage[player.level]!),
-                radius: 50,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Highest Score: $highestScore',
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.black,
               ),
-              ...(player.badges.map((badge) =>
+            ),
+            const SizedBox(height: 5),
+            const Divider(),
+            const Center(
+              child: Text(
+                'Badges',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ),
+            const Divider(),
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(badgeToImage[badge]!),
+                  backgroundImage: AssetImage(levelToImage[player.level]!),
                   radius: 50,
                 ),
-              )),
-            ],
-          ),
-          const Divider(),
-          const Center(
-            child: Text(
-              'Accuracy',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            )
-          ),
-          const Divider(),
-          pieChart(),
-          const Divider(),
-        ],
+                ...(player.badges.map((badge) =>
+                  CircleAvatar(
+                    backgroundImage: AssetImage(badgeToImage[badge]!),
+                    radius: 50,
+                  ),
+                )),
+              ],
+            ),
+            const Divider(),
+            const Center(
+              child: Text(
+                'Accuracy',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ),
+            const Divider(),
+            accuracyPieChart(),
+            const Divider(),
+            const Center(
+              child: Text(
+                'Highest Scores',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ),
+            displayScores(player.perCategoryHighestScore),
+            const Divider(),
+            const Center(
+              child: Text(
+                'Total Scores',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ),
+            const Divider(),
+            displayScores(player.perCategoryScores),
+            const Divider(),
+          ],
+        ),
       ),
     );
   }
