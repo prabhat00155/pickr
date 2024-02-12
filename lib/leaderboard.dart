@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -99,15 +101,86 @@ class _LeaderboardState extends State<Leaderboard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(player.name ?? player.playerId),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Score: $score'),
-                Text('Highest Score: $highestScore'),
-                // Add more player details as needed
+                Row(
+                  children: [
+                    player.photoUrl == null
+                    ? RandomAvatar(player.avatar, height: 50, width: 50, trBackground: false)
+                    : CircleAvatar(
+                      radius: 30,
+                      backgroundImage: CachedNetworkImageProvider(
+                        player.photoUrl!,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        player.name ?? player.playerId,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    CountryFlag.fromCountryCode(
+                      player.countryCode,
+                      height: 36,
+                      width: 50,
+                      borderRadius: 8,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Total Score: $score',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Highest Score: $highestScore',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Divider(),
+                const Center(
+                  child: Text(
+                    'Badges',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  )
+                ),
+                const Divider(),
+                Wrap(
+                  spacing: 8.0,
+                  runSpacing: 4.0,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(levelToImage[player.level]!),
+                      radius: 50,
+                    ),
+                    ...(player.badges.map((badge) =>
+                      CircleAvatar(
+                        backgroundImage: AssetImage(badgeToImage[badge]!),
+                        radius: 50,
+                      ),
+                    )),
+                  ],
+                ),
+                const Divider(),
               ],
             ),
           ),
