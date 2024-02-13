@@ -12,11 +12,6 @@ import 'load_json.dart';
 import 'player.dart';
 part 'quiz.g.dart'; // Generated code file
 
-const String defaultUrl = 'https://picsum.photos/200';
-const int questionsPerLevel = 10;
-const int maxQuestions = 100;
-
-
 @JsonSerializable()
 class QuizQuestion {
   final int level;
