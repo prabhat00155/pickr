@@ -90,8 +90,8 @@ class QuizScreenState extends State<QuizScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Level Up!'),
-          content: Column(
+          title: const Text('Level Up!'),
+          content: const Column(
             children: [
               Text('Level up...'),
               // Add other completion details as needed
@@ -102,7 +102,7 @@ class QuizScreenState extends State<QuizScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );
@@ -115,7 +115,7 @@ class QuizScreenState extends State<QuizScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Quiz Completed!'),
+          title: const Text('Quiz Completed!'),
           content: Column(
             children: [
               Text('Your Score: $score'),
@@ -127,7 +127,7 @@ class QuizScreenState extends State<QuizScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );
@@ -165,8 +165,9 @@ class QuizScreenState extends State<QuizScreen> {
       });
       displayLevelUp();
       print('Level up');
-      if (currentLevel % 3 == 0)
+      if (currentLevel % 3 == 0) {
         showInterstitialAd();
+      }
     }
   }
 
@@ -245,10 +246,11 @@ class QuizScreenState extends State<QuizScreen> {
   void initState() {
     super.initState();
     loadAd();
-    if (widget.title == 'All Categories')
+    if (widget.title == 'All Categories') {
       mixQuestions(['Animals'], 5);
-    else
+    } else {
       fetchQuestions(widget.title);
+    }
   }
 
   @override
@@ -302,7 +304,7 @@ class QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (quizQuestions.length == 0) {
+    if (quizQuestions.isEmpty) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -341,18 +343,18 @@ class QuizScreenState extends State<QuizScreen> {
               value: calculateProgress(),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               color: Colors.blue,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     'Level: ${currentQuestion.level}',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   Text(
                     'Score: $correctAnswers/$noOfQuestions',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),
