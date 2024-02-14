@@ -217,28 +217,41 @@ class QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void mixQuestions(List<String> categories, int questionsPerCategory, [int levels = 10]) async {
-    List<QuizQuestion> mixedQuestions = [];
+  void mixQuestions() async {
+    Map<int, List<QuizQuestion>> questionsByLevel = {};
+    List<QuizQuestion> selectedQuestions = [];
 
-    for (int level = 1; level <= levels; level++) {
-      for (String category in categories) {
-        List<QuizQuestion> categoryQuestions = await loadJsonData(category);
+    for (String category in categories.map((category) => category.name).toList()) {
+      List<QuizQuestion> categoryQuestions = await loadJsonData(category);
+      categoryQuestions.shuffle();
 
-        // Shuffle the questions to mix them randomly
-        categoryQuestions.shuffle();
-
-        // Select questions for the current level
-        List<QuizQuestion> levelQuestions = categoryQuestions
-            .where((question) => question.level == level)
-            .take(questionsPerCategory)
-            .toList();
-
-        mixedQuestions.addAll(levelQuestions);
-      }
+      // Group questions by level
+      categoryQuestions.forEach((question) {
+          if (!questionsByLevel.containsKey(question.level)) {
+              questionsByLevel[question.level] = [];
+          }
+          var (x, y) = fetchOptions(question);
+          question.options = x;
+          question.correctAnswerIndex = y;
+          question.urls = [fetchImageLink(question)];
+          questionsByLevel[question.level]!.add(question);
+      });
     }
+    questionsByLevel.forEach((level, questions) {
+      questions.shuffle();
+    });
 
+    // Select and sort questions by level
+    List<int> sortedLevels = questionsByLevel.keys.toList()..sort();
+    sortedLevels.forEach((level) {
+        if (questionsByLevel[level]!.length >= questionsPerLevel) {
+            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
+        } else {
+            selectedQuestions.addAll(questionsByLevel[level]!);
+        }
+    });
     setState(() {
-      quizQuestions = mixedQuestions;
+      quizQuestions = selectedQuestions;
     });
   }
 
@@ -246,8 +259,8 @@ class QuizScreenState extends State<QuizScreen> {
   void initState() {
     super.initState();
     loadAd();
-    if (widget.title == 'All Categories') {
-      mixQuestions(['Animals'], 5);
+    if (widget.title == 'Mixed Bag') {
+      mixQuestions();
     } else {
       fetchQuestions(widget.title);
     }
