@@ -11,7 +11,6 @@ class Player {
   String countryCode = 'in';
   PlayerLevels level = PlayerLevels.beginner;
   List<Badges> _badges = [];
-  int _xpScore = 0;
   int score = 0;
   int highestScore = 0;
   Map<String, int> perCategoryHighestScore = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
