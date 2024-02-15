@@ -14,6 +14,7 @@ class Player {
   int score = 0;
   int highestScore = 0;
   int totalAttempts = 0;
+  int totalCorrect = 0;
   Map<String, int> perCategoryHighestScore = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> perCategoryTotalCorrect = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
   Map<String, int> perCategoryScores = Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0);
@@ -27,6 +28,7 @@ class Player {
     this.score = 0,
     this.highestScore = 0,
     this.totalAttempts = 0,
+    this.totalCorrect = 0,
     this.avatar = '100',
     this.level = PlayerLevels.beginner,
     this.countryCode = 'in',
@@ -54,6 +56,7 @@ class Player {
       score: data['score'],
       highestScore: data['highestScore'],
       totalAttempts: data['totalAttempts'],
+      totalCorrect: data['totalCorrect'],
       photoUrl: data['photoUrl'],
       avatar: data['avatar'],
       level: PlayerLevels.values.firstWhere((e) => e.toString() == data['level']),
@@ -76,6 +79,7 @@ class Player {
           'score': score,
           'highestScore': highestScore,
           'totalAttempts': totalAttempts,
+          'totalCorrect': totalCorrect,
           'photoUrl': photoUrl,
           'avatar': avatar,
           'level': level.toString(),
@@ -110,6 +114,7 @@ class Player {
     perCategoryAttempts[category] = perCategoryAttempts[category]! + attempts;
     score += newScore;
     totalAttempts += attempts;
+    totalCorrect += correctAnswers;
     if (newScore >= highestScore) {
       highestScore = newScore;
     }
