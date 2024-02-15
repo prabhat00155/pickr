@@ -114,6 +114,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           'name': currentPlayer!.name,
           'score': currentPlayer!.getScore(),
           'highestScore': currentPlayer!.getHighestScore(),
+          'totalAttempts': currentPlayer!.totalAttempts,
           'photoUrl': currentPlayer!.photoUrl,
           'avatar': currentPlayer!.avatar,
           'level': currentPlayer!.level.toString(),
