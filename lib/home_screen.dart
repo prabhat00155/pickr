@@ -42,6 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
             email: currentUser.email,
             photoUrl: currentUser.photoURL,
             countryCode: country,
+            badges: {},
             perCategoryHighestScore: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
             perCategoryTotalCorrect: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
             perCategoryScores: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),

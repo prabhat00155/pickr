@@ -10,7 +10,7 @@ class Player {
   String avatar = '100';
   String countryCode = 'in';
   PlayerLevels level = PlayerLevels.beginner;
-  List<Badges> _badges = [];
+  Set<Badges> badges = {};
   int score = 0;
   int highestScore = 0;
   int totalAttempts = 0;
@@ -30,6 +30,7 @@ class Player {
     this.avatar = '100',
     this.level = PlayerLevels.beginner,
     this.countryCode = 'in',
+    required this.badges,
     required this.perCategoryHighestScore,
     required this.perCategoryTotalCorrect,
     required this.perCategoryScores,
@@ -42,6 +43,10 @@ class Player {
     Map<String, int> perCategoryTotalCorrect = Map<String, int>.from(data['perCategoryTotalCorrect'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
     Map<String, int> perCategoryScores = Map<String, int>.from(data['perCategoryScores'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
     Map<String, int> perCategoryAttempts = Map<String, int>.from(data['perCategoryAttempts'] ?? Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0));
+    Set<dynamic> badgesData = Set<dynamic>.from(data['badges']);
+    Set<Badges> badgesSet = badgesData.map((badge) {
+      return Badges.values.firstWhere((e) => e.toString() == badge);
+    }).toSet();
 
     return Player(
       doc.id,
@@ -52,6 +57,7 @@ class Player {
       photoUrl: data['photoUrl'],
       avatar: data['avatar'],
       level: PlayerLevels.values.firstWhere((e) => e.toString() == data['level']),
+      badges: badgesSet,
       countryCode: data['countryCode'],
       perCategoryHighestScore: perCategoryHighestScore,
       perCategoryTotalCorrect: perCategoryTotalCorrect,
@@ -73,6 +79,7 @@ class Player {
           'photoUrl': photoUrl,
           'avatar': avatar,
           'level': level.toString(),
+          'badges': badges.map((b) => b.toString()).toList(),
           'countryCode': countryCode,
           'perCategoryHighestScore': perCategoryHighestScore,
           'perCategoryTotalCorrect': perCategoryTotalCorrect,
@@ -114,10 +121,8 @@ class Player {
     updateScoreInFirebase();
   }
 
-  List<Badges> get badges => _badges;
-
   void addBadge(Badges badge) {
-    _badges.add(badge);
+    badges.add(badge);
   }
 
   void updateLevel() {
