@@ -109,6 +109,8 @@ class Player {
     if (newScore >= perCategoryHighestScore[category]!) {
       perCategoryHighestScore[category] = newScore;
     }
+    updateLevel();
+    updateBadges(category);
     updateScoreInFirebase();
   }
 
@@ -116,6 +118,28 @@ class Player {
 
   void addBadge(Badges badge) {
     _badges.add(badge);
+  }
+
+  void updateLevel() {
+    if (level == PlayerLevels.beginner && totalAttempts >= 100) {
+      level = PlayerLevels.novice;
+    } else if (level == PlayerLevels.novice && totalAttempts >= 200) {
+      level = PlayerLevels.apprentice;
+    } else if (level == PlayerLevels.apprentice && totalAttempts >= 300) {
+      level = PlayerLevels.intermediate;
+    } else if (level == PlayerLevels.intermediate && totalAttempts >= 400) {
+      level = PlayerLevels.experienced;
+    } else if (level == PlayerLevels.experienced && totalAttempts >= 600) {
+      level = PlayerLevels.legend;
+    } else if (level == PlayerLevels.legend && totalAttempts >= 800) {
+      level = PlayerLevels.wizard;
+    }
+  }
+
+  void updateBadges(String category) {
+    if (perCategoryAttempts[category]! >= 100 && getAccuracy(category) >= 80) {
+      addBadge(categoryToBadge[category]!);
+    }
   }
 
   double getAccuracy(String category) {

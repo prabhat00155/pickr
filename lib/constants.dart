@@ -45,7 +45,7 @@ Map<PlayerLevels, String> levelToImage = {
 Map<Badges, String> badgeToImage = {
   Badges.allrounder: 'assets/images/badges/allrounder.JPG',
   Badges.zoologist: 'assets/images/badges/zoologist.JPG',
-  Badges.ornithologist: 'assets/images/badges/ornithologist.JPG',
+  Badges.ornithologist: 'assets/images/badges/ornithologist.png',
   Badges.traveller: 'assets/images/badges/traveller.JPG',
   Badges.gourmet: 'assets/images/badges/gourmet.JPG',
   Badges.vexillologist: 'assets/images/badges/vexillologist.JPG',
@@ -62,6 +62,20 @@ Map<Badges, String> badgeToImage = {
   Badges.hundredCorrectAnswers: 'assets/images/badges/hundred_correct_answers.JPG',
   Badges.fivehundredCorrectAnswers: 'assets/images/badges/fivehundred_correct_answers.JPG',
   Badges.thousandCorrectAnswers: 'assets/images/badges/thousand_correct_answers.JPG',
+};
+
+Map<String, Badges> categoryToBadge = {
+  'Mixed Bag': Badges.allrounder,
+  'Animals': Badges.zoologist,
+  'Birds': Badges.ornithologist,
+  'Cities': Badges.traveller,
+  'Dishes': Badges.gourmet,
+  'Flags': Badges.vexillologist,
+  'Fruits': Badges.pomologist,
+  'Logos': Badges.logo,
+  'Monuments': Badges.archaeologist,
+  'People': Badges.people,
+  'Sports': Badges.sports,
 };
 
 class Category {
