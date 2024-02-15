@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class HomeScreenState extends State<HomeScreen> {
   static const _adIndex = 7;
   Player? currentPlayer;
   bool _isLoading = true;
@@ -69,22 +69,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
     initialisePlayerData();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // The app is going to the background. Call your function here.
-      updateScore();
-    }
   }
 
   Future<Player?> getPlayerData(playerId) async {
@@ -98,37 +88,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       return Player.fromFirestore(snapshot);
     } else {
       return null;
-    }
-  }
-
-  Future<void> updateScore() async {
-    if (currentPlayer == null) {
-      print('currentPlayer is null.');
-      return;
-    }
-    try {
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      DocumentReference userRef = firestore.collection('users').doc(currentPlayer!.playerId);
-      await userRef.set(
-        {
-          'name': currentPlayer!.name,
-          'score': currentPlayer!.getScore(),
-          'highestScore': currentPlayer!.getHighestScore(),
-          'totalAttempts': currentPlayer!.totalAttempts,
-          'photoUrl': currentPlayer!.photoUrl,
-          'avatar': currentPlayer!.avatar,
-          'level': currentPlayer!.level.toString(),
-          'countryCode': currentPlayer!.countryCode,
-          'perCategoryHighestScore': currentPlayer!.perCategoryHighestScore,
-          'perCategoryTotalCorrect': currentPlayer!.perCategoryTotalCorrect,
-          'perCategoryScores': currentPlayer!.perCategoryScores,
-          'perCategoryAttempts': currentPlayer!.perCategoryAttempts,
-        },
-        SetOptions(merge: true),
-      );
-      print('score updated');
-    } catch (e) {
-      print('Error updating score: $e');
     }
   }
 

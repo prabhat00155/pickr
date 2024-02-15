@@ -60,6 +60,33 @@ class Player {
     );
   }
 
+  Future<void> updateScoreInFirebase() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference userRef = firestore.collection('users').doc(playerId);
+      await userRef.set(
+        {
+          'name': name,
+          'score': score,
+          'highestScore': highestScore,
+          'totalAttempts': totalAttempts,
+          'photoUrl': photoUrl,
+          'avatar': avatar,
+          'level': level.toString(),
+          'countryCode': countryCode,
+          'perCategoryHighestScore': perCategoryHighestScore,
+          'perCategoryTotalCorrect': perCategoryTotalCorrect,
+          'perCategoryScores': perCategoryScores,
+          'perCategoryAttempts': perCategoryAttempts,
+        },
+        SetOptions(merge: true),
+      );
+      print('score updated');
+    } catch (e) {
+      print('Error updating score: $e');
+    }
+  }
+
   int getScore() => score;
 
   int getHighestScore() => highestScore;
@@ -82,6 +109,7 @@ class Player {
     if (newScore >= perCategoryHighestScore[category]!) {
       perCategoryHighestScore[category] = newScore;
     }
+    updateScoreInFirebase();
   }
 
   List<Badges> get badges => _badges;
