@@ -123,6 +123,7 @@ class Player {
     }
     updateLevel();
     updateBadges(category);
+    updateCorrectAnswersBadges();
     updateScoreInFirebase();
   }
 
@@ -149,6 +150,21 @@ class Player {
   void updateBadges(String category) {
     if (perCategoryAttempts[category]! >= 100 && getAccuracy(category) >= 80) {
       addBadge(categoryToBadge[category]!);
+    }
+  }
+
+  void updateCorrectAnswersBadges() {
+    if (totalCorrect >= 50) {
+      addBadge(Badges.fiftyCorrectAnswers);
+    }
+    if (totalCorrect >= 100) {
+      addBadge(Badges.hundredCorrectAnswers);
+    }
+    if (totalCorrect >= 500) {
+      addBadge(Badges.fivehundredCorrectAnswers);
+    }
+    if (totalCorrect >= 1000) {
+      addBadge(Badges.thousandCorrectAnswers);
     }
   }
 
