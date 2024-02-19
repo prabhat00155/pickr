@@ -90,11 +90,18 @@ class QuizScreenState extends State<QuizScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Level Up!'),
-          content: const Column(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Level up...'),
-              // Add other completion details as needed
+              const Icon(Icons.arrow_upward, color: Colors.green),
+              const SizedBox(width: 8),
+              const Text('Level Up!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Congratulations! You have reached the next level.'),
             ],
           ),
           actions: [
