@@ -130,3 +130,27 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 }
+
+Future<String> linkAccountWithGoogle() async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Link the anonymous account with the Google account
+    await user!.linkWithCredential(credential);
+
+    // User linked successfully
+    return 'Account linked successfully with Google.';
+  } catch (e) {
+    // Handle linking error
+    if (e.toString().contains('[')) {
+      return 'Error linking account with Google: $e'.replaceAll(RegExp(r'\[.*?\]'), '');
+    }
+    return 'Error linking account with Google.';
+  }
+}
