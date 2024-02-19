@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'constants.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,7 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome'),
+        centerTitle: true,
+        title: const Text('Pickr'),
+        backgroundColor: appBarColour,
       ),
       body: Center(
         child: Column(
@@ -127,4 +130,3 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 }
-
