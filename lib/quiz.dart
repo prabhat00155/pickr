@@ -362,7 +362,7 @@ class QuizScreenState extends State<QuizScreen> {
         title: Text(widget.title),
         backgroundColor: appBarColour,
       ),
-      body: Padding(
+      body: SingleChildScrollView(child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -468,6 +468,7 @@ class QuizScreenState extends State<QuizScreen> {
             const BannerAdClass(),
           ],
         ),
+      ),
       ),
       ),
     );
