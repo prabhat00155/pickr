@@ -103,7 +103,7 @@ class QuizScreenState extends State<QuizScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Congratulations! You have reached the next level.'),
+              const Text('Well done! You have reached the next level.'),
             ],
           ),
           actions: [
