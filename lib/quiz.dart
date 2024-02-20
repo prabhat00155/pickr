@@ -120,15 +120,21 @@ class QuizScreenState extends State<QuizScreen> {
   }
 
   void displayCompletion() {
+    int accuracy = 100 * correctAnswers ~/ noOfQuestions;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Quiz Completed!'),
           content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text('Congratulations on completing the quiz!'),
+              const SizedBox(height: 10),
               Text('Your Score: $score'),
-              // Add other completion details as needed
+              const SizedBox(height: 10),
+              Text('Accuracy: $accuracy %'),
             ],
           ),
           actions: [
