@@ -357,119 +357,120 @@ class QuizScreenState extends State<QuizScreen> {
         return true;
       },
       child: Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.title),
-        backgroundColor: appBarColour,
-      ),
-      body: SingleChildScrollView(child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            LinearProgressIndicator(
-              value: calculateProgress(),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              color: Colors.blue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Level: ${currentQuestion.level}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    'Score: $correctAnswers/$noOfQuestions',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            CachedNetworkImage(
-              imageUrl: imageLink,
-              fit: BoxFit.contain,
-              width: 200,
-              height: 200,
-              progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                child: CircularProgressIndicator(
-                  value: downloadProgress.progress,
-                  strokeWidth: 5,
-                ),
-              ),
-              errorWidget: (context, url, error) {
-                print('Error processing $url: $error');
-                return const Icon(Icons.error);
-              }
-            ),
-            const SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex) {
-                      setState(() {
-                        isOptionSelected = true;
-                        userSelectedAnswers[currentQuestionIndex] = index;
-                        noOfQuestions++;
-                      });
-                      if(index == currentQuestion.correctAnswerIndex) {
-                        setState(() {
-                          correctAnswers++;
-                          correctLevelAnswers++;
-                        });
-                      }
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    decoration: BoxDecoration(
-                      color: userSelectedAnswers[currentQuestionIndex] == index
-                        ? (index == currentQuestion.correctAnswerIndex
-                            ? Colors.green
-                            : Colors.red)
-                        : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 2,
-                      ),
-                    ),
-                    child: Text(
-                      options[index],
-                      style: TextStyle(
-                        color: userSelectedAnswers[currentQuestionIndex] == index ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(widget.title),
+          backgroundColor: appBarColour,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                  ElevatedButton(
-                  onPressed: goToPreviousQuestion,
-                  child: const Text('<'),
+                LinearProgressIndicator(
+                  value: calculateProgress(),
                 ),
-                ElevatedButton(
-                  onPressed: goToNextQuestion,
-                  child: const Text('>'),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  color: Colors.blue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'Level: ${currentQuestion.level}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'Score: $correctAnswers/$noOfQuestions',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(height: 20),
+                CachedNetworkImage(
+                  imageUrl: imageLink,
+                  fit: BoxFit.contain,
+                  width: 200,
+                  height: 200,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      strokeWidth: 5,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) {
+                    print('Error processing $url: $error');
+                    return const Icon(Icons.error);
+                  }
+                ),
+                const SizedBox(height: 20),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex) {
+                          setState(() {
+                            isOptionSelected = true;
+                            userSelectedAnswers[currentQuestionIndex] = index;
+                            noOfQuestions++;
+                          });
+                          if(index == currentQuestion.correctAnswerIndex) {
+                            setState(() {
+                              correctAnswers++;
+                              correctLevelAnswers++;
+                            });
+                          }
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: userSelectedAnswers[currentQuestionIndex] == index
+                            ? (index == currentQuestion.correctAnswerIndex
+                                ? Colors.green
+                                : Colors.red)
+                            : Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          options[index],
+                          style: TextStyle(
+                            color: userSelectedAnswers[currentQuestionIndex] == index ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                      ElevatedButton(
+                      onPressed: goToPreviousQuestion,
+                      child: const Text('<'),
+                    ),
+                    ElevatedButton(
+                      onPressed: goToNextQuestion,
+                      child: const Text('>'),
+                    ),
+                  ],
+                ),
+                const BannerAdClass(),
               ],
             ),
-            const BannerAdClass(),
-          ],
+          ),
         ),
-      ),
-      ),
       ),
     );
   }
