@@ -94,8 +94,10 @@ class QuizScreenState extends State<QuizScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.arrow_upward, color: Colors.green),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               const Text('Level Up!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(width: 10),
+              const Icon(Icons.arrow_upward, color: Colors.green),
             ],
           ),
           content: Column(
