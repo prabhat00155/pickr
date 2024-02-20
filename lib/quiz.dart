@@ -393,6 +393,12 @@ class QuizScreenState extends State<QuizScreen> {
               fit: BoxFit.contain,
               width: 200,
               height: 200,
+              progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                  strokeWidth: 5,
+                ),
+              ),
               errorWidget: (context, url, error) {
                 print('Error processing $url: $error');
                 return const Icon(Icons.error);
