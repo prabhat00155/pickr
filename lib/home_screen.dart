@@ -9,6 +9,7 @@ import 'drawer.dart';
 import 'leaderboard.dart';
 import 'player.dart';
 import 'quiz.dart';
+import 'user_feedback.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -198,7 +199,7 @@ class HomeScreenState extends State<HomeScreen> {
               title: const Text('Feedback'),
               backgroundColor: appBarColour,
             ),
-            //body: const FeedbackForm(),
+            body: FeedbackForm(player: currentPlayer!),
           );
         },
         settings: const RouteSettings(name: 'Feedback'),
