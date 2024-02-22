@@ -15,7 +15,7 @@ Future<List<Player>> getLeaderboard() async {
   QuerySnapshot result = await firestore
       .collection(documentName)
       .orderBy('score', descending: true)
-      .limit(10) // Adjust as needed
+      .limit(50)
       .get();
 
   // Convert the result to a list of User objects
@@ -40,7 +40,7 @@ class _LeaderboardState extends State<Leaderboard> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return const Text('Error loading leaderboard at this time.');
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return const Text('No leaderboard data available');
             } else {
