@@ -349,7 +349,9 @@ const List<String> countryCodes = [
 ];
 
 const Color appBarColour = Colors.green;
-const List<String> languages = <String>['English', 'Hindi'];
+const List<String> languages = <String>[
+  'English',
+];
 const String documentName = 'users';
 const String defaultUrl = 'https://picsum.photos/200';
 const int questionsPerLevel = 10;
