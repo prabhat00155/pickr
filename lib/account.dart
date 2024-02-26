@@ -5,6 +5,7 @@ import 'package:random_avatar/random_avatar.dart';
 
 import 'constants.dart';
 import 'player.dart';
+import 'utilities.dart';
 
 class Account extends StatefulWidget {
   final Player player;
@@ -165,7 +166,6 @@ class AccountState extends State<Account> {
         children: List.generate(categories.length, (index) {
           String categoryName = categories[index].name;
           int score = scores[categoryName];
-          Color colour = score >= 50 ? Colors.green : Colors.red;
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -176,7 +176,7 @@ class AccountState extends State<Account> {
                   height: 50,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: colour,
+                    color: fetchColour(score),
                   ),
                   child: Center(
                     child: Text(
