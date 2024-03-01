@@ -410,6 +410,9 @@ class QuizScreenState extends State<QuizScreen> {
                   shrinkWrap: true,
                   itemCount: options.length,
                   itemBuilder: (context, index) {
+                    bool isSelected = userSelectedAnswers[currentQuestionIndex] == index;
+                    bool isCorrect = index == currentQuestion.correctAnswerIndex;
+
                     return GestureDetector(
                       onTap: () {
                         if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex) {
@@ -430,11 +433,9 @@ class QuizScreenState extends State<QuizScreen> {
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(vertical: 5),
                         decoration: BoxDecoration(
-                          color: userSelectedAnswers[currentQuestionIndex] == index
-                            ? (index == currentQuestion.correctAnswerIndex
-                                ? Colors.green
-                                : Colors.red)
-                            : Colors.transparent,
+                          color: isSelected
+                            ? isCorrect ? Colors.green : Colors.red
+                            : isCorrect && isOptionSelected ? Colors.green.withOpacity(0.5) : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                             color: Colors.black,
