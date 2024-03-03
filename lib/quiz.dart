@@ -148,6 +148,7 @@ class QuizScreenState extends State<QuizScreen> {
         );
       },
     );
+    player.addBadge(Badges.perseverence);
   }
 
   void goToNextQuestion() {

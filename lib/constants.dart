@@ -30,6 +30,7 @@ enum Badges {
   hundredCorrectAnswers,
   fivehundredCorrectAnswers,
   thousandCorrectAnswers,
+  perseverence,
 }
 
 Map<PlayerLevels, String> levelToImage = {
@@ -62,6 +63,7 @@ Map<Badges, String> badgeToImage = {
   Badges.hundredCorrectAnswers: 'assets/images/badges/hundred_correct_answers.JPG',
   Badges.fivehundredCorrectAnswers: 'assets/images/badges/fivehundred_correct_answers.JPG',
   Badges.thousandCorrectAnswers: 'assets/images/badges/thousand_correct_answers.JPG',
+  Badges.perseverence: 'assets/images/badges/perseverence.JPG',
 };
 
 Map<String, Badges> categoryToBadge = {

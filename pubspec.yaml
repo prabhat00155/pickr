@@ -123,6 +123,7 @@ flutter:
     - assets/images/badges/hundred_correct_answers.JPG
     - assets/images/badges/fivehundred_correct_answers.JPG
     - assets/images/badges/thousand_correct_answers.JPG
+    - assets/images/badges/perseverence.JPG
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
