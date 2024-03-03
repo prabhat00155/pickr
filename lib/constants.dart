@@ -356,7 +356,7 @@ const List<String> languages = <String>[
 ];
 const String documentName = 'users';
 const String defaultUrl = 'https://picsum.photos/200';
-const int questionsPerLevel = 10;
+const int questionsPerLevel = 8;
 const int maxQuestions = 100;
 
 Map<String, String> timeZoneToCountryCode = {
