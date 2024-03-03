@@ -54,6 +54,7 @@ class QuizScreenState extends State<QuizScreen> {
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   Player get player => widget.player;
   InterstitialAd? _interstitialAd;
+  int _numInterstitialLoadAttempts = 0;
 
   void goToPreviousQuestion() {
     setState(() {
@@ -182,16 +183,9 @@ class QuizScreenState extends State<QuizScreen> {
       displayLevelUp();
       print('Level up');
       if (currentLevel % 3 == 0) {
-        showInterstitialAd();
+        _showInterstitialAd();
       }
     }
-  }
-
-  void showInterstitialAd() {
-      _interstitialAd?.show();
-      _interstitialAd?.dispose();
-      _interstitialAd = null;
-      loadAd();
   }
 
   double calculateProgress() {
@@ -274,7 +268,7 @@ class QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-    loadAd();
+    _createInterstitialAd();
     if (widget.title == 'Mixed Bag') {
       mixQuestions();
     } else {
@@ -288,47 +282,54 @@ class QuizScreenState extends State<QuizScreen> {
     super.dispose();
   }
 
-  /// Loads an interstitial ad.
-  void loadAd() {
-    print('loaded');
+  void _createInterstitialAd() {
     // TODO: replace this test ad unit with your own ad unit.
     final adUnitId = Platform.isAndroid
       ? 'ca-app-pub-3940256099942544/1033173712'
       : 'ca-app-pub-3940256099942544/4411468910';
 
     InterstitialAd.load(
-        adUnitId: adUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-             ad.fullScreenContentCallback = FullScreenContentCallback(
-                // Called when the ad showed the full screen content.
-                onAdShowedFullScreenContent: (ad) {},
-                // Called when an impression occurs on the ad.
-                onAdImpression: (ad) {},
-                // Called when the ad failed to show full screen content.
-                onAdFailedToShowFullScreenContent: (ad, err) {
-                  // Dispose the ad here to free resources.
-                  ad.dispose();
-                },
-                // Called when the ad dismissed full screen content.
-                onAdDismissedFullScreenContent: (ad) {
-                  // Dispose the ad here to free resources.
-                  ad.dispose();
-                },
-                // Called when a click is recorded for an ad.
-                onAdClicked: (ad) {});
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          print('$ad loaded');
+          _interstitialAd = ad;
+          _numInterstitialLoadAttempts = 0;
+          _interstitialAd!.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error.');
+          _numInterstitialLoadAttempts += 1;
+          _interstitialAd = null;
+          if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+            _createInterstitialAd();
+          }
+        },
+      ));
+  }
 
-            print('$ad loaded.');
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error');
-          },
-        ));
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before it has loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
   }
 
   @override

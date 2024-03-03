@@ -358,6 +358,7 @@ const String documentName = 'users';
 const String defaultUrl = 'https://picsum.photos/200';
 const int questionsPerLevel = 8;
 const int maxQuestions = 100;
+const int maxFailedLoadAttempts = 3;
 
 Map<String, String> timeZoneToCountryCode = {
   'gmt': 'gb',
