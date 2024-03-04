@@ -220,7 +220,7 @@ class HomeScreenState extends State<HomeScreen> {
             body: const Leaderboard(),
           );
         },
-        settings: const RouteSettings(name: 'Info'),
+        settings: const RouteSettings(name: 'Leaderboard'),
       ),
     );
   }
