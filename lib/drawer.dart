@@ -75,7 +75,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.leaderboard),
               title: Text(
                 'L E A D E R B O A R D',
                 style: drawerTextColor,
