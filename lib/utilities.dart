@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+import 'leaderboard.dart';
+
 Color fetchColour(int score) {
   if (score > 500) {
     return Colors.lightBlue[200]!;
@@ -20,4 +23,22 @@ Color fetchColour(int score) {
   } else {
     return Colors.orange[200]!;
   }
+}
+
+void showLeaderboard(context) {
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Leaderboard'),
+            backgroundColor: appBarColour,
+          ),
+          body: const Leaderboard(),
+        );
+      },
+      settings: const RouteSettings(name: 'Info'),
+    ),
+  );
 }

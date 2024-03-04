@@ -8,6 +8,7 @@ import 'auth_screen.dart';
 import 'constants.dart';
 import 'player.dart';
 import 'settings.dart';
+import 'utilities.dart';
 
 var drawerTextColor = TextStyle(
   color: Colors.grey[600],
@@ -68,6 +69,21 @@ class MyDrawer extends StatelessWidget {
                 // Handle tap for Dashboard
                 print('Dashboard tapped');
                 showAccount(context);
+              },
+            ),
+          ),
+          Padding(
+            padding: tilePadding,
+            child: ListTile(
+              leading: const Icon(Icons.settings),
+              title: Text(
+                'L E A D E R B O A R D',
+                style: drawerTextColor,
+              ),
+              onTap: () {
+                // Handle tap for Leaderboard
+                print('Leaderboard tapped');
+                showLeaderboard(context);
               },
             ),
           ),
