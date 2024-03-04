@@ -14,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late Map<String, Function> mapper;
+  bool _isSigningIn = false;
+
   _LoginScreenState() {
     mapper = {
       'Google': _signInWithGoogle,
@@ -30,41 +32,43 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: appBarColour,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildTile('Sign in with Google', 'assets/images/login/google.png', 'Google', context),
-            const SizedBox(height: 20),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
+        child: _isSigningIn
+          ? const CircularProgressIndicator()
+          : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildTile('Sign in with Google', 'assets/images/login/google.png', 'Google', context),
+              const SizedBox(height: 20),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey[400],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Or',
-                        style: TextStyle(color: Colors.grey[700]),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          'Or',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey[400],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            const SizedBox(height: 20),
-            _buildTile('Continue as Guest', const Icon(Icons.people), 'Guest', context),
-          ],
-        ),
+              const SizedBox(height: 20),
+              _buildTile('Continue as Guest', const Icon(Icons.people), 'Guest', context),
+            ],
+          ),
       ),
     );
   }
@@ -93,6 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
+    setState(() {
+      _isSigningIn = true;
+    });
+
     try {
       final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -107,15 +115,26 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
     } catch (error) {
       print('Error signing in with Google: $error');
+    } finally {
+      setState(() {
+        _isSigningIn = false;
+      });
     }
   }
 
   Future<void> _continueAsGuest(BuildContext context) async {
+    setState(() {
+      _isSigningIn = true;
+    });
+
     try {
       final userCredential =
           await FirebaseAuth.instance.signInAnonymously();
       print("Signed in with temporary account.");
       print(userCredential);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
@@ -124,10 +143,11 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           print("Unknown error.");
       }
+    } finally {
+      setState(() {
+        _isSigningIn = false;
+      });
     }
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const HomeScreen(),
-    ));
   }
 }
 
