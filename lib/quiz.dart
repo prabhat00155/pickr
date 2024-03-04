@@ -103,8 +103,11 @@ class QuizScreenState extends State<QuizScreen> {
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Well done! You have reached the next level.'),
+              const SizedBox(height: 10),
+              Text('Current Score: $score'),
             ],
           ),
           actions: [
