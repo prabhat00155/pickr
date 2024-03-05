@@ -21,7 +21,6 @@ class SettingsState extends State<Settings> {
 
   SettingsState() {
     mapper = {
-      'Privacy and Security': details,
       'Link with Google Account': accountLinking,
     };
   }
@@ -30,8 +29,6 @@ class SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     List<Widget> settingsOptions = [
       buildLanguage(context, 'Language'),
-      const SizedBox(height: 30),
-      buildOption(context, 'Privacy and Security'),
     ];
 
     if (currentUser.isAnonymous) {
@@ -67,30 +64,6 @@ class SettingsState extends State<Settings> {
           const Icon(Icons.arrow_forward_ios, color: Colors.grey),
         ],
       ),
-    );
-  }
-
-  void details(BuildContext context, String title) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: const SingleChildScrollView(
-            child: Text(
-              'Privacy and Security!',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
     );
   }
 
