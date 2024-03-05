@@ -50,6 +50,7 @@ dependencies:
   cloud_firestore: ^4.15.3
   pie_chart: ^5.4.0
   firebase_analytics: ^10.8.6
+  flutter_widget_from_html: ^0.14.11
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +125,7 @@ flutter:
     - assets/images/badges/fivehundred_correct_answers.JPG
     - assets/images/badges/thousand_correct_answers.JPG
     - assets/images/badges/perseverence.JPG
+    - assets/privacy_policy.html
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

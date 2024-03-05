@@ -6,6 +6,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'account.dart';
 import 'auth_screen.dart';
 import 'constants.dart';
+import 'info.dart';
 import 'player.dart';
 import 'settings.dart';
 import 'utilities.dart';
@@ -113,6 +114,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for About
                 print('About tapped');
+                showInfo(context);
               },
             ),
           ),
@@ -130,6 +132,25 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void showInfo(context) {
+    Navigator.pop(context);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Info'),
+              backgroundColor: appBarColour,
+            ),
+            body: const Info(),
+          );
+        },
+        settings: const RouteSettings(name: 'Info'),
       ),
     );
   }
