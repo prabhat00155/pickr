@@ -126,6 +126,7 @@ flutter:
     - assets/images/badges/thousand_correct_answers.JPG
     - assets/images/badges/perseverence.JPG
     - assets/privacy_policy.html
+    - assets/text/about.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

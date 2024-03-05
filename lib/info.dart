@@ -18,6 +18,13 @@ class InfoState extends State<Info> {
     return ListView(
       children: [
         _tile(
+          'About Pickr',
+          const ImageIcon(AssetImage('assets/images/pickr_logo.png'), size: 30, color: Colors.red),
+          context,
+          'assets/text/about.txt',
+        ),
+        const Divider(),
+        _tile(
           'Privacy Policy',
           Icon(Icons.privacy_tip_outlined, color: Colors.blue[500]),
           context,
