@@ -407,7 +407,22 @@ class QuizScreenState extends State<QuizScreen> {
                   ),
                   errorWidget: (context, url, error) {
                     print('Error processing $url: $error');
-                    return const Icon(Icons.error);
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Please ensure that you are connected to the internet!',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
                   }
                 ),
                 const SizedBox(height: 20),
