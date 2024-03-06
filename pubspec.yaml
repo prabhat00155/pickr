@@ -85,6 +85,8 @@ flutter:
     - assets/text/people.json
     - assets/text/monuments.json
     - assets/text/sports.json
+    - assets/text/about.txt
+    - assets/text/privacy_policy.html
     - assets/images/pickr_logo.png
     - assets/images/login/google.png
     - assets/images/categories/animal.png
@@ -125,8 +127,6 @@ flutter:
     - assets/images/badges/fivehundred_correct_answers.JPG
     - assets/images/badges/thousand_correct_answers.JPG
     - assets/images/badges/perseverence.JPG
-    - assets/text/privacy_policy.html
-    - assets/text/about.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
