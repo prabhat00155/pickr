@@ -27,7 +27,7 @@ Color fetchColour(int score) {
   }
 }
 
-void showLeaderboard(context) {
+void showLeaderboard(BuildContext context) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
