@@ -28,7 +28,7 @@ class InfoState extends State<Info> {
           'Privacy Policy',
           Icon(Icons.privacy_tip_outlined, color: Colors.blue[500]),
           context,
-          'assets/privacy_policy.html',
+          'assets/text/privacy_policy.html',
         ),
         const Divider(),
       ],
