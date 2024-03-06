@@ -84,6 +84,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for Leaderboard
                 print('Leaderboard tapped');
+                Navigator.pop(context);
                 showLeaderboard(context);
               },
             ),
