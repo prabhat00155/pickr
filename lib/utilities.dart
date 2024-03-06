@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'account.dart';
 import 'constants.dart';
 import 'leaderboard.dart';
+import 'player.dart';
 
 Color fetchColour(int score) {
   if (score > 500) {
@@ -39,6 +41,34 @@ void showLeaderboard(context) {
         );
       },
       settings: const RouteSettings(name: 'Info'),
+    ),
+  );
+}
+
+void showAccount(BuildContext context, Player? currentPlayer) {
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        if (currentPlayer == null) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Account'),
+              backgroundColor: appBarColour,
+            ),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Account'),
+            backgroundColor: appBarColour,
+          ),
+          body: Account(player: currentPlayer),
+        );
+      },
+      settings: const RouteSettings(name: 'Account'),
     ),
   );
 }

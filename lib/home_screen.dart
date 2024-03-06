@@ -10,6 +10,7 @@ import 'leaderboard.dart';
 import 'player.dart';
 import 'quiz.dart';
 import 'user_feedback.dart';
+import 'utilities.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -151,41 +152,13 @@ class HomeScreenState extends State<HomeScreen> {
               }
               break;
               case 2: {
-                showAccount(context);
+                showAccount(context, currentPlayer);
               }
               break;
             }
           },
         ),
       ), 
-    );
-  }
-
-  void showAccount(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          if (currentPlayer == null) {
-            return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: const Text('Account'),
-                backgroundColor: appBarColour,
-              ),
-              body: const Center(child: CircularProgressIndicator()),
-            );
-          }
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text('Account'),
-              backgroundColor: appBarColour,
-            ),
-            body: Account(player: currentPlayer!),
-          );
-        },
-        settings: const RouteSettings(name: 'Account'),
-      ),
     );
   }
 

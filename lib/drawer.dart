@@ -69,7 +69,8 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for Dashboard
                 print('Dashboard tapped');
-                showAccount(context);
+                Navigator.pop(context);
+                showAccount(context, player);
               },
             ),
           ),
@@ -168,25 +169,6 @@ class MyDrawer extends StatelessWidget {
     } catch (e) {
       print('Error signing out: $e');
     }
-  }
-
-  void showAccount(context) {
-    Navigator.pop(context);
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text('Account'),
-              backgroundColor: appBarColour,
-            ),
-            body: Account(player: player),
-          );
-        },
-        settings: const RouteSettings(name: 'Account'),
-      ),
-    );
   }
 
   void showSettings(context) {
