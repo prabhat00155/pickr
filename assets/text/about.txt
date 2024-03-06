@@ -1,1 +1,3 @@
-About me!
+<h3>Pickr – the ultimate picture-based quiz adventure!</h3>
+<p>Dive into a world of captivating challenges where your keen eye and quick wit are put to the test. With an array of diverse categories, Pickr offers endless excitement for trivia enthusiasts of all ages. From nature's wonders to famous people, explore an eclectic mix of topics as you try to uncover the correct answers.</p>
+<p>Whether you're a seasoned quiz master or just starting your journey, Pickr promises an immersive and thrilling experience that will keep you coming back for more. Get ready to embark on a quest of knowledge and discovery with Pickr!</p>
