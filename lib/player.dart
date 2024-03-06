@@ -132,23 +132,23 @@ class Player {
   }
 
   void updateLevel() {
-    if (level == PlayerLevels.beginner && totalAttempts >= 100) {
+    if (level == PlayerLevels.beginner && totalAttempts >= 50) {
       level = PlayerLevels.novice;
-    } else if (level == PlayerLevels.novice && totalAttempts >= 200) {
+    } else if (level == PlayerLevels.novice && totalAttempts >= 100) {
       level = PlayerLevels.apprentice;
-    } else if (level == PlayerLevels.apprentice && totalAttempts >= 300) {
+    } else if (level == PlayerLevels.apprentice && totalAttempts >= 200) {
       level = PlayerLevels.intermediate;
-    } else if (level == PlayerLevels.intermediate && totalAttempts >= 400) {
+    } else if (level == PlayerLevels.intermediate && totalAttempts >= 300) {
       level = PlayerLevels.experienced;
-    } else if (level == PlayerLevels.experienced && totalAttempts >= 600) {
+    } else if (level == PlayerLevels.experienced && totalAttempts >= 500) {
       level = PlayerLevels.legend;
-    } else if (level == PlayerLevels.legend && totalAttempts >= 800) {
+    } else if (level == PlayerLevels.legend && totalAttempts >= 700) {
       level = PlayerLevels.wizard;
     }
   }
 
   void updateBadges(String category) {
-    if (perCategoryAttempts[category]! >= 100 && getAccuracy(category) >= 80) {
+    if (perCategoryAttempts[category]! >= 50 && getAccuracy(category) >= 80) {
       addBadge(categoryToBadge[category]!);
     }
   }
