@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
-          String message = "Anonymous auth hasn't been enabled for this project: $e";
+          final String message = "Anonymous auth hasn't been enabled for this project: $e";
           logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': message});
           break;
         default:
