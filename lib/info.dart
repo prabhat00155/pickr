@@ -72,7 +72,6 @@ class InfoState extends State<Info> {
     try {
       return await rootBundle.loadString(fileName);
     } catch(e) {
-      // print('Error while loading $fileName: $e');
       logger('exception', {'title': 'Info', 'method': 'fetchContent', 'file': 'info', 'details': e});
       return 'N/A';
     }
