@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'logger.dart';
+
 class BannerAdClass extends StatefulWidget {
   const BannerAdClass({Key? key}) : super(key: key);
 
@@ -28,14 +30,18 @@ class BannerAdState extends State<BannerAdClass>
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
-        onAdLoaded: (ad) => print('Ad loaded.'),
+        onAdLoaded: (ad) =>
+          logger('onAdLoaded', {'title': 'advertisement', 'method': 'initState', 'file': 'advertisement', 'details': 'Ad loaded: $ad'}),
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
-          print('Ad failed to load .');
+          logger('onAdFailedToLoad', {'title': 'advertisement', 'method': 'initState', 'file': 'advertisement', 'details': 'Ad failed to load: $ad'});
         },
-        onAdOpened: (ad) => print('Ad opened.'),
-        onAdClosed: (ad) => print('Ad closed.'),
-        onAdImpression: (ad) => print('Ad impression.'),
+        onAdOpened: (ad) =>
+          logger('onAdOpened', {'title': 'advertisement', 'method': 'initState', 'file': 'advertisement', 'details': 'Ad opened: $ad'}),
+        onAdClosed: (ad) =>
+          logger('onAdClosed', {'title': 'advertisement', 'method': 'initState', 'file': 'advertisement', 'details': 'Ad closed: $ad'}),
+        onAdImpression: (ad) =>
+          logger('onAdImpression', {'title': 'advertisement', 'method': 'initState', 'file': 'advertisement', 'details': 'Ad impression: $ad'}),
       ),
     )..load();
   }
