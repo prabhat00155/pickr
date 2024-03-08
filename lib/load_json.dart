@@ -14,4 +14,3 @@ Future<List<QuizQuestion>> loadJsonData(String category) async {
   }
   return quizData;
 }
-
