@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'account.dart';
@@ -25,6 +26,10 @@ Color fetchColour(int score) {
   } else {
     return Colors.orange[200]!;
   }
+}
+
+String fetchRandom([int max = 101]) {
+  return Random().nextInt(max).toString();
 }
 
 void showLeaderboard(BuildContext context) {

@@ -37,12 +37,14 @@ class HomeScreenState extends State<HomeScreen> {
         });
       } else if (mounted) {
         String country = getCountry();
+        String avatarIndex = fetchRandom();
         setState(() {
           currentPlayer = Player(
             currentUser.uid,
             name: currentUser.displayName,
             email: currentUser.email,
             photoUrl: currentUser.photoURL,
+            avatar: avatarIndex,
             countryCode: country,
             badges: {},
             perCategoryHighestScore: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
