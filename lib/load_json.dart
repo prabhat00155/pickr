@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
+import 'constants.dart';
 import 'quiz.dart';
-import 'mapper.dart';
 
 Future<List<QuizQuestion>> loadJsonData(String category) async {
   List<QuizQuestion> quizData = [];
