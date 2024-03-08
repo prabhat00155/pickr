@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'constants.dart';
 import 'home_screen.dart';
+import 'logger.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context) => const HomeScreen(),
       ));
     } catch (error) {
-      print('Error signing in with Google: $error');
+      logger('exception', {'title': 'LoginScreen', 'method': '_signInWithGoogle', 'file': 'login_screen', 'details': error.toString()});
     } finally {
       setState(() {
         _isSigningIn = false;
@@ -130,18 +131,17 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final userCredential =
           await FirebaseAuth.instance.signInAnonymously();
-      print("Signed in with temporary account.");
-      print(userCredential);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const HomeScreen(),
       ));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
-          print("Anonymous auth hasn't been enabled for this project.");
+          String message = "Anonymous auth hasn't been enabled for this project: $e";
+          logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': message});
           break;
         default:
-          print("Unknown error.");
+          logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': e.toString()});
       }
     } finally {
       setState(() {
