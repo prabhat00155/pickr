@@ -60,7 +60,7 @@ class FeedbackFormState extends State<FeedbackForm> {
         message = 'Feedback sent successfully.';
       });
     } catch(e) {
-      logger('exception', {'title': 'feedback', 'method': 'uploadFeedback', 'file': 'user_feedback', 'details': e});
+      logger('exception', {'title': 'feedback', 'method': 'uploadFeedback', 'file': 'user_feedback', 'details': e.toString()});
       setState(() {
         message = 'Error in sending the feedback.';
       });
