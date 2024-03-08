@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'constants.dart';
+import 'logger.dart';
 
 class Player {
   String? name;
@@ -92,9 +93,9 @@ class Player {
         },
         SetOptions(merge: true),
       );
-      print('score updated');
     } catch (e) {
-      print('Error updating score: $e');
+      final String message = 'Error updating score: $e';
+      logger('exception', {'title': 'Player', 'method': 'updateScoreInFirebase', 'file': 'player', 'details': message});
     }
   }
 
