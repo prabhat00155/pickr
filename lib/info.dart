@@ -60,7 +60,8 @@ class InfoState extends State<Info> {
             },
           );
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          logger('exception', {'title': 'Info', 'method': '_tile', 'file': 'info', 'details': snapshot.error});
+          return const Center(child: Text('N/A'));
         } else {
           return const Center(child: CircularProgressIndicator());
         }
