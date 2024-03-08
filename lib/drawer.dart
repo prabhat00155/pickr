@@ -7,6 +7,7 @@ import 'account.dart';
 import 'auth_screen.dart';
 import 'constants.dart';
 import 'info.dart';
+import 'logger.dart';
 import 'player.dart';
 import 'settings.dart';
 import 'utilities.dart';
@@ -68,7 +69,6 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {
                 // Handle tap for Dashboard
-                print('Dashboard tapped');
                 Navigator.pop(context);
                 showAccount(context, player);
               },
@@ -84,7 +84,6 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {
                 // Handle tap for Leaderboard
-                print('Leaderboard tapped');
                 Navigator.pop(context);
                 showLeaderboard(context);
               },
@@ -100,7 +99,6 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {
                 // Handle tap for Settings
-                print('Settings tapped');
                 showSettings(context);
               },
             ),
@@ -115,7 +113,6 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {
                 // Handle tap for About
-                print('About tapped');
                 showInfo(context);
               },
             ),
@@ -160,14 +157,13 @@ class MyDrawer extends StatelessWidget {
   void signUserOut(context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      print('User signed out successfully.');
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const AuthScreen()),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger('exception', {'title': 'Drawer', 'method': 'signUserOut', 'file': 'drawer', 'details': e});
     }
   }
 
