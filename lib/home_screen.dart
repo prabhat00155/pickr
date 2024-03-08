@@ -7,6 +7,7 @@ import 'advertisement.dart';
 import 'constants.dart';
 import 'drawer.dart';
 import 'leaderboard.dart';
+import 'logger.dart';
 import 'player.dart';
 import 'quiz.dart';
 import 'user_feedback.dart';
@@ -57,7 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
       }
      } catch (e) {
       // Handle error fetching player data
-      print('Error initializing player data: $e');
+      logger('exception', {'title': 'HomeScreen', 'method': 'initialisePlayerData', 'file': 'home_screen', 'details': e});
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -290,7 +291,7 @@ class HomeScreenState extends State<HomeScreen> {
           )),
       leading: icon,
       onTap: () {
-        //logger('click', {'title': title, 'method': '_tile', 'file': 'home_screen'});
+        logger('click', {'title': title, 'method': '_tile', 'file': 'home_screen'});
         Navigator.push(
           context,
           MaterialPageRoute(
