@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'advertisement.dart';
 import 'constants.dart';
 import 'load_json.dart';
+import 'logger.dart';
 import 'player.dart';
 part 'quiz.g.dart'; // Generated code file
 
@@ -168,7 +169,6 @@ class QuizScreenState extends State<QuizScreen> {
           isOptionSelected = false;
           quizCompleted = true;
         });
-        print('Complete!');
         displayCompletion();
       }
     }
@@ -184,7 +184,6 @@ class QuizScreenState extends State<QuizScreen> {
         currentLevel++;
       });
       displayLevelUp();
-      print('Level up');
       if (currentLevel % 3 == 0) {
         _showInterstitialAd();
       }
@@ -296,13 +295,12 @@ class QuizScreenState extends State<QuizScreen> {
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
-          print('$ad loaded');
           _interstitialAd = ad;
           _numInterstitialLoadAttempts = 0;
           _interstitialAd!.setImmersiveMode(true);
         },
         onAdFailedToLoad: (LoadAdError error) {
-          print('InterstitialAd failed to load: $error.');
+          logger('exception', {'title': 'Quiz', 'method': '_createInterstitialAd', 'file': 'quiz', 'details': error});
           _numInterstitialLoadAttempts += 1;
           _interstitialAd = null;
           if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
@@ -314,19 +312,20 @@ class QuizScreenState extends State<QuizScreen> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      print('Warning: attempt to show interstitial before it has loaded.');
+      String message = 'Warning: attempt to show interstitial before it has loaded.';
+      logger('exception', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': message});
       return;
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
+          logger('onAdShowedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad}),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
+        logger('onAdDismissedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad});
         ad.dispose();
         _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
+        logger('onAdFailedToShowFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': '$ad: $error'});
         ad.dispose();
         _createInterstitialAd();
       },
@@ -356,7 +355,6 @@ class QuizScreenState extends State<QuizScreen> {
       onWillPop: () async {
         if (!quizCompleted) {
           score += currentLevel * correctLevelAnswers;
-          print('score updated');
         }
         player.updateScore(widget.title, correctAnswers, noOfQuestions, score);
         return true;
@@ -406,7 +404,8 @@ class QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                   errorWidget: (context, url, error) {
-                    print('Error processing $url: $error');
+                    String message = 'Error processing $url: $error';
+                    logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': message});
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
