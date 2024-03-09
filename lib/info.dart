@@ -60,7 +60,7 @@ class InfoState extends State<Info> {
             },
           );
         } else if (snapshot.hasError) {
-          logger('exception', {'title': 'Info', 'method': '_tile', 'file': 'info', 'details': snapshot.error});
+          logger('exception', {'title': 'Info', 'method': '_tile', 'file': 'info', 'details': snapshot.error.toString()});
           return const Center(child: Text('N/A'));
         } else {
           return const Center(child: CircularProgressIndicator());
@@ -73,7 +73,7 @@ class InfoState extends State<Info> {
     try {
       return await rootBundle.loadString(fileName);
     } catch(e) {
-      logger('exception', {'title': 'Info', 'method': 'fetchContent', 'file': 'info', 'details': e});
+      logger('exception', {'title': 'Info', 'method': 'fetchContent', 'file': 'info', 'details': e.toString()});
       return 'N/A';
     }
   }
