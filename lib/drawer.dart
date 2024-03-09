@@ -163,7 +163,7 @@ class MyDrawer extends StatelessWidget {
         MaterialPageRoute(builder: (context) => const AuthScreen()),
       );
     } catch (e) {
-      logger('exception', {'title': 'Drawer', 'method': 'signUserOut', 'file': 'drawer', 'details': e});
+      logger('exception', {'title': 'Drawer', 'method': 'signUserOut', 'file': 'drawer', 'details': e.toString()});
     }
   }
 
