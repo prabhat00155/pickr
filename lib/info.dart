@@ -84,10 +84,10 @@ class Contents extends StatelessWidget {
   final String title;
 
   const Contents({
-    Key? key,
+    super.key,
     required this.title,
     required this.htmlContent,
-  }): super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
