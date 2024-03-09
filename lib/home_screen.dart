@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'account.dart';
 import 'advertisement.dart';
 import 'constants.dart';
 import 'drawer.dart';
@@ -22,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   static const _adIndex = 7;
   Player? currentPlayer;
-  bool _isLoading = true;
 
   Future<void> initialisePlayerData() async {
     final currentUser = FirebaseAuth.instance.currentUser!;
@@ -33,7 +31,6 @@ class HomeScreenState extends State<HomeScreen> {
       if (player != null && mounted) {
         setState(() {
           currentPlayer = player;
-          _isLoading = false;
         });
       } else if (mounted) {
         String country = getCountry();
@@ -52,17 +49,11 @@ class HomeScreenState extends State<HomeScreen> {
             perCategoryScores: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
             perCategoryAttempts: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
           );
-          _isLoading = false;
         });
       }
-     } catch (e) {
+    } catch (e) {
       // Handle error fetching player data
       logger('exception', {'title': 'HomeScreen', 'method': 'initialisePlayerData', 'file': 'home_screen', 'details': e.toString()});
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
     }
   }
 
