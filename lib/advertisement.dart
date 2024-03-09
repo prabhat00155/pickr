@@ -6,7 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'logger.dart';
 
 class BannerAdClass extends StatefulWidget {
-  const BannerAdClass({Key? key}) : super(key: key);
+  const BannerAdClass({super.key});
 
   @override
   BannerAdState createState() => BannerAdState();
