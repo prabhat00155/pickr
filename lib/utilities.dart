@@ -45,7 +45,7 @@ void showLeaderboard(BuildContext context) {
           body: const Leaderboard(),
         );
       },
-      settings: const RouteSettings(name: 'Info'),
+      settings: const RouteSettings(name: 'Leaderboard'),
     ),
   );
 }

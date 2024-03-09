@@ -181,7 +181,7 @@ class MyDrawer extends StatelessWidget {
             body: Settings(player: player),
           );
         },
-        settings: const RouteSettings(name: 'Account'),
+        settings: const RouteSettings(name: 'Settings'),
       ),
     );
   }
