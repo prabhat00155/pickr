@@ -300,7 +300,7 @@ class QuizScreenState extends State<QuizScreen> {
           _interstitialAd!.setImmersiveMode(true);
         },
         onAdFailedToLoad: (LoadAdError error) {
-          logger('exception', {'title': 'Quiz', 'method': '_createInterstitialAd', 'file': 'quiz', 'details': error});
+          logger('exception', {'title': 'Quiz', 'method': '_createInterstitialAd', 'file': 'quiz', 'details': error.toString()});
           _numInterstitialLoadAttempts += 1;
           _interstitialAd = null;
           if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
