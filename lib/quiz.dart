@@ -312,7 +312,7 @@ class QuizScreenState extends State<QuizScreen> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      String message = 'Warning: attempt to show interstitial before it has loaded.';
+      final String message = 'Warning: attempt to show interstitial before it has loaded.';
       logger('exception', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': message});
       return;
     }
@@ -404,7 +404,7 @@ class QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                   errorWidget: (context, url, error) {
-                    String message = 'Error processing $url: $error';
+                    final String message = 'Error processing $url: $error';
                     logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': message});
                     return Column(
                       mainAxisSize: MainAxisSize.min,
