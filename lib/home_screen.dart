@@ -6,7 +6,6 @@ import 'account.dart';
 import 'advertisement.dart';
 import 'constants.dart';
 import 'drawer.dart';
-import 'leaderboard.dart';
 import 'logger.dart';
 import 'player.dart';
 import 'quiz.dart';
@@ -179,24 +178,6 @@ class HomeScreenState extends State<HomeScreen> {
           );
         },
         settings: const RouteSettings(name: 'Feedback'),
-      ),
-    );
-  }
-
-  void showLeaderboard(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text('Leaderboard'),
-              backgroundColor: appBarColour,
-            ),
-            body: const Leaderboard(),
-          );
-        },
-        settings: const RouteSettings(name: 'Leaderboard'),
       ),
     );
   }
