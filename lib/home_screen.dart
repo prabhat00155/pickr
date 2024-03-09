@@ -58,7 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
       }
      } catch (e) {
       // Handle error fetching player data
-      logger('exception', {'title': 'HomeScreen', 'method': 'initialisePlayerData', 'file': 'home_screen', 'details': e});
+      logger('exception', {'title': 'HomeScreen', 'method': 'initialisePlayerData', 'file': 'home_screen', 'details': e.toString()});
       if (mounted) {
         setState(() {
           _isLoading = false;
