@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import 'account.dart';
 import 'auth_screen.dart';
 import 'constants.dart';
 import 'info.dart';
