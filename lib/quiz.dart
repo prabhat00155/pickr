@@ -32,10 +32,10 @@ class QuizScreen extends StatefulWidget {
   final Player player;
 
   const QuizScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.player,
-  }): super(key: key);
+  });
 
   @override
   QuizScreenState createState() => QuizScreenState();
@@ -92,14 +92,14 @@ class QuizScreenState extends State<QuizScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Row(
+          title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.arrow_upward, color: Colors.green),
-              const SizedBox(width: 10),
-              const Text('Level Up!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(width: 10),
-              const Icon(Icons.arrow_upward, color: Colors.green),
+              Icon(Icons.arrow_upward, color: Colors.green),
+              SizedBox(width: 10),
+              Text('Level Up!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(width: 10),
+              Icon(Icons.arrow_upward, color: Colors.green),
             ],
           ),
           content: Column(
@@ -135,7 +135,7 @@ class QuizScreenState extends State<QuizScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Congratulations on completing the quiz!'),
+              const Text('Congratulations on completing the quiz!'),
               const SizedBox(height: 10),
               Text('Your Score: $score'),
               const SizedBox(height: 10),
@@ -312,7 +312,7 @@ class QuizScreenState extends State<QuizScreen> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      final String message = 'Warning: attempt to show interstitial before it has loaded.';
+      const String message = 'Warning: attempt to show interstitial before it has loaded.';
       logger('exception', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': message});
       return;
     }
@@ -406,14 +406,14 @@ class QuizScreenState extends State<QuizScreen> {
                   errorWidget: (context, url, error) {
                     final String message = 'Error processing $url: $error';
                     logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': message});
-                    return Column(
+                    return const Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error),
-                        const SizedBox(height: 10),
-                        const Text(
+                        Icon(Icons.error),
+                        SizedBox(height: 10),
+                        Text(
                           'Please ensure that you are connected to the internet!',
                           style: TextStyle(
                             color: Colors.red,
