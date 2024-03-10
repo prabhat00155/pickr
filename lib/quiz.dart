@@ -201,28 +201,28 @@ class QuizScreenState extends State<QuizScreen> {
     Map<int, List<QuizQuestion>> questionsByLevel = {};
 
     // Group questions by level
-    allQuestions.forEach((question) {
-        if (!questionsByLevel.containsKey(question.level)) {
-            questionsByLevel[question.level] = [];
-        }
-        var (x, y) = fetchOptions(question);
-        question.options = x;
-        question.correctAnswerIndex = y;
-        question.urls = [fetchImageLink(question)];
-        questionsByLevel[question.level]!.add(question);
-    });
+    for (var question in allQuestions) {
+      if (!questionsByLevel.containsKey(question.level)) {
+        questionsByLevel[question.level] = [];
+      }
+      var (x, y) = fetchOptions(question);
+      question.options = x;
+      question.correctAnswerIndex = y;
+      question.urls = [fetchImageLink(question)];
+      questionsByLevel[question.level]!.add(question);
+    }
 
     List<QuizQuestion> selectedQuestions = [];
 
     // Select and sort questions by level
     List<int> sortedLevels = questionsByLevel.keys.toList()..sort();
-    sortedLevels.forEach((level) {
-        if (questionsByLevel[level]!.length >= questionsPerLevel) {
-            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
-        } else {
-            selectedQuestions.addAll(questionsByLevel[level]!);
-        }
-    });
+    for (var level in sortedLevels) {
+      if (questionsByLevel[level]!.length >= questionsPerLevel) {
+        selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
+      } else {
+        selectedQuestions.addAll(questionsByLevel[level]!);
+      }
+    }
 
     setState(() {
       quizQuestions = selectedQuestions;
@@ -238,16 +238,16 @@ class QuizScreenState extends State<QuizScreen> {
       categoryQuestions.shuffle();
 
       // Group questions by level
-      categoryQuestions.forEach((question) {
-          if (!questionsByLevel.containsKey(question.level)) {
-              questionsByLevel[question.level] = [];
-          }
-          var (x, y) = fetchOptions(question);
-          question.options = x;
-          question.correctAnswerIndex = y;
-          question.urls = [fetchImageLink(question)];
-          questionsByLevel[question.level]!.add(question);
-      });
+      for (var question in categoryQuestions) {
+        if (!questionsByLevel.containsKey(question.level)) {
+          questionsByLevel[question.level] = [];
+        }
+        var (x, y) = fetchOptions(question);
+        question.options = x;
+        question.correctAnswerIndex = y;
+        question.urls = [fetchImageLink(question)];
+        questionsByLevel[question.level]!.add(question);
+      }
     }
     questionsByLevel.forEach((level, questions) {
       questions.shuffle();
@@ -255,13 +255,13 @@ class QuizScreenState extends State<QuizScreen> {
 
     // Select and sort questions by level
     List<int> sortedLevels = questionsByLevel.keys.toList()..sort();
-    sortedLevels.forEach((level) {
-        if (questionsByLevel[level]!.length >= questionsPerLevel) {
-            selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
-        } else {
-            selectedQuestions.addAll(questionsByLevel[level]!);
-        }
-    });
+    for (var level in sortedLevels) {
+      if (questionsByLevel[level]!.length >= questionsPerLevel) {
+        selectedQuestions.addAll(questionsByLevel[level]!.sublist(0, questionsPerLevel));
+      } else {
+        selectedQuestions.addAll(questionsByLevel[level]!);
+      }
+    }
     setState(() {
       quizQuestions = selectedQuestions;
     });
