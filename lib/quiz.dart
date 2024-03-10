@@ -318,9 +318,9 @@ class QuizScreenState extends State<QuizScreen> {
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          logger('onAdShowedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad}),
+          logger('onAdShowedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad.toString()}),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        logger('onAdDismissedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad});
+        logger('onAdDismissedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad.toString()});
         ad.dispose();
         _createInterstitialAd();
       },
