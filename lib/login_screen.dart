@@ -129,8 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final userCredential =
-          await FirebaseAuth.instance.signInAnonymously();
+      await FirebaseAuth.instance.signInAnonymously();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const HomeScreen(),
       ));
