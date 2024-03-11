@@ -351,13 +351,13 @@ class QuizScreenState extends State<QuizScreen> {
     List<String> options = currentQuestion.options;
     String imageLink = currentQuestion.urls[0];
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
         if (!quizCompleted) {
           score += currentLevel * correctLevelAnswers;
         }
         player.updateScore(widget.title, correctAnswers, noOfQuestions, score);
-        return true;
       },
       child: Scaffold(
         appBar: AppBar(
