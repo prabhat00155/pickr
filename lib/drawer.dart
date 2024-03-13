@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import 'auth_screen.dart';
+import 'login_screen.dart';
 import 'constants.dart';
 import 'info.dart';
 import 'logger.dart';
@@ -159,7 +159,7 @@ class MyDrawer extends StatelessWidget {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     } catch (e) {
       logger('exception', {'title': 'Drawer', 'method': 'signUserOut', 'file': 'drawer', 'details': e.toString()});
