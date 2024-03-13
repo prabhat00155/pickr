@@ -156,8 +156,7 @@ class MyDrawer extends StatelessWidget {
   void signUserOut(context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pop(context);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
