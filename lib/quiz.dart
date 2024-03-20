@@ -65,13 +65,12 @@ class QuizScreenState extends State<QuizScreen> {
   }
 
   String fetchImageLink(QuizQuestion question) {
-    try {
-      List<String> images = question.urls;
-      int randIndex = Random().nextInt(images.length);
-      return images[randIndex];
-    } catch (e) {
-      return defaultUrl;
+    List<String> images = question.urls;
+    if (images.isEmpty) {
+      return '';
     }
+    int randIndex = Random().nextInt(images.length);
+    return images[randIndex];
   }
 
   (List<String>, int) fetchOptions(QuizQuestion question) {
