@@ -392,7 +392,34 @@ class QuizScreenState extends State<QuizScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                CachedNetworkImage(
+                imageLink.startsWith('assets')
+                  ? Image.asset(
+                      imageLink,
+                      fit: BoxFit.contain,
+                      width: 200,
+                      height: 200,
+                      errorBuilder: (context, error, stackTrace) {
+                        final String errorMessage = 'Error loading local image: $error';
+                        logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': errorMessage});
+                        return const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.error),
+                            SizedBox(height: 10),
+                            Text(
+                              'Failed to load local image. Please check if the image exists in assets.',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                : CachedNetworkImage(
                   imageUrl: imageLink,
                   fit: BoxFit.contain,
                   width: 200,

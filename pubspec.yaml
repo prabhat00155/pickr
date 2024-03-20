@@ -127,6 +127,16 @@ flutter:
     - assets/images/badges/fivehundred_correct_answers.JPG
     - assets/images/badges/thousand_correct_answers.JPG
     - assets/images/badges/perseverence.JPG
+    - assets/images/data/animals/
+    - assets/images/data/birds/
+    - assets/images/data/cities/
+    - assets/images/data/dishes/
+    - assets/images/data/flags/
+    - assets/images/data/fruits/
+    - assets/images/data/logos/
+    - assets/images/data/monuments/
+    - assets/images/data/people/
+    - assets/images/data/sports/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
