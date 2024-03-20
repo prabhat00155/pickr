@@ -51,6 +51,12 @@ void showLeaderboard(BuildContext context) {
 }
 
 void showAccount(BuildContext context, Player? currentPlayer) {
+  bool updated = false;
+
+  void updateAccount(bool isUpdated) {
+    updated = isUpdated;
+  }
+
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
@@ -64,13 +70,21 @@ void showAccount(BuildContext context, Player? currentPlayer) {
             body: const Center(child: CircularProgressIndicator()),
           );
         }
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Account'),
-            backgroundColor: appBarColour,
+        return PopScope(
+          canPop: true,
+          onPopInvoked: (bool didPop) {
+            if (updated) {
+              currentPlayer.updateScoreInFirebase();
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Account'),
+              backgroundColor: appBarColour,
+            ),
+            body: Account(player: currentPlayer, onUpdate: updateAccount),
           ),
-          body: Account(player: currentPlayer),
         );
       },
       settings: const RouteSettings(name: 'Account'),

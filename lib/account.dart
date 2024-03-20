@@ -9,7 +9,9 @@ import 'utilities.dart';
 
 class Account extends StatefulWidget {
   final Player player;
-  const Account({super.key, required this.player});
+  final void Function(bool) onUpdate;
+
+  const Account({super.key, required this.player, required this.onUpdate});
 
   @override
   AccountState createState() => AccountState();
@@ -17,6 +19,7 @@ class Account extends StatefulWidget {
 
 class AccountState extends State<Account> {
   Player get player => widget.player;
+  void Function(bool) get onUpdate => widget.onUpdate;
 
   Future<void> _changeName() async {
     String newName = player.name ?? player.playerId;
@@ -73,6 +76,7 @@ class AccountState extends State<Account> {
                       // Save the new name and close the dialog
                       setState(() {
                         player.name = newName;
+                        onUpdate(true);
                       });
                       Navigator.of(context).pop();
                     }
@@ -103,6 +107,7 @@ class AccountState extends State<Account> {
                   onTap: () {
                     setState(() {
                       player.avatar = '$index';
+                      onUpdate(true);
                     });
                     Navigator.of(context).pop();
                   },
@@ -145,6 +150,7 @@ class AccountState extends State<Account> {
                   onTap: () {
                     setState(() {
                       player.countryCode = countryCodes[index];
+                      onUpdate(true);
                     });
                     Navigator.of(context).pop();
                   },
