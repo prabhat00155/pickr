@@ -406,7 +406,7 @@ class QuizScreenState extends State<QuizScreen> {
                         Icon(Icons.error),
                         SizedBox(height: 10),
                         Text(
-                          'Failed to load local image. Please report this.',
+                          'Failed to load image. Please report this.',
                           style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
