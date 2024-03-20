@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -392,47 +391,14 @@ class QuizScreenState extends State<QuizScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                imageLink.startsWith('assets')
-                  ? Image.asset(
-                      imageLink,
-                      fit: BoxFit.contain,
-                      width: 200,
-                      height: 200,
-                      errorBuilder: (context, error, stackTrace) {
-                        final String errorMessage = 'Error loading local image: $error';
-                        logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': errorMessage});
-                        return const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.error),
-                            SizedBox(height: 10),
-                            Text(
-                              'Failed to load local image. Please report this.',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    )
-                : CachedNetworkImage(
-                  imageUrl: imageLink,
+                Image.asset(
+                  imageLink,
                   fit: BoxFit.contain,
                   width: 200,
                   height: 200,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                    child: CircularProgressIndicator(
-                      value: downloadProgress.progress,
-                      strokeWidth: 5,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) {
-                    final String message = 'Error processing $url: $error';
-                    logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': message});
+                  errorBuilder: (context, error, stackTrace) {
+                    final String errorMessage = 'Error loading local image: $error';
+                    logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': errorMessage});
                     return const Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -441,7 +407,7 @@ class QuizScreenState extends State<QuizScreen> {
                         Icon(Icons.error),
                         SizedBox(height: 10),
                         Text(
-                          'Please ensure that you are connected to the internet!',
+                          'Failed to load local image. Please report this.',
                           style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
@@ -449,7 +415,7 @@ class QuizScreenState extends State<QuizScreen> {
                         ),
                       ],
                     );
-                  }
+                  },
                 ),
                 const SizedBox(height: 20),
                 ListView.builder(
