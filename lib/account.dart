@@ -18,6 +18,75 @@ class Account extends StatefulWidget {
 class AccountState extends State<Account> {
   Player get player => widget.player;
 
+  Future<void> _changeName() async {
+    String newName = player.name ?? player.playerId;
+    TextEditingController textController = TextEditingController(text: newName);
+    String? errorMessage;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: const Text('Change Name'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: textController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: 'Enter new name',
+                      errorText: errorMessage,
+                    ),
+                    onChanged: (value) {
+                      // Reset error message
+                      setState(() {
+                        errorMessage = null;
+                      });
+                      // Update new name
+                      newName = value;
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog without saving changes
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Validate new name
+                    if (newName.length < 5) {
+                      setState(() {
+                        errorMessage = 'Name must have at least 5 characters.';
+                      });
+                    } else if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(newName)) {
+                      setState(() {
+                        errorMessage = 'Name must be alphanumeric only.';
+                      });
+                    } else {
+                      // Save the new name and close the dialog
+                      setState(() {
+                        player.name = newName;
+                      });
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: const Text('Save'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   Future<void> _changeAvatar() async {
     showDialog(
       context: context,
@@ -223,11 +292,14 @@ class AccountState extends State<Account> {
                 const SizedBox(width: 10),
                 Flexible(
                   flex: 1,
-                  child: Text(
-                    player.name ?? player.playerId,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
+                  child: GestureDetector(
+                    onTap: () => _changeName(),
+                    child: Text(
+                      player.name ?? player.playerId,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
