@@ -368,7 +368,6 @@ const List<String> languages = <String>[
   'English',
 ];
 const String documentName = 'users';
-const String defaultUrl = 'https://picsum.photos/200';
 const int questionsPerLevel = 5;
 const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
