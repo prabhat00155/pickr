@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import 'constants.dart';
 import 'home_screen.dart';
@@ -91,7 +92,18 @@ class _LoginScreenState extends State<LoginScreen> {
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: () => mapper[key]?.call(context),
+        onTap: () async {
+          final bool result = await InternetConnection().hasInternetAccess;
+          if (!result) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('No internet connection available. Please check your network settings.'),
+              ),
+            );
+          } else {
+            mapper[key]?.call(context);
+          }
+        },
         contentPadding: const EdgeInsets.only(left: 20.0),
       ),
     );
