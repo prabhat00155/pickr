@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -112,14 +111,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 children: [
                   Row(
                     children: [
-                      player.photoUrl == null
-                      ? RandomAvatar(player.avatar, height: 50, width: 50, trBackground: false)
-                      : CircleAvatar(
-                        radius: 30,
-                        backgroundImage: CachedNetworkImageProvider(
-                          player.photoUrl!,
-                        ),
-                      ),
+                      RandomAvatar(player.avatar, height: 50, width: 50, trBackground: false),
                       const SizedBox(width: 10),
                       Flexible(
                         flex: 1,

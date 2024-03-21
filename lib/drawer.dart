@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -31,19 +30,12 @@ class MyDrawer extends StatelessWidget {
           DrawerHeader(
             child: Row(
               children: [
-                player.photoUrl != null
-                  ? CircleAvatar(
-                    radius: 40,
-                    backgroundImage: CachedNetworkImageProvider(
-                      player.photoUrl!,
-                    ),
-                  )
-                  : RandomAvatar(
-                    player.avatar,
-                    height: 80,
-                    width: 80,
-                    trBackground: false,
-                  ),
+                RandomAvatar(
+                  player.avatar,
+                  height: 80,
+                  width: 80,
+                  trBackground: false,
+                ),
                 const SizedBox(width: 10),
                 Flexible(
                   flex: 1,
