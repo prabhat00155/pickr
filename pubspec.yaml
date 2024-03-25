@@ -168,3 +168,4 @@ flutter_launcher_icons:
   image_path: "assets/images/pickr_logo.png"
   android: true
   ios: true
+  remove_alpha_ios: true
