@@ -14,6 +14,7 @@ void main() async {
   MobileAds.instance.initialize();
 
   runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Pickr',
     home: AuthScreen(),
   ));
