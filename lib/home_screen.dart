@@ -34,8 +34,8 @@ class HomeScreenState extends State<HomeScreen> {
           currentPlayer = player;
         });
       } else if (mounted) {
-        String country = getCountry();
-        String avatarIndex = fetchRandom();
+        final String country = getCountry();
+        final String avatarIndex = fetchRandom();
         final String displayName = currentUser.displayName ?? WordPair.random().asPascalCase;
 
         setState(() {
