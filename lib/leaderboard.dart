@@ -71,7 +71,7 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
         ),
         subtitle: Text(
-          'Score: ${player.score}     Highest Score: ${player.highestScore}',
+          'Score: ${player.score}    Highest: ${player.highestScore}',
           style: const TextStyle(
             fontSize: 12,
             color: Colors.grey,
