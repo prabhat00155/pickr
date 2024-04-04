@@ -23,13 +23,17 @@ Future<List<Player>> getLeaderboard() async {
 }
 
 class Leaderboard extends StatefulWidget {
-  const Leaderboard({super.key});
+  final Player player;
+
+  const Leaderboard({super.key, required this.player});
 
   @override
   State<Leaderboard> createState() => _LeaderboardState();
 }
 
 class _LeaderboardState extends State<Leaderboard> {
+  Player get currentPlayer => widget.player;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +63,12 @@ class _LeaderboardState extends State<Leaderboard> {
   }
 
   Padding _buildTile(context, player, rank) {
+    final Color tileColour;
+    if (player.playerId == currentPlayer.playerId) {
+      tileColour = Colors.indigo;
+    } else {
+      tileColour = Colors.transparent;
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
@@ -91,6 +101,7 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
         ),
         contentPadding: const EdgeInsets.only(left: 20.0, right: 20.0),
+        tileColor: tileColour,
       ),
     );
   }

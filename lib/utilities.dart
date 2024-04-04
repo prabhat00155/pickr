@@ -32,17 +32,27 @@ String fetchRandom([int max = 101]) {
   return Random().nextInt(max).toString();
 }
 
-void showLeaderboard(BuildContext context) {
+void showLeaderboard(BuildContext context, Player? currentPlayer) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
+        if (currentPlayer == null) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Leaderboard'),
+              backgroundColor: appBarColour,
+            ),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
             title: const Text('Leaderboard'),
             backgroundColor: appBarColour,
           ),
-          body: const Leaderboard(),
+          body: Leaderboard(player: currentPlayer),
         );
       },
       settings: const RouteSettings(name: 'Leaderboard'),

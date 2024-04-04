@@ -144,7 +144,7 @@ class HomeScreenState extends State<HomeScreen> {
               }
               break;
               case 1: {
-                showLeaderboard(context);
+                showLeaderboard(context, currentPlayer);
               }
               break;
               case 2: {
