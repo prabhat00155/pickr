@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -35,10 +36,12 @@ class HomeScreenState extends State<HomeScreen> {
       } else if (mounted) {
         String country = getCountry();
         String avatarIndex = fetchRandom();
+        final String displayName = currentUser.displayName ?? WordPair.random().asPascalCase;
+
         setState(() {
           currentPlayer = Player(
             currentUser.uid,
-            name: currentUser.displayName,
+            name: displayName,
             email: currentUser.email,
             photoUrl: currentUser.photoURL,
             avatar: avatarIndex,
