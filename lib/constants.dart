@@ -368,9 +368,10 @@ const List<String> languages = <String>[
   'English',
 ];
 const String documentName = 'users';
-const int questionsPerLevel = 5;
+const int questionsPerLevel = 1;
 const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
+const int timePerQuiz = 10;
 
 Map<String, String> timeZoneToCountryCode = {
   'gmt': 'gb',

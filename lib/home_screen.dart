@@ -8,7 +8,7 @@ import 'constants.dart';
 import 'drawer.dart';
 import 'logger.dart';
 import 'player.dart';
-import 'quiz.dart';
+import 'quiz_timed.dart';
 import 'user_feedback.dart';
 import 'utilities.dart';
 

@@ -1,31 +1,16 @@
+import 'dart:async';
 import 'dart:math';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import 'advertisement.dart';
+import 'completion.dart';
 import 'constants.dart';
 import 'load_json.dart';
 import 'logger.dart';
 import 'player.dart';
-part 'quiz.g.dart'; // Generated code file
+import 'quiz.dart';
 
-@JsonSerializable()
-class QuizQuestion {
-  final int level;
-  final String name;
-  List<String> options;
-  List<String> urls;
-  int correctAnswerIndex = 0;
-
-  QuizQuestion({required this.level, required this.name, required this.options, required this.urls});
-
-  factory QuizQuestion.fromJson(Map<String, dynamic> json) => _$QuizQuestionFromJson(json);
-  Map<String, dynamic> toJson() => _$QuizQuestionToJson(this);
-}
-/*
 class QuizScreen extends StatefulWidget {
   final String title;
   final Player player;
@@ -53,8 +38,8 @@ class QuizScreenState extends State<QuizScreen> {
   bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   Player get player => widget.player;
-  InterstitialAd? _interstitialAd;
-  int _numInterstitialLoadAttempts = 0;
+  int _remainingTimeInSeconds = timePerQuiz;
+  late Timer _timer;
 
   void goToPreviousQuestion() {
     setState(() {
@@ -85,73 +70,28 @@ class QuizScreenState extends State<QuizScreen> {
     return (shuffledOptions, correctAnswerIndex);
   }
 
-  void displayLevelUp() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.arrow_upward, color: Colors.green),
-              SizedBox(width: 10),
-              Text('Level Up!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              SizedBox(width: 10),
-              Icon(Icons.arrow_upward, color: Colors.green),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Well done! You have reached the next level.'),
-              const SizedBox(height: 10),
-              Text('Current Score: $score'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void displayCompletion() {
-    int accuracy = 100 * correctAnswers ~/ noOfQuestions;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Quiz Completed!'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Congratulations on completing the quiz!'),
-              const SizedBox(height: 10),
-              Text('Your Score: $score'),
-              const SizedBox(height: 10),
-              Text('Accuracy: $accuracy %'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
+    String accuracyText = 'N/A';
+    if (noOfQuestions > 0) {
+      accuracyText = '${100 * correctAnswers ~/ noOfQuestions} %';
+    }
     player.addBadge(Badges.perseverence);
+    Navigator.pop(context);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text('Quiz completed!'),
+              backgroundColor: appBarColour,
+            ),
+            body: Completion(player: player, score: score, accuracyText: accuracyText),
+          );
+        },
+        settings: const RouteSettings(name: 'Completion'),
+      ),
+    );
   }
 
   void goToNextQuestion() {
@@ -181,10 +121,6 @@ class QuizScreenState extends State<QuizScreen> {
         correctLevelAnswers = 0;
         currentLevel++;
       });
-      displayLevelUp();
-      if (currentLevel % 3 == 0) {
-        _showInterstitialAd();
-      }
     }
   }
 
@@ -268,68 +204,32 @@ class QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-    _createInterstitialAd();
     if (widget.title == 'Mixed Bag') {
       mixQuestions();
     } else {
       fetchQuestions(widget.title);
     }
+    startTimer();
   }
 
   @override
   void dispose() {
-    _interstitialAd?.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
-  void _createInterstitialAd() {
-    // TODO: replace this test ad unit with your own ad unit.
-    final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-3940256099942544/4411468910';
-
-    InterstitialAd.load(
-      adUnitId: adUnitId,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-          _numInterstitialLoadAttempts = 0;
-          _interstitialAd!.setImmersiveMode(true);
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          logger('exception', {'title': 'Quiz', 'method': '_createInterstitialAd', 'file': 'quiz', 'details': error.toString()});
-          _numInterstitialLoadAttempts += 1;
-          _interstitialAd = null;
-          if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
-            _createInterstitialAd();
-          }
-        },
-      ));
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd == null) {
-      const String message = 'Warning: attempt to show interstitial before it has loaded.';
-      logger('exception', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': message});
-      return;
-    }
-    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          logger('onAdShowedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad.toString()}),
-      onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        logger('onAdDismissedFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': ad.toString()});
-        ad.dispose();
-        _createInterstitialAd();
-      },
-      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        logger('onAdFailedToShowFullScreenContent', {'title': 'Quiz', 'method': '_showInterstitialAd', 'file': 'quiz', 'details': '$ad: $error'});
-        ad.dispose();
-        _createInterstitialAd();
-      },
-    );
-    _interstitialAd!.show();
-    _interstitialAd = null;
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_remainingTimeInSeconds > 0) {
+          _remainingTimeInSeconds--;
+        } else {
+          // Timer expired, end quiz
+          timer.cancel();
+          displayCompletion();
+        }
+      });
+    });
   }
 
   @override
@@ -376,16 +276,24 @@ class QuizScreenState extends State<QuizScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   color: Colors.blue,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(width: 8),
                       Text(
                         'Level: ${currentQuestion.level}',
                         style: const TextStyle(color: Colors.white),
                       ),
+                      const Spacer(),
+                      const Icon(Icons.timer_sharp, color: Colors.white),
+                      const SizedBox(width: 8),
                       Text(
-                        'Score: $correctAnswers/$noOfQuestions',
-                        style: const TextStyle(color: Colors.white),
+                        'Time left: $_remainingTimeInSeconds s',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ),
@@ -397,7 +305,7 @@ class QuizScreenState extends State<QuizScreen> {
                   height: 200,
                   errorBuilder: (context, error, stackTrace) {
                     final String errorMessage = 'Error loading local image: $error';
-                    logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz', 'details': errorMessage});
+                    logger('exception', {'title': 'Quiz', 'method': 'build', 'file': 'quiz_timed', 'details': errorMessage});
                     return const Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -487,4 +395,3 @@ class QuizScreenState extends State<QuizScreen> {
     );
   }
 }
-*/
