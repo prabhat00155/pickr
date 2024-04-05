@@ -426,7 +426,7 @@ class QuizScreenState extends State<QuizScreen> {
 
                     return GestureDetector(
                       onTap: () {
-                        if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex) {
+                        if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex && !quizCompleted) {
                           setState(() {
                             isOptionSelected = true;
                             userSelectedAnswers[currentQuestionIndex] = index;
