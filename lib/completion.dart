@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'advertisement.dart';
 import 'constants.dart';
 import 'logger.dart';
 import 'player.dart';
@@ -11,8 +12,15 @@ class Completion extends StatefulWidget {
   final Player player;
   final int score;
   final String accuracyText;
+  final List<int> correctAnswersPerLevel;
 
-  const Completion({super.key, required this.player, required this.score, required this.accuracyText});
+  const Completion({
+    super.key,
+    required this.player,
+    required this.score,
+    required this.accuracyText,
+    required this.correctAnswersPerLevel,
+  });
 
   @override
   State<Completion> createState() => _CompletionState();
@@ -22,6 +30,7 @@ class _CompletionState extends State<Completion> {
   Player get currentPlayer => widget.player;
   int get score => widget.score;
   String get accuracyText => widget.accuracyText;
+  List<int> get correctAnswersPerLevel => widget.correctAnswersPerLevel;
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
@@ -37,6 +46,47 @@ class _CompletionState extends State<Completion> {
     super.dispose();
   }
 
+  void scoreDetails() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Score Details'),
+          content: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text('Question')),
+                DataColumn(label: Text('Score')),
+                DataColumn(label: Text('Multiplier')),
+                DataColumn(label: Text('Weighted Score')),
+              ],
+              rows: List.generate(correctAnswersPerLevel.length, (index) {
+                int value = correctAnswersPerLevel[index];
+                int multiplier = index + 1;
+                int product = value * multiplier;
+                return DataRow(cells: [
+                  DataCell(Text(multiplier.toString())),
+                  DataCell(Text(value.toString())),
+                  DataCell(Text(multiplier.toString())),
+                  DataCell(Text(product.toString())),
+                ]);
+              }),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -45,15 +95,36 @@ class _CompletionState extends State<Completion> {
         _showInterstitialAd();
       },
       child: Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              const Text('Congratulations on completing the quiz!'),
-              const SizedBox(height: 10),
-              Text('Your Score: $score'),
-              const SizedBox(height: 10),
-              Text('Accuracy: $accuracyText'),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Your Score: $score',
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.info,
+                        size: 20.0,
+                      ),
+                      tooltip: 'Score details',
+                      onPressed: scoreDetails,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Accuracy: $accuracyText',
+                  style: const TextStyle(fontSize: 24),
+                ),
+                const BannerAdClass(),
+              ],
+            ),
           ),
         ),
       ),

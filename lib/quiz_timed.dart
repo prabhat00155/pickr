@@ -37,6 +37,7 @@ class QuizScreenState extends State<QuizScreen> {
   bool isOptionSelected = false;
   bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
+  List<int> correctAnswersPerLevel = List.filled(maxLevel, 0);
   Player get player => widget.player;
   int _remainingTimeInSeconds = timePerQuiz;
   late Timer _timer;
@@ -83,10 +84,15 @@ class QuizScreenState extends State<QuizScreen> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: const Text('Quiz completed!'),
+              title: const Text('Game Over!'),
               backgroundColor: appBarColour,
             ),
-            body: Completion(player: player, score: score, accuracyText: accuracyText),
+            body: Completion(
+              player: player,
+              score: score,
+              accuracyText: accuracyText,
+              correctAnswersPerLevel: correctAnswersPerLevel,
+            ),
           );
         },
         settings: const RouteSettings(name: 'Completion'),
@@ -102,6 +108,11 @@ class QuizScreenState extends State<QuizScreen> {
           isOptionSelected = false;
         });
       } else {
+        if (currentLevel <= maxLevel) {
+          setState(() {
+            correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
+          });
+        }
         setState(() {
           score += currentLevel * correctLevelAnswers;
           isOptionSelected = false;
@@ -116,6 +127,11 @@ class QuizScreenState extends State<QuizScreen> {
       });
     }
     if (currentLevel < quizQuestions[currentQuestionIndex].level) {
+      if (currentLevel <= maxLevel) {
+        setState(() {
+          correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
+        });
+      }
       setState(() {
         score += currentLevel * correctLevelAnswers;
         correctLevelAnswers = 0;
@@ -253,6 +269,9 @@ class QuizScreenState extends State<QuizScreen> {
       canPop: true,
       onPopInvoked: (bool didPop) {
         if (!quizCompleted) {
+          if (currentLevel <= maxLevel) {
+            correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
+          }
           score += currentLevel * correctLevelAnswers;
         }
         player.updateScore(widget.title, correctAnswers, noOfQuestions, score);

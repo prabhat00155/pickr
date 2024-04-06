@@ -372,6 +372,7 @@ const int questionsPerLevel = 1;
 const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
 const int timePerQuiz = 10;
+const int maxLevel = 10;
 
 Map<String, String> timeZoneToCountryCode = {
   'gmt': 'gb',
