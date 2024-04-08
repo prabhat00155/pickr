@@ -114,6 +114,70 @@ const categories = [
   Category('Sports', 'assets/images/categories/sport.png'),
 ];
 
+const Color appBarColour = Colors.green;
+const List<String> languages = <String>[
+  'English',
+];
+const String documentName = 'users';
+const int questionsPerLevel = 1;
+const int maxQuestions = 100;
+const int maxFailedLoadAttempts = 3;
+const int timePerQuiz = 10;
+const int maxLevel = 10;
+
+const List<Color> circleColours = [
+  Colors.pink,
+  Colors.orange,
+  Colors.yellow,
+  Colors.lime,
+  Colors.green,
+  Colors.teal,
+  Colors.cyan,
+  Colors.purple,
+  Colors.blueGrey,
+  Colors.red,
+];
+
+Map<String, String> timeZoneToCountryCode = {
+  'gmt': 'gb',
+  'bst': 'gb',
+  'ist': 'in',
+  'pst': 'us',
+  'pdt': 'us',
+  'est': 'us',
+  'edt': 'us',
+  'hst': 'us',
+  'hdt': 'us',
+  'akst': 'us',
+  'akdt': 'us',
+  'mst': 'us',
+  'mdt': 'us',
+  'cst': 'us',
+  'cdt': 'us',
+  'eat': 'ke',
+  'cet': 'es',
+  'wat': 'ng',
+  'sast': 'za',
+  'eet': 'ly',
+  'cat': 'zw',
+  'jst': 'jp',
+  'ast': 'ca',
+  'nst': 'ca',
+  'ndt': 'ca',
+  'nzst': 'nz',
+  'nzdt': 'nz',
+  'hkt': 'hk',
+  'wib': 'id',
+  'wit': 'id',
+  'wita': 'id',
+  'pkt': 'pk',
+  'kst': 'kr',
+  'sst': 'as',
+  'awst': 'au',
+  'msk': 'ru',
+  'chst': 'gu',
+};
+
 const List<String> countryCodes = [
   'af',
   'al',
@@ -362,67 +426,3 @@ const List<String> countryCodes = [
   'zw',
   'ax',
 ];
-
-const Color appBarColour = Colors.green;
-const List<String> languages = <String>[
-  'English',
-];
-const String documentName = 'users';
-const int questionsPerLevel = 1;
-const int maxQuestions = 100;
-const int maxFailedLoadAttempts = 3;
-const int timePerQuiz = 10;
-const int maxLevel = 10;
-
-const List<Color> circleColours = [
-  Colors.pink,
-  Colors.orange,
-  Colors.yellow,
-  Colors.lime,
-  Colors.green,
-  Colors.teal,
-  Colors.cyan,
-  Colors.purple,
-  Colors.blueGrey,
-  Colors.red,
-];
-
-Map<String, String> timeZoneToCountryCode = {
-  'gmt': 'gb',
-  'bst': 'gb',
-  'ist': 'in',
-  'pst': 'us',
-  'pdt': 'us',
-  'est': 'us',
-  'edt': 'us',
-  'hst': 'us',
-  'hdt': 'us',
-  'akst': 'us',
-  'akdt': 'us',
-  'mst': 'us',
-  'mdt': 'us',
-  'cst': 'us',
-  'cdt': 'us',
-  'eat': 'ke',
-  'cet': 'es',
-  'wat': 'ng',
-  'sast': 'za',
-  'eet': 'ly',
-  'cat': 'zw',
-  'jst': 'jp',
-  'ast': 'ca',
-  'nst': 'ca',
-  'ndt': 'ca',
-  'nzst': 'nz',
-  'nzdt': 'nz',
-  'hkt': 'hk',
-  'wib': 'id',
-  'wit': 'id',
-  'wita': 'id',
-  'pkt': 'pk',
-  'kst': 'kr',
-  'sst': 'as',
-  'awst': 'au',
-  'msk': 'ru',
-  'chst': 'gu',
-};
