@@ -69,6 +69,9 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     initialisePlayerData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showSnackBar();
+    });
   }
 
   @override
@@ -88,6 +91,23 @@ class HomeScreenState extends State<HomeScreen> {
     } else {
       return null;
     }
+  }
+
+  void _showSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Please select a category to start playing.',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: appBarColour,
+      ),
+    );
   }
 
   @override
