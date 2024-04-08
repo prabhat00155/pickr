@@ -298,10 +298,24 @@ class QuizScreenState extends State<QuizScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(width: 8),
-                      Text(
-                        'Level: ${currentQuestion.level}',
-                        style: const TextStyle(color: Colors.white),
+                      const SizedBox(width: 16),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: circleColours[currentQuestion.level - 1],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${currentQuestion.level}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
                       ),
                       const Spacer(),
                       const Icon(Icons.timer_sharp, color: Colors.white),

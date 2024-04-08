@@ -374,6 +374,19 @@ const int maxFailedLoadAttempts = 3;
 const int timePerQuiz = 10;
 const int maxLevel = 10;
 
+const List<Color> circleColours = [
+  Colors.pink,
+  Colors.orange,
+  Colors.yellow,
+  Colors.lime,
+  Colors.green,
+  Colors.teal,
+  Colors.cyan,
+  Colors.purple,
+  Colors.blueGrey,
+  Colors.red,
+];
+
 Map<String, String> timeZoneToCountryCode = {
   'gmt': 'gb',
   'bst': 'gb',
