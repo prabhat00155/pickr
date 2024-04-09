@@ -84,7 +84,7 @@ class QuizScreenState extends State<QuizScreen> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: const Text('Game Over!'),
+              title: const Text('Results'),
               backgroundColor: appBarColour,
             ),
             body: Completion(
@@ -92,6 +92,7 @@ class QuizScreenState extends State<QuizScreen> {
               score: score,
               accuracyText: accuracyText,
               correctAnswersPerLevel: correctAnswersPerLevel,
+              remainingTimeInSeconds: _remainingTimeInSeconds,
             ),
           );
         },
@@ -274,6 +275,8 @@ class QuizScreenState extends State<QuizScreen> {
           }
           score += currentLevel * correctLevelAnswers;
         }
+        int deno = 1 + maxLevel - correctAnswers;
+        score = score + _remainingTimeInSeconds ~/ (deno * deno);
         player.updateScore(widget.title, correctAnswers, noOfQuestions, score);
       },
       child: Scaffold(

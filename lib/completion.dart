@@ -13,6 +13,7 @@ class Completion extends StatefulWidget {
   final int score;
   final String accuracyText;
   final List<int> correctAnswersPerLevel;
+  final int remainingTimeInSeconds;
 
   const Completion({
     super.key,
@@ -20,6 +21,7 @@ class Completion extends StatefulWidget {
     required this.score,
     required this.accuracyText,
     required this.correctAnswersPerLevel,
+    required this.remainingTimeInSeconds,
   });
 
   @override
@@ -31,6 +33,7 @@ class _CompletionState extends State<Completion> {
   int get score => widget.score;
   String get accuracyText => widget.accuracyText;
   List<int> get correctAnswersPerLevel => widget.correctAnswersPerLevel;
+  int get remainingTimeInSeconds => widget.remainingTimeInSeconds;
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
@@ -87,6 +90,27 @@ class _CompletionState extends State<Completion> {
     );
   }
 
+  Widget _buildCircle(int number, Color colour) {
+    return Container(
+      width: 30,
+      height: 30,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: colour,
+      ),
+      child: Center(
+        child: Text(
+          '$number',
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -101,25 +125,60 @@ class _CompletionState extends State<Completion> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Your Score: $score',
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.info,
-                        size: 20.0,
-                      ),
-                      tooltip: 'Score details',
-                      onPressed: scoreDetails,
-                    ),
-                  ],
+                const Text(
+                  'Score details:',
+                  style: TextStyle(fontSize: 20),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: (correctAnswersPerLevel.length / 2).ceil(),
+                  itemBuilder: (BuildContext context, int index) {
+                    final int number1 = index * 2 + 1;
+                    final int number2 = index * 2 + 2;
+                    final Color colour1 = circleColours[(index * 2) % circleColours.length];
+                    final Color colour2 = circleColours[(index * 2 + 1) % circleColours.length];
+                    final int correctAnswers1 = correctAnswersPerLevel[index * 2];
+                    final int correctAnswers2 = (index * 2 + 1 < correctAnswersPerLevel.length) ? correctAnswersPerLevel[index * 2 + 1] : 0;
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 20),
+                        _buildCircle(number1, colour1),
+                        const SizedBox(width: 10),
+                        Text(
+                          'x  $correctAnswers1',
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        const Spacer(),
+                        _buildCircle(number2, colour2),
+                        const SizedBox(width: 10),
+                        Text(
+                          'x  $correctAnswers2',
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        const SizedBox(width: 20),
+                      ],
+                    );
+                  },
+                ),
+                Text(
+                  'Time Left: $remainingTimeInSeconds',
+                  style: const TextStyle(fontSize: 24),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Final Score: $score',
+                  style: const TextStyle(fontSize: 24),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   'Accuracy: $accuracyText',
+                  style: const TextStyle(fontSize: 24),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Highest Score: ${currentPlayer.getHighestScore()}',
                   style: const TextStyle(fontSize: 24),
                 ),
                 const BannerAdClass(),
