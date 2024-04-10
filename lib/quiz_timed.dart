@@ -28,14 +28,10 @@ class QuizScreen extends StatefulWidget {
 class QuizScreenState extends State<QuizScreen> {
   List<QuizQuestion> quizQuestions = [];
   int currentQuestionIndex = 0;
-  int maxAnsweredIndex = -1;
   int correctAnswers = 0;
   int noOfQuestions = 0;
   int currentLevel = 1;
-  int correctLevelAnswers = 0;
   int score = 0;
-  bool isOptionSelected = false;
-  bool quizCompleted = false;
   List<int?> userSelectedAnswers = List.filled(maxQuestions, null);
   List<int> correctAnswersPerLevel = List.filled(maxLevel, 0);
   Player get player => widget.player;
@@ -71,6 +67,14 @@ class QuizScreenState extends State<QuizScreen> {
     return (shuffledOptions, correctAnswerIndex);
   }
 
+  void computeScore() {
+    for (int i = 0; i < maxLevel; i++) {
+      score += correctAnswersPerLevel[i] * (i + 1);
+    }
+    int deno = 1 + maxLevel - correctAnswers;
+    score = score + _remainingTimeInSeconds ~/ (deno * deno);
+  }
+
   void displayCompletion() {
     String accuracyText = 'N/A';
     if (noOfQuestions > 0) {
@@ -102,40 +106,16 @@ class QuizScreenState extends State<QuizScreen> {
   }
 
   void goToNextQuestion() {
-    if (isOptionSelected) {
-      if (currentQuestionIndex < quizQuestions.length - 1) {
-        setState(() {
-          maxAnsweredIndex++;
-          isOptionSelected = false;
-        });
-      } else {
-        if (currentLevel <= maxLevel) {
-          setState(() {
-            correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
-          });
-        }
-        setState(() {
-          score += currentLevel * correctLevelAnswers;
-          isOptionSelected = false;
-          quizCompleted = true;
-        });
-        displayCompletion();
-      }
+    if (currentQuestionIndex == quizQuestions.length - 1) {
+      displayCompletion();
     }
-    if (currentQuestionIndex <= maxAnsweredIndex && currentQuestionIndex < quizQuestions.length - 1) {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
       setState(() {
         currentQuestionIndex++;
       });
     }
     if (currentLevel < quizQuestions[currentQuestionIndex].level) {
-      if (currentLevel <= maxLevel) {
-        setState(() {
-          correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
-        });
-      }
       setState(() {
-        score += currentLevel * correctLevelAnswers;
-        correctLevelAnswers = 0;
         currentLevel++;
       });
     }
@@ -269,14 +249,7 @@ class QuizScreenState extends State<QuizScreen> {
     return PopScope(
       canPop: true,
       onPopInvoked: (bool didPop) {
-        if (!quizCompleted) {
-          if (currentLevel <= maxLevel) {
-            correctAnswersPerLevel[currentLevel - 1] = correctLevelAnswers;
-          }
-          score += currentLevel * correctLevelAnswers;
-        }
-        int deno = 1 + maxLevel - correctAnswers;
-        score = score + _remainingTimeInSeconds ~/ (deno * deno);
+        computeScore();
         player.updateScore(widget.title, correctAnswers, noOfQuestions, score);
       },
       child: Scaffold(
@@ -365,21 +338,23 @@ class QuizScreenState extends State<QuizScreen> {
                   shrinkWrap: true,
                   itemCount: options.length,
                   itemBuilder: (context, index) {
+                    bool isOptionSelected = userSelectedAnswers[currentQuestionIndex] != null;
                     bool isSelected = userSelectedAnswers[currentQuestionIndex] == index;
                     bool isCorrect = index == currentQuestion.correctAnswerIndex;
 
                     return GestureDetector(
                       onTap: () {
-                        if(!isOptionSelected && currentQuestionIndex > maxAnsweredIndex && !quizCompleted) {
+                        if(!isOptionSelected) {
                           setState(() {
                             isOptionSelected = true;
                             userSelectedAnswers[currentQuestionIndex] = index;
                             noOfQuestions++;
                           });
+                          int l = currentQuestion.level;
                           if(index == currentQuestion.correctAnswerIndex) {
                             setState(() {
                               correctAnswers++;
-                              correctLevelAnswers++;
+                              correctAnswersPerLevel[l - 1]++;
                             });
                           }
                           Future.delayed(const Duration(seconds: 2), () {
