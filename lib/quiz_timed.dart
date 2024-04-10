@@ -382,6 +382,11 @@ class QuizScreenState extends State<QuizScreen> {
                               correctLevelAnswers++;
                             });
                           }
+                          Future.delayed(const Duration(seconds: 2), () {
+                            if (mounted && autoTransitionActive) {
+                              goToNextQuestion();
+                            }
+                          });
                         }
                       },
                       child: Container(
