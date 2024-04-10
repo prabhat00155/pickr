@@ -43,11 +43,11 @@ class QuizScreenState extends State<QuizScreen> {
     setState(() {
       autoTransitionActive = false;
     });
-    setState(() {
-      if (currentQuestionIndex > 0) {
+    if (currentQuestionIndex > 0) {
+      setState(() {
         currentQuestionIndex--;
-      }
-    });
+      });
+    }
   }
 
   String fetchImageLink(QuizQuestion question) {
