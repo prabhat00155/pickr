@@ -37,8 +37,12 @@ class QuizScreenState extends State<QuizScreen> {
   Player get player => widget.player;
   int _remainingTimeInSeconds = timePerQuiz;
   late Timer _timer;
+  bool autoTransitionActive = true;
 
   void goToPreviousQuestion() {
+    setState(() {
+      autoTransitionActive = false;
+    });
     setState(() {
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
@@ -106,6 +110,9 @@ class QuizScreenState extends State<QuizScreen> {
   }
 
   void goToNextQuestion() {
+    setState(() {
+      autoTransitionActive = false;
+    });
     if (currentQuestionIndex == quizQuestions.length - 1) {
       displayCompletion();
     }
@@ -349,6 +356,7 @@ class QuizScreenState extends State<QuizScreen> {
                             isOptionSelected = true;
                             userSelectedAnswers[currentQuestionIndex] = index;
                             noOfQuestions++;
+                            autoTransitionActive = true;
                           });
                           int l = currentQuestion.level;
                           if(index == currentQuestion.correctAnswerIndex) {

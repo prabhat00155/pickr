@@ -124,7 +124,6 @@ const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
 const int timePerQuiz = 10;
 const int maxLevel = 10;
-const bool autoTransitionActive = true;
 
 const List<Color> circleColours = [
   Colors.pink,
