@@ -40,7 +40,7 @@ Map<PlayerLevels, String> levelToImage = {
   PlayerLevels.intermediate: 'assets/images/badges/intermediate.JPG',
   PlayerLevels.experienced: 'assets/images/badges/experienced.JPG',
   PlayerLevels.legend: 'assets/images/badges/legend.JPG',
-  PlayerLevels.wizard: 'assets/images/badges/wizard.png',
+  PlayerLevels.wizard: 'assets/images/badges/wizard.webp',
 };
 
 Map<Badges, String> badgeToImage = {
