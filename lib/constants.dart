@@ -155,7 +155,7 @@ const String documentName = 'users';
 const int questionsPerLevel = 1;
 const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
-const int timePerQuiz = 10;
+const int timePerQuiz = 120;
 const int maxLevel = 10;
 
 const List<Color> circleColours = [
