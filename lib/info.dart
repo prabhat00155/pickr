@@ -199,7 +199,7 @@ class Rules extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        '3. Complete the remaining questions to improve your score, player level, earn badges and climb up the leaderboard.',
+                        '3. Complete the remaining questions to improve your score, progress through the player levels, earn badges and climb up the leaderboard.',
                         style: TextStyle(fontSize: 16.0),
                       ),
                       const Divider(),
