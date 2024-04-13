@@ -66,6 +66,29 @@ Map<Badges, String> badgeToImage = {
   Badges.perseverence: 'assets/images/badges/perseverence.JPG',
 };
 
+Map<Badges, String> badgeToInfo = {
+  Badges.allrounder: 'Awarded when a player achieves an accuracy of 80% or more in Mixed Bag category with a minimum of 50 attempts.',
+  Badges.zoologist: 'Awarded when a player achieves an accuracy of 80% or more in Animals category with a minimum of 50 attempts.',
+  Badges.ornithologist: 'Awarded when a player achieves an accuracy of 80% or more in Birds category with a minimum of 50 attempts.',
+  Badges.traveller: 'Awarded when a player achieves an accuracy of 80% or more in Cities category with a minimum of 50 attempts.',
+  Badges.gourmet: 'Awarded when a player achieves an accuracy of 80% or more in Dishes category with a minimum of 50 attempts.',
+  Badges.vexillologist: 'Awarded when a player achieves an accuracy of 80% or more in Flags category with a minimum of 50 attempts.',
+  Badges.pomologist: 'Awarded when a player achieves an accuracy of 80% or more in Fruits category with a minimum of 50 attempts.',
+  Badges.logo: 'Awarded when a player achieves an accuracy of 80% or more in Logos category with a minimum of 50 attempts.',
+  Badges.archaeologist: 'Awarded when a player achieves an accuracy of 80% or more in Monuments category with a minimum of 50 attempts.',
+  Badges.people: 'Awarded when a player achieves an accuracy of 80% or more in People category with a minimum of 50 attempts.',
+  Badges.sports: 'Awarded when a player achieves an accuracy of 80% or more in Sports category with a minimum of 50 attempts.',
+  Badges.tenInARow: 'Awarded when a player gets 10 correct answers in a row.',
+  Badges.twentyInARow: 'Awarded when a player gets 20 correct answers in a row.',
+  Badges.twentyfiveInARow: 'Awarded when a player gets 25 correct answers in a row.',
+  Badges.fiftyInARow: 'Awarded when a player gets 50 correct answers in a row.',
+  Badges.fiftyCorrectAnswers: 'Awarded when a player gets 50 correct answers in total.',
+  Badges.hundredCorrectAnswers: 'Awarded when a player gets 100 correct answers in total.',
+  Badges.fivehundredCorrectAnswers: 'Awarded when a player gets 500 correct answers in total.',
+  Badges.thousandCorrectAnswers: 'Awarded when a player gets 1000 correct answers in total.',
+  Badges.perseverence: 'Awarded when a player completes a game in any category.',
+};
+
 Map<String, Badges> categoryToBadge = {
   'Mixed Bag': Badges.allrounder,
   'Animals': Badges.zoologist,
