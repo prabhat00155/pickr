@@ -280,9 +280,11 @@ class Rules extends StatelessWidget {
                                   radius: 50,
                                 ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  badge,
-                                  style: const TextStyle(fontSize: 16.0),
+                                Flexible(
+                                  child: Text(
+                                    badge,
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
                                 ),
                               ],
                             ),
