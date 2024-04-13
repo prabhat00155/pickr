@@ -233,8 +233,8 @@ class Rules extends StatelessWidget {
                       const SizedBox(height: 8),
                       Column(
                         children: levelToImage.entries.map((entry) {
-                          final level = _toPascalCase(entry.key.name);
-                          final imageAsset = entry.value;
+                          final String level = _toPascalCase(entry.key.name);
+                          final String imageAsset = entry.value;
 
                           return Row(
                             children: [
@@ -264,8 +264,8 @@ class Rules extends StatelessWidget {
                       Column(
                         children: badgeToImage.entries.where((entry) =>
                         !entry.key.name.toLowerCase().endsWith('inarow')).map((entry) {
-                          final badge = _toPascalCase(entry.key.name);
-                          final imageAsset = entry.value;
+                          final String badge = _toPascalCase(entry.key.name);
+                          final String imageAsset = entry.value;
                           final String info = badgeToInfo.containsKey(entry.key) ? badgeToInfo[entry.key]! : '';
 
                           return GestureDetector(
