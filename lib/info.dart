@@ -203,7 +203,7 @@ class Rules extends StatelessWidget {
                       ),
                       Column(
                         children: levelToImage.entries.map((entry) {
-                          final level = entry.key.name;
+                          final level = _toPascalCase(entry.key.name);
                           final imageAsset = entry.value;
 
                           return Row(
