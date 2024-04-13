@@ -235,19 +235,23 @@ class Rules extends StatelessWidget {
                         children: levelToImage.entries.map((entry) {
                           final String level = _toPascalCase(entry.key.name);
                           final String imageAsset = entry.value;
+                          final String info = levelToInfo.containsKey(entry.key) ? levelToInfo[entry.key]! : '';
 
-                          return Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage(imageAsset),
-                                radius: 50,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                level,
-                                style: const TextStyle(fontSize: 16.0),
-                              ),
-                            ],
+                          return GestureDetector(
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(imageAsset),
+                                  radius: 50,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  level,
+                                  style: const TextStyle(fontSize: 16.0),
+                                ),
+                              ],
+                            ),
+                            onTap: () => showInfo(context, info, level),
                           );
                         }).toList(),
                       ),

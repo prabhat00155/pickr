@@ -66,6 +66,16 @@ Map<Badges, String> badgeToImage = {
   Badges.perseverence: 'assets/images/badges/perseverence.JPG',
 };
 
+Map<PlayerLevels, String> levelToInfo = {
+  PlayerLevels.beginner: 'Players start their journey at this level.',
+  PlayerLevels.novice: 'After playing 5 quizzes or a total attempt of 50 questions, a player advances to the Novice level.',
+  PlayerLevels.apprentice: 'A player becomes an Apprentice after playing 10 quizzes or a total attempt of 100 questions.',
+  PlayerLevels.intermediate: 'A player progresses to the Intermediate level after playing 20 quizzes or a total attempt of 200 questions.',
+  PlayerLevels.experienced: 'After completing 30 quizzes or a total of 300 questions, a player reaches Experienced level.',
+  PlayerLevels.legend: 'A completion of 50 quizzes or 500 questions in total takes the player to Legend level.',
+  PlayerLevels.wizard: 'After finishing 70 quizzes or 700 questions in total, a player reaches Wizard status.',
+};
+
 Map<Badges, String> badgeToInfo = {
   Badges.allrounder: 'Awarded when a player achieves an accuracy of 80% or more in Mixed Bag category with a minimum of 50 attempts.',
   Badges.zoologist: 'Awarded when a player achieves an accuracy of 80% or more in Animals category with a minimum of 50 attempts.',
