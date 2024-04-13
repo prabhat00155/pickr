@@ -214,7 +214,7 @@ class Rules extends StatelessWidget {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                '$level',
+                                level,
                                 style: const TextStyle(fontSize: 12.0),
                               ),
                             ],
