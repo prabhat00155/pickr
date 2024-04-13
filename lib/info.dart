@@ -221,6 +221,32 @@ class Rules extends StatelessWidget {
                           );
                         }).toList(),
                       ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Badges:',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      Column(
+                        children: badgeToImage.entries.where((entry) =>
+                        !entry.key.name.toLowerCase().endsWith('inarow')).map((entry) {
+                          final badge = _toPascalCase(entry.key.name);
+                          final imageAsset = entry.value;
+
+                          return Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(imageAsset),
+                                radius: 50,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                badge,
+                                style: const TextStyle(fontSize: 12.0),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
                     ],
                   ),
                 ),
@@ -230,5 +256,9 @@ class Rules extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _toPascalCase(String word) {
+    return word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '';
   }
 }
