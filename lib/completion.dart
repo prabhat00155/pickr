@@ -49,47 +49,6 @@ class _CompletionState extends State<Completion> {
     super.dispose();
   }
 
-  void scoreDetails() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Score Details'),
-          content: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: const [
-                DataColumn(label: Text('Question')),
-                DataColumn(label: Text('Score')),
-                DataColumn(label: Text('Multiplier')),
-                DataColumn(label: Text('Weighted Score')),
-              ],
-              rows: List.generate(correctAnswersPerLevel.length, (index) {
-                int value = correctAnswersPerLevel[index];
-                int multiplier = index + 1;
-                int product = value * multiplier;
-                return DataRow(cells: [
-                  DataCell(Text(multiplier.toString())),
-                  DataCell(Text(value.toString())),
-                  DataCell(Text(multiplier.toString())),
-                  DataCell(Text(product.toString())),
-                ]);
-              }),
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Widget _buildCircle(int number, Color colour) {
     return Container(
       width: 30,
