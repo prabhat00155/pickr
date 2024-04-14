@@ -365,7 +365,7 @@ class QuizScreenState extends State<QuizScreen> {
                               correctAnswersPerLevel[l - 1]++;
                             });
                           }
-                          Future.delayed(const Duration(seconds: 2), () {
+                          Future.delayed(const Duration(seconds: 1), () {
                             if (mounted && autoTransitionActive) {
                               goToNextQuestion();
                             }
