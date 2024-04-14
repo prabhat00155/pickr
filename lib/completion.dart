@@ -126,9 +126,10 @@ class _CompletionState extends State<Completion> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'Score details:',
-                  style: TextStyle(fontSize: 20),
+                  'Score details',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 10),
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: (correctAnswersPerLevel.length / 2).ceil(),
@@ -162,11 +163,12 @@ class _CompletionState extends State<Completion> {
                     );
                   },
                 ),
+                      const Divider(),
                 Text(
                   'Time Left: $remainingTimeInSeconds',
                   style: const TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 10),
+                const Divider(),
                 Text(
                   'Final Score: $score',
                   style: const TextStyle(fontSize: 24),
@@ -176,7 +178,7 @@ class _CompletionState extends State<Completion> {
                   'Accuracy: $accuracyText',
                   style: const TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 10),
+                const Divider(),
                 Text(
                   'Highest Score: ${currentPlayer.getHighestScore()}',
                   style: const TextStyle(fontSize: 24),
