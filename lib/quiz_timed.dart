@@ -82,7 +82,7 @@ class QuizScreenState extends State<QuizScreen> {
   void displayCompletion() {
     String accuracyText = 'N/A';
     if (noOfQuestions > 0) {
-      accuracyText = '${100 * correctAnswers ~/ noOfQuestions} %';
+      accuracyText = '${100 * correctAnswers ~/ noOfQuestions}% ($correctAnswers/$noOfQuestions)';
     }
     player.addBadge(Badges.perseverence);
     Navigator.pop(context);
