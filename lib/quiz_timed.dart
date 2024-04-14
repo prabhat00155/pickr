@@ -75,7 +75,7 @@ class QuizScreenState extends State<QuizScreen> {
     for (int i = 0; i < maxLevel; i++) {
       score += correctAnswersPerLevel[i] * (i + 1);
     }
-    int deno = 1 + maxLevel - correctAnswers;
+    int deno = 1 + maxQuestions - correctAnswers;
     score = score + _remainingTimeInSeconds ~/ (deno * deno);
   }
 

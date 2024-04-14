@@ -153,10 +153,10 @@ const List<String> languages = <String>[
 ];
 const String documentName = 'users';
 const int questionsPerLevel = 1;
-const int maxQuestions = 100;
 const int maxFailedLoadAttempts = 3;
 const int timePerQuiz = 120;
 const int maxLevel = 10;
+const int maxQuestions = maxLevel * questionsPerLevel;
 
 const List<Color> circleColours = [
   Colors.pink,
