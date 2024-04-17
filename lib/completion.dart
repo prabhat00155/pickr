@@ -14,6 +14,7 @@ class Completion extends StatefulWidget {
   final String accuracyText;
   final List<int> correctAnswersPerLevel;
   final int remainingTimeInSeconds;
+  final int timeContribution;
 
   const Completion({
     super.key,
@@ -22,6 +23,7 @@ class Completion extends StatefulWidget {
     required this.accuracyText,
     required this.correctAnswersPerLevel,
     required this.remainingTimeInSeconds,
+    required this.timeContribution,
   });
 
   @override
@@ -34,6 +36,7 @@ class _CompletionState extends State<Completion> {
   String get accuracyText => widget.accuracyText;
   List<int> get correctAnswersPerLevel => widget.correctAnswersPerLevel;
   int get remainingTimeInSeconds => widget.remainingTimeInSeconds;
+  int get timeContribution => widget.timeContribution;
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
@@ -125,6 +128,10 @@ class _CompletionState extends State<Completion> {
                       const Divider(),
                 Text(
                   'Time Left: $remainingTimeInSeconds s',
+                  style: const TextStyle(fontSize: 24),
+                ),
+                Text(
+                  'Time Bonus: +$timeContribution',
                   style: const TextStyle(fontSize: 24),
                 ),
                 const Divider(),

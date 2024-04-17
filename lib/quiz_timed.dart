@@ -38,6 +38,7 @@ class QuizScreenState extends State<QuizScreen> {
   int _remainingTimeInSeconds = timePerQuiz;
   late Timer _timer;
   bool autoTransitionActive = true;
+  int timeContribution = 0;
 
   void goToPreviousQuestion() {
     setState(() {
@@ -76,7 +77,8 @@ class QuizScreenState extends State<QuizScreen> {
       score += correctAnswersPerLevel[i] * (i + 1);
     }
     int deno = 1 + maxQuestions - correctAnswers;
-    score = score + _remainingTimeInSeconds ~/ (deno * deno);
+    timeContribution = _remainingTimeInSeconds ~/ (deno * deno);
+    score = score + timeContribution;
   }
 
   void displayCompletion() {
@@ -101,6 +103,7 @@ class QuizScreenState extends State<QuizScreen> {
               accuracyText: accuracyText,
               correctAnswersPerLevel: correctAnswersPerLevel,
               remainingTimeInSeconds: _remainingTimeInSeconds,
+              timeContribution: timeContribution,
             ),
           );
         },
