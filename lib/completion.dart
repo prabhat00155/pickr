@@ -73,6 +73,32 @@ class _CompletionState extends State<Completion> {
     );
   }
 
+  void scoreDetails() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('More Info'),
+          content: const SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Text(
+              'See details about various features of the game including scoring in "Rules" under "About" in the left drawer of the home screen.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -87,9 +113,21 @@ class _CompletionState extends State<Completion> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Score details',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    const Text(
+                      'Score details',
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.info,
+                        size: 20.0,
+                      ),
+                      tooltip: 'Details',
+                      onPressed: scoreDetails,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 ListView.builder(
