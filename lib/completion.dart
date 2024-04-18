@@ -163,7 +163,7 @@ class _CompletionState extends State<Completion> {
                     );
                   },
                 ),
-                      const Divider(),
+                const Divider(),
                 Text(
                   'Time Left: $remainingTimeInSeconds s',
                   style: const TextStyle(fontSize: 24),
