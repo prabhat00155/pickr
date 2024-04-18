@@ -53,6 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
             perCategoryAttempts: Map.fromIterable(categories.map((category) => category.name).toList(), value: (_) => 0),
           );
         });
+        currentPlayer?.updateScoreInFirebase();
       }
     } catch (e) {
       // Handle error fetching player data
