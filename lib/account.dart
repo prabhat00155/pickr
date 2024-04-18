@@ -89,6 +89,7 @@ class AccountState extends State<Account> {
         );
       },
     );
+    setState(() {});
   }
 
   Future<void> _changeAvatar() async {
