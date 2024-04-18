@@ -15,6 +15,7 @@ class Completion extends StatefulWidget {
   final List<int> correctAnswersPerLevel;
   final int remainingTimeInSeconds;
   final int timeContribution;
+  final int wrongAnswers;
 
   const Completion({
     super.key,
@@ -24,6 +25,7 @@ class Completion extends StatefulWidget {
     required this.correctAnswersPerLevel,
     required this.remainingTimeInSeconds,
     required this.timeContribution,
+    required this.wrongAnswers,
   });
 
   @override
@@ -37,6 +39,7 @@ class _CompletionState extends State<Completion> {
   List<int> get correctAnswersPerLevel => widget.correctAnswersPerLevel;
   int get remainingTimeInSeconds => widget.remainingTimeInSeconds;
   int get timeContribution => widget.timeContribution;
+  int get wrongAnswers => widget.wrongAnswers;
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
@@ -84,6 +87,54 @@ class _CompletionState extends State<Completion> {
             child: Text(
               'All the questions carry a weight equal to the question number in the coloured circle. So, if you answer question 1 correctly, you get 1 point, and if you answer question 10 correctly, you get 10 points added to the score.\n\nSee details about various features of the game including scoring in "Rules" under "About" in the left drawer of the home screen.',
               style: TextStyle(fontSize: 16.0),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void finalScoreDetails() {
+    int initialScore = 0;
+    for (int i = 0; i < maxLevel; i++) {
+      initialScore += correctAnswersPerLevel[i] * (i + 1);
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Score Details'),
+          content: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                Text(
+                  'Initial Score = ${List.generate(correctAnswersPerLevel.length, (index) {
+                      final multiplier = correctAnswersPerLevel[index];
+                      final value = index + 1;
+                      return "$value x $multiplier";
+                    }).join(" + ")} = $initialScore',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Time Bonus = Time Left / (1 + wrong answers) ^ 2 = $remainingTimeInSeconds / (1 + $wrongAnswers) ^ 2 = $timeContribution',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Final Score = Initial Score + Time Bonus = $initialScore + $timeContribution = $score',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              ],
             ),
           ),
           actions: [
@@ -173,9 +224,21 @@ class _CompletionState extends State<Completion> {
                   style: const TextStyle(fontSize: 24),
                 ),
                 const Divider(),
-                Text(
-                  'Final Score: $score',
-                  style: const TextStyle(fontSize: 24),
+                Row(
+                  children: [
+                    Text(
+                      'Final Score: $score',
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.info,
+                        size: 20.0,
+                      ),
+                      tooltip: 'Details',
+                      onPressed: finalScoreDetails,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 Text(

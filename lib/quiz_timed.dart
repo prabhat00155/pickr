@@ -104,6 +104,7 @@ class QuizScreenState extends State<QuizScreen> {
               correctAnswersPerLevel: correctAnswersPerLevel,
               remainingTimeInSeconds: _remainingTimeInSeconds,
               timeContribution: timeContribution,
+              wrongAnswers: maxQuestions - correctAnswers,
             ),
           );
         },
