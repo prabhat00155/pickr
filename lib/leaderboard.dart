@@ -73,7 +73,7 @@ class _LeaderboardState extends State<Leaderboard> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
         title: Text(
-          player.name ?? player.playerId,
+          player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
           style: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 15,
@@ -127,7 +127,7 @@ class _LeaderboardState extends State<Leaderboard> {
                       Flexible(
                         flex: 1,
                         child: Text(
-                          player.name ?? player.playerId,
+                          player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.black,

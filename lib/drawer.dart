@@ -40,7 +40,7 @@ class MyDrawer extends StatelessWidget {
                 Flexible(
                   flex: 1,
                   child: Text(
-                    player.name ?? player.playerId,
+                    player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,

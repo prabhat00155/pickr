@@ -157,6 +157,7 @@ const int maxFailedLoadAttempts = 3;
 const int timePerQuiz = 120;
 const int maxLevel = 10;
 const int maxQuestions = maxLevel * questionsPerLevel;
+const String fallbackUserName = 'Tmp';
 
 const List<Color> circleColours = [
   Colors.pink,

@@ -22,7 +22,7 @@ class AccountState extends State<Account> {
   void Function(bool) get onUpdate => widget.onUpdate;
 
   Future<void> _changeName() async {
-    String newName = player.name ?? player.playerId;
+    String newName = player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName;
     TextEditingController textController = TextEditingController(text: newName);
     String? errorMessage;
 
@@ -302,7 +302,7 @@ class AccountState extends State<Account> {
                   child: GestureDetector(
                     onTap: () => _changeName(),
                     child: Text(
-                      player.name ?? player.playerId,
+                      player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.black,
