@@ -88,7 +88,6 @@ flutter:
     - assets/text/about.txt
     - assets/text/privacy_policy.html
     - assets/images/pickr_logo.png
-    - assets/images/login/google.png
     - assets/images/categories/animal.png
     - assets/images/categories/bird.png
     - assets/images/categories/city.png
