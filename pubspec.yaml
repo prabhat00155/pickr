@@ -44,7 +44,6 @@ dependencies:
   random_avatar: ^0.0.8
   country_flags: ^2.2.0
   firebase_auth: ^4.17.0
-  google_sign_in: ^6.2.1
   firebase_core: ^2.25.0
   cloud_firestore: ^4.15.3
   pie_chart: ^5.4.0
