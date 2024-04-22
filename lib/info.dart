@@ -213,7 +213,7 @@ class Rules extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        'All the questions carry a weight equal to the question number displayed at the top left. So, if you answer question 1 correctly, you get 1 point, and if you answer question 10 correctly, you get 10 points added to the score',
+                        'All the questions carry a weight equal to the question number displayed at the top left. So, if you answer question number 1 correctly, you get 1 point, and if you answer question number 10 correctly, you get 10 points added to the score',
                         style: TextStyle(fontSize: 16.0),
                       ),
                       const SizedBox(height: 4),
