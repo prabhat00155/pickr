@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import 'login_screen.dart';
 import 'constants.dart';
 import 'info.dart';
-import 'logger.dart';
 import 'player.dart';
 import 'settings.dart';
 import 'utilities.dart';
@@ -109,19 +105,6 @@ class MyDrawer extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(
-                'L O G O U T',
-                style: drawerTextColor,
-              ),
-              onTap: () {
-                signUserOut(context);
-              },
-            ),
-          ),
         ],
       ),
     );
@@ -144,19 +127,6 @@ class MyDrawer extends StatelessWidget {
         settings: const RouteSettings(name: 'Info'),
       ),
     );
-  }
-
-  void signUserOut(context) async {
-    try {
-      await GoogleSignIn().disconnect();
-      await FirebaseAuth.instance.signOut();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    } catch (e) {
-      logger('exception', {'title': 'Drawer', 'method': 'signUserOut', 'file': 'drawer', 'details': e.toString()});
-    }
   }
 
   void showSettings(context) {
