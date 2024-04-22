@@ -128,6 +128,27 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
     } catch (error) {
       logger('exception', {'title': 'LoginScreen', 'method': '_signInWithGoogle', 'file': 'login_screen', 'details': error.toString()});
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Login Info'),
+            content: const SingleChildScrollView(
+              child: Text(
+                'We cannot log you in using Google Account at the moment. Please use the "Continue as Guest" option.',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     } finally {
       setState(() {
         _isSigningIn = false;
