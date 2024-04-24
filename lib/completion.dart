@@ -85,7 +85,7 @@ class _CompletionState extends State<Completion> {
           content: const SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Text(
-              'All the questions carry a weight equal to the question number in the coloured circle. So, if you answer question number 1 correctly, you get 1 point, and if you answer question number 10 correctly, you get 10 points added to the score.\n\nSee details about various features of the game including scoring in "Rules" under "About" in the left drawer of the home screen.',
+              'All the questions carry a weight equal to the question number in the coloured circle. So, if you answer question number 1 correctly, you get 1 point, and if you answer question number 10 correctly, you get 10 points added to the score.\n\nSee details about various features of the game including scoring in "Rules" in the left drawer of the home screen.',
               style: TextStyle(fontSize: 16.0),
             ),
           ),
