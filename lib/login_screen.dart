@@ -14,13 +14,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late Map<String, Function> mapper;
-  bool _isSigningIn = false;
+  bool _hasInternet = false;
+  bool _loading = true;
 
-  _LoginScreenState() {
-    mapper = {
-      'Guest': _continueAsGuest,
-    };
+  @override
+  void initState() {
+    super.initState();
+    _checkInternetConnection();
+  }
+
+  Future<void> _checkInternetConnection() async {
+    bool result = await InternetConnection().hasInternetAccess;
+    if (mounted) {
+      setState(() {
+        _hasInternet = result;
+        _loading = false;
+      });
+    }
+    if (_hasInternet) {
+      _continueAsGuest();
+    }
   }
 
   @override
@@ -31,20 +44,21 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Pickr'),
         backgroundColor: appBarColour,
       ),
-      body: Center(
-        child: _isSigningIn
-          ? const CircularProgressIndicator()
-          : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildTile('Continue as Guest', const Icon(Icons.people), 'Guest', context),
-            ],
+      body: _loading
+        ? const Center(child: CircularProgressIndicator())
+        : _hasInternet
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+            child: _buildTile(
+              'No internet connection available.\nTap to refresh!',
+              const Icon(Icons.refresh_sharp),
+              onTap: _checkInternetConnection,
+            ),
           ),
-      ),
     );
   }
 
-  Padding _buildTile(title, imagePath, key, context) {
+  Padding _buildTile(String title, Widget leading, {VoidCallback? onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
@@ -56,38 +70,25 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.black,
           ),
         ),
-        leading: key == 'Guest' ? imagePath : Image.asset(imagePath, width: 20, height: 20),
+        leading: leading,
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: () async {
-          final bool result = await InternetConnection().hasInternetAccess;
-          if (!result) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('No internet connection available. Please check your network settings.'),
-              ),
-            );
-          } else {
-            mapper[key]?.call(context);
-          }
-        },
+        onTap: onTap,
         contentPadding: const EdgeInsets.only(left: 20.0),
       ),
     );
   }
 
-  Future<void> _continueAsGuest(BuildContext context) async {
-    setState(() {
-      _isSigningIn = true;
-    });
-
+  Future<void> _continueAsGuest() async {
     try {
       await FirebaseAuth.instance.signInAnonymously();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ));
+      if (context != null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ));
+      }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
@@ -97,10 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': e.toString()});
       }
-    } finally {
-      setState(() {
-        _isSigningIn = false;
-      });
+    } catch(e) {
+      logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': e.toString()});
     }
   }
 }
