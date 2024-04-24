@@ -4,6 +4,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'constants.dart';
 import 'info.dart';
 import 'player.dart';
+import 'rules.dart';
 import 'settings.dart';
 import 'utilities.dart';
 
@@ -102,6 +103,27 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 // Handle tap for About
                 showInfo(context);
+              },
+            ),
+          ),
+          Padding(
+            padding: tilePadding,
+            child: ListTile(
+              leading: const Icon(Icons.edit_note_outlined),
+              title: Text(
+                'R U L E S',
+                style: drawerTextColor,
+              ),
+              onTap: () {
+                // Handle tap for Rules
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Rules(),
+                    settings: const RouteSettings(name: 'Rules'),
+                  ),
+                );
               },
             ),
           ),
