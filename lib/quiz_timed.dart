@@ -82,6 +82,7 @@ class QuizScreenState extends State<QuizScreen> {
   }
 
   void displayCompletion() {
+    logger('screen_view', {'firebase_screen': 'Completion', 'firebase_screen_class': 'Completion', 'file': 'quiz_timed'});
     String accuracyText = 'N/A';
     if (noOfQuestions > 0) {
       accuracyText = '${100 * correctAnswers ~/ noOfQuestions}% ($correctAnswers/$noOfQuestions)';

@@ -160,6 +160,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void showFeedback(context) {
+    logger('screen_view', {'firebase_screen': 'Feedback', 'firebase_screen_class': 'Feedback', 'file': 'home_screen'});
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
@@ -267,7 +268,7 @@ class HomeScreenState extends State<HomeScreen> {
           )),
       leading: icon,
       onTap: () {
-        logger('click', {'title': title, 'method': '_tile', 'file': 'home_screen'});
+        logger('screen_view', {'firebase_screen': title, 'firebase_screen_class': 'QuizScreen', 'file': 'home_screen'});
         Navigator.push(
           context,
           MaterialPageRoute(

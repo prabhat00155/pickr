@@ -3,6 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 
 import 'constants.dart';
 import 'info.dart';
+import 'logger.dart';
 import 'player.dart';
 import 'rules.dart';
 import 'settings.dart';
@@ -116,6 +117,7 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {
                 // Handle tap for Rules
+                logger('screen_view', {'firebase_screen': 'Rules', 'firebase_screen_class': 'Rules', 'file': 'drawer'});
                 Navigator.pop(context);
                 Navigator.push(
                   context,
@@ -133,6 +135,7 @@ class MyDrawer extends StatelessWidget {
   }
 
   void showInfo(context) {
+    logger('screen_view', {'firebase_screen': 'Info', 'firebase_screen_class': 'Info', 'file': 'drawer'});
     Navigator.pop(context);
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -152,6 +155,7 @@ class MyDrawer extends StatelessWidget {
   }
 
   void showSettings(context) {
+    logger('screen_view', {'firebase_screen': 'Settings', 'firebase_screen_class': 'Settings', 'file': 'drawer'});
     Navigator.pop(context);
     Navigator.of(context).push(
       MaterialPageRoute<void>(

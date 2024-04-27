@@ -51,7 +51,7 @@ class InfoState extends State<Info> {
             ),
             leading: icon,
             onTap: () {
-              logger('click', {'title': title, 'method': '_tile', 'file': 'info'});
+              logger('screen_view', {'firebase_screen': title, 'firebase_screen_class': 'Info', 'file': 'info'});
               Navigator.push(
                 context,
                 MaterialPageRoute(

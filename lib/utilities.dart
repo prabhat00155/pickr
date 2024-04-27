@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'account.dart';
 import 'constants.dart';
 import 'leaderboard.dart';
+import 'logger.dart';
 import 'player.dart';
 
 Color fetchColour(int score) {
@@ -33,6 +34,7 @@ String fetchRandom([int max = 101]) {
 }
 
 void showLeaderboard(BuildContext context, Player? currentPlayer) {
+  logger('screen_view', {'firebase_screen': 'Leaderboard', 'firebase_screen_class': 'Leaderboard', 'file': 'utilities'});
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
@@ -67,6 +69,7 @@ void showAccount(BuildContext context, Player? currentPlayer) {
     updated = isUpdated;
   }
 
+  logger('screen_view', {'firebase_screen': 'Account', 'firebase_screen_class': 'Account', 'file': 'utilities'});
   Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (BuildContext context) {
