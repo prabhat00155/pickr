@@ -14,27 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _hasInternet = false;
-  bool _loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkInternetConnection();
-  }
-
-  Future<void> _checkInternetConnection() async {
-    bool result = await InternetConnection().hasInternetAccess;
-    if (mounted) {
-      setState(() {
-        _hasInternet = result;
-        _loading = false;
-      });
-    }
-    if (_hasInternet) {
-      _continueAsGuest();
-    }
-  }
+  bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +24,45 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Pickr'),
         backgroundColor: appBarColour,
       ),
-      body: _loading
-        ? const Center(child: CircularProgressIndicator())
-        : _hasInternet
-          ? const Center(child: CircularProgressIndicator())
-          : Center(
-            child: _buildTile(
-              'No internet connection available.\nTap to refresh!',
-              const Icon(Icons.refresh_sharp),
-              onTap: _checkInternetConnection,
-            ),
+      body: Center(
+        child: _isSigningIn
+          ? const CircularProgressIndicator()
+          : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'W E L C O M E',
+                 style: TextStyle(fontSize: 24),
+               ),
+              const SizedBox(height: 20),
+              const Text(
+                'T O',
+                 style: TextStyle(fontSize: 24),
+               ),
+              const SizedBox(height: 20),
+              const Text(
+                'P I C K R',
+                 style: TextStyle(fontSize: 24),
+               ),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Please select a category on the next page to start playing.',
+                   style: TextStyle(fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 40),
+              _buildTile('C O N T I N U E', const Icon(Icons.arrow_forward_ios_sharp), context),
+              const Spacer(),
+            ],
           ),
+      ),
     );
   }
 
-  Padding _buildTile(String title, Widget leading, {VoidCallback? onTap}) {
+  Padding _buildTile(title, icon, context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ListTile(
@@ -66,29 +70,43 @@ class _LoginScreenState extends State<LoginScreen> {
           title,
           style: const TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 15,
+            fontSize: 16,
             color: Colors.black,
           ),
         ),
-        leading: leading,
+        trailing: icon,
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
-        onTap: onTap,
+        onTap: () async {
+          final bool result = await InternetConnection().hasInternetAccess;
+          if (!result) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('No internet connection available. Please check your network settings.'),
+              ),
+            );
+          } else {
+            _continueAsGuest(context);
+          }
+        },
         contentPadding: const EdgeInsets.only(left: 20.0),
+        tileColor: Colors.green.withOpacity(0.5),
       ),
     );
   }
 
-  Future<void> _continueAsGuest() async {
+  Future<void> _continueAsGuest(BuildContext context) async {
+    setState(() {
+      _isSigningIn = true;
+    });
+
     try {
       await FirebaseAuth.instance.signInAnonymously();
-      if (context != null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
-      }
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
@@ -100,6 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch(e) {
       logger('exception', {'title': 'LoginScreen', 'method': '_continueAsGuest', 'file': 'login_screen', 'details': e.toString()});
+    } finally {
+      setState(() {
+        _isSigningIn = false;
+      });
     }
   }
 }
