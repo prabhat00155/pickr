@@ -31,6 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
+              const ImageIcon(AssetImage('assets/images/pickr_logo.png'), size: 80, color: Colors.red),
+              const SizedBox(height: 20),
               const Text(
                 'W E L C O M E',
                  style: TextStyle(fontSize: 24),
@@ -45,9 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 'P I C K R',
                  style: TextStyle(fontSize: 24),
                ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               const Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(25.0),
                 child: Text(
                   'Please select a category on the next page to start playing.',
                    style: TextStyle(fontSize: 16),
@@ -104,9 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuth.instance.signInAnonymously();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ));
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ));
+      }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
