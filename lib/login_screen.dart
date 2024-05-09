@@ -24,43 +24,44 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Pickr'),
         backgroundColor: appBarColour,
       ),
-      body: Center(
-        child: _isSigningIn
-          ? const CircularProgressIndicator()
-          : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const ImageIcon(AssetImage('assets/images/pickr_logo.png'), size: 80, color: Colors.red),
-              const SizedBox(height: 20),
-              const Text(
-                'W E L C O M E',
-                 style: TextStyle(fontSize: 24),
-               ),
-              const SizedBox(height: 20),
-              const Text(
-                'T O',
-                 style: TextStyle(fontSize: 24),
-               ),
-              const SizedBox(height: 20),
-              const Text(
-                'P I C K R',
-                 style: TextStyle(fontSize: 24),
-               ),
-              const SizedBox(height: 30),
-              const Padding(
-                padding: EdgeInsets.all(25.0),
-                child: Text(
-                  'Please select a category on the next page to start playing.',
-                   style: TextStyle(fontSize: 16),
-                ),
+      body: _isSigningIn
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const ImageIcon(AssetImage('assets/images/pickr_logo.png'), size: 80, color: Colors.red),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'W E L C O M E',
+                     style: TextStyle(fontSize: 24),
+                   ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'T O',
+                     style: TextStyle(fontSize: 24),
+                   ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'P I C K R',
+                     style: TextStyle(fontSize: 24),
+                   ),
+                  const SizedBox(height: 30),
+                  const Padding(
+                    padding: EdgeInsets.all(25.0),
+                    child: Text(
+                      'Please select a category on the next page to start playing.',
+                       style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  _buildTile('C O N T I N U E', const Icon(Icons.arrow_forward_ios_sharp), context),
+                ],
               ),
-              const SizedBox(height: 40),
-              _buildTile('C O N T I N U E', const Icon(Icons.arrow_forward_ios_sharp), context),
-              const Spacer(),
-            ],
+            ),
           ),
-      ),
     );
   }
 
