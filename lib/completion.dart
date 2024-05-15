@@ -195,21 +195,23 @@ class _CompletionState extends State<Completion> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 40),
                         _buildCircle(number1, colour1),
-                        const SizedBox(width: 10),
-                        Text(
-                          'x  $correctAnswers1',
-                          style: const TextStyle(fontSize: 24),
+                        const SizedBox(width: 20),
+                        Icon(
+                          correctAnswers1 == 0 ? Icons.close : Icons.check,
+                          size: 32,
+                          color: correctAnswers1 == 0 ? Colors.red : Colors.green,
                         ),
                         const Spacer(),
                         _buildCircle(number2, colour2),
-                        const SizedBox(width: 10),
-                        Text(
-                          'x  $correctAnswers2',
-                          style: const TextStyle(fontSize: 24),
-                        ),
                         const SizedBox(width: 20),
+                        Icon(
+                          correctAnswers2 == 0 ? Icons.close : Icons.check,
+                          size: 32,
+                          color: correctAnswers2 == 0 ? Colors.red : Colors.green,
+                        ),
+                        const SizedBox(width: 40),
                       ],
                     );
                   },
