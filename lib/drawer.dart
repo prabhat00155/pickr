@@ -24,112 +24,129 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: Colors.grey[300],
       elevation: 0,
-      child: Column(
-        children: [
-          DrawerHeader(
-            child: Row(
-              children: [
-                RandomAvatar(
-                  player.avatar,
-                  height: 80,
-                  width: 80,
-                  trBackground: false,
-                ),
-                const SizedBox(width: 10),
-                Flexible(
-                  flex: 1,
-                  child: Text(
-                    player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Row(
+                children: [
+                  RandomAvatar(
+                    player.avatar,
+                    height: 80,
+                    width: 80,
+                    trBackground: false,
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    flex: 1,
+                    child: Text(
+                      player.name != null && player.name!.isNotEmpty ? player.name! : fallbackUserName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.home),
+                title: Text(
+                  'D A S H B O A R D',
+                  style: drawerTextColor,
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.home),
-              title: Text(
-                'D A S H B O A R D',
-                style: drawerTextColor,
+                onTap: () {
+                  // Handle tap for Dashboard
+                  Navigator.pop(context);
+                  showAccount(context, player);
+                },
               ),
-              onTap: () {
-                // Handle tap for Dashboard
-                Navigator.pop(context);
-                showAccount(context, player);
-              },
             ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.leaderboard),
-              title: Text(
-                'L E A D E R B O A R D',
-                style: drawerTextColor,
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.leaderboard),
+                title: Text(
+                  'L E A D E R B O A R D',
+                  style: drawerTextColor,
+                ),
+                onTap: () {
+                  // Handle tap for Leaderboard
+                  Navigator.pop(context);
+                  showLeaderboard(context, player);
+                },
               ),
-              onTap: () {
-                // Handle tap for Leaderboard
-                Navigator.pop(context);
-                showLeaderboard(context, player);
-              },
             ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(
-                'S E T T I N G S',
-                style: drawerTextColor,
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.settings),
+                title: Text(
+                  'S E T T I N G S',
+                  style: drawerTextColor,
+                ),
+                onTap: () {
+                  // Handle tap for Settings
+                  showSettings(context);
+                },
               ),
-              onTap: () {
-                // Handle tap for Settings
-                showSettings(context);
-              },
             ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.info),
-              title: Text(
-                'A B O U T',
-                style: drawerTextColor,
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.info),
+                title: Text(
+                  'A B O U T',
+                  style: drawerTextColor,
+                ),
+                onTap: () {
+                  // Handle tap for About
+                  showInfo(context);
+                },
               ),
-              onTap: () {
-                // Handle tap for About
-                showInfo(context);
-              },
             ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              leading: const Icon(Icons.edit_note_outlined),
-              title: Text(
-                'R U L E S',
-                style: drawerTextColor,
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.edit_note_outlined),
+                title: Text(
+                  'R U L E S',
+                  style: drawerTextColor,
+                ),
+                onTap: () {
+                  // Handle tap for Rules
+                  logger('screen_view', {'firebase_screen': 'Rules', 'firebase_screen_class': 'Rules', 'file': 'drawer'});
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Rules(),
+                      settings: const RouteSettings(name: 'Rules'),
+                    ),
+                  );
+                },
               ),
-              onTap: () {
-                // Handle tap for Rules
-                logger('screen_view', {'firebase_screen': 'Rules', 'firebase_screen_class': 'Rules', 'file': 'drawer'});
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Rules(),
-                    settings: const RouteSettings(name: 'Rules'),
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+            Padding(
+              padding: tilePadding,
+              child: ListTile(
+                leading: const Icon(Icons.feedback),
+                title: Text(
+                  'F E E D B A C K',
+                  style: drawerTextColor,
+                ),
+                onTap: () {
+                  // Handle tap for Feedback
+                  Navigator.pop(context);
+                  showFeedback(context, player);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

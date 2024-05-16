@@ -6,6 +6,7 @@ import 'constants.dart';
 import 'leaderboard.dart';
 import 'logger.dart';
 import 'player.dart';
+import 'user_feedback.dart';
 
 Color fetchColour(int score) {
   if (score > 500) {
@@ -101,6 +102,25 @@ void showAccount(BuildContext context, Player? currentPlayer) {
         );
       },
       settings: const RouteSettings(name: 'Account'),
+    ),
+  );
+}
+
+void showFeedback(BuildContext context, Player currentPlayer) {
+  logger('screen_view', {'firebase_screen': 'Feedback', 'firebase_screen_class': 'Feedback', 'file': 'utilities'});
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Feedback'),
+            backgroundColor: appBarColour,
+          ),
+          body: FeedbackForm(player: currentPlayer),
+        );
+      },
+      settings: const RouteSettings(name: 'Feedback'),
     ),
   );
 }
