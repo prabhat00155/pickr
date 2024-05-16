@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'advertisement.dart';
 import 'constants.dart';
@@ -9,7 +10,6 @@ import 'drawer.dart';
 import 'logger.dart';
 import 'player.dart';
 import 'quiz_timed.dart';
-import 'user_feedback.dart';
 import 'utilities.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -124,8 +124,8 @@ class HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.feedback),
-              label: 'Feedback',
+              icon: Icon(Icons.ios_share),
+              label: 'Share',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.leaderboard),
@@ -141,7 +141,7 @@ class HomeScreenState extends State<HomeScreen> {
             // Handle tap events here
             switch (index) {
               case 0: {
-                showFeedback(context);
+                shareGame();
               }
               break;
               case 1: {
@@ -159,23 +159,9 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void showFeedback(context) {
-    logger('screen_view', {'firebase_screen': 'Feedback', 'firebase_screen_class': 'Feedback', 'file': 'home_screen'});
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text('Feedback'),
-              backgroundColor: appBarColour,
-            ),
-            body: FeedbackForm(player: currentPlayer!),
-          );
-        },
-        settings: const RouteSettings(name: 'Feedback'),
-      ),
-    );
+  void shareGame() {
+    logger('screen_view', {'firebase_screen': 'Share', 'firebase_screen_class': 'Share', 'file': 'home_screen'});
+    Share.share('Check out this awesome game, Pickr!\nDownload it now from the Google Play Store: https://play.google.com/store/apps/details?id=com.playcraft.pickr&pcampaignid=web_share');
   }
 
   Widget _buildList(BuildContext context) {
